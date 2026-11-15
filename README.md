@@ -6,7 +6,7 @@ A responsive, multi-page event discovery and ticket booking website built with H
 
 | File | Description |
 | --- | --- |
-| `home.html` | Main landing page |
+| `index.html` | Main landing page |
 | `home2.html` | Alternate landing page |
 | `index-nav.html` | Navigation showcase |
 | `about.html` | About the platform |
@@ -35,13 +35,13 @@ A responsive, multi-page event discovery and ticket booking website built with H
 
 ## Getting Started
 
-No build step is required. Open `home.html` in a browser, or serve the folder locally:
+No build step is required. Open `index.html` in a browser, or serve the folder locally:
 
 ```bash
 python -m http.server 8000
 ```
 
-Then visit <http://localhost:8000/home.html>.
+Then visit <http://localhost:8000/index.html>.
 
 ## Tech Stack
 

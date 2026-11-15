@@ -2360,7 +2360,7 @@ footer p, footer .footer-desc, footer .footer-links a,
    REMAINING DARK-CONTAINER CONTRAST FIXES
    ═════════════════════════════════════════════════════════ */
 
-/* home.html — featured card copy + organizer CTA form */
+/* index.html — featured card copy + organizer CTA form */
 #featured .featured-card p { color: #E2E8F0 !important; }
 #cta-section .cta-form-wrap h4 { color: #FFFFFF !important; }
 
