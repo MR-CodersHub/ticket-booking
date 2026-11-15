@@ -1,0 +1,1263 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Blog – Event Industry Insights | Eventora</title>
+  <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/style.css?v=2" />
+  <style>
+    :root {
+      --navy: #151B35;
+      --purple: #7657E8;
+      --coral: #FF766B;
+      --lavender: #F1EDFF;
+      --white: #FFFFFF;
+      --purple-light: #9b7ff0;
+      --navy-soft: #1e2648;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', sans-serif; color: #333; background: #fff; }
+    h1, h2, h3, h4, h5, h6 { font-family: 'Plus Jakarta Sans', sans-serif; }
+
+    /* ── NAVBAR ── */
+    .navbar-eventora {
+      background: rgba(21, 27, 53, 0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(118, 87, 232, 0.2);
+      transition: all .3s;
+    }
+    .navbar-brand span { color: var(--purple); }
+    .nav-link { color: rgba(255,255,255,.85) !important; font-weight: 500; transition: color .2s; }
+    .nav-link:hover, .nav-link.active { color: var(--coral) !important; }
+    .btn-nav-cta {
+      background: linear-gradient(135deg, var(--purple), var(--coral));
+      color: #fff !important;
+      border-radius: 50px;
+      padding: 7px 22px !important;
+      font-weight: 600;
+      transition: transform .2s, box-shadow .2s;
+    }
+    .btn-nav-cta:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(118,87,232,.4); }
+
+    /* ── GLOBAL HELPERS ── */
+    .section-heading {
+      font-size: clamp(1.6rem, 3vw, 2.3rem);
+      font-weight: 800;
+      color: var(--navy);
+      position: relative;
+      padding-bottom: 14px;
+      margin-bottom: 1.5rem;
+    }
+    .section-heading::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0;
+      width: 60px; height: 4px;
+      background: linear-gradient(135deg, var(--purple), var(--coral));
+      border-radius: 4px;
+    }
+    .section-heading.centered::after { left: 50%; transform: translateX(-50%); }
+    .gradient-text {
+      background: linear-gradient(135deg, var(--purple), var(--coral));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .btn-primary-custom {
+      background: linear-gradient(135deg, var(--purple), var(--coral));
+      color: #fff; border: none; border-radius: 50px; padding: 12px 30px;
+      font-weight: 700; font-family: 'Plus Jakarta Sans', sans-serif;
+      transition: transform .2s, box-shadow .2s; display: inline-block; text-decoration: none;
+    }
+    .btn-primary-custom:hover { transform: translateY(-3px); box-shadow: 0 10px 28px rgba(118,87,232,.45); color:#fff; }
+    .btn-outline-custom {
+      background: transparent; color: var(--purple);
+      border: 2px solid var(--purple); border-radius: 50px; padding: 10px 26px;
+      font-weight: 600; font-family: 'Plus Jakarta Sans', sans-serif;
+      transition: all .2s; display: inline-block; text-decoration: none;
+    }
+    .btn-outline-custom:hover { background: var(--purple); color: #fff; }
+    .fade-in-up { opacity: 0; transform: translateY(28px); transition: opacity .6s, transform .6s; }
+    .fade-in-up.visible { opacity: 1; transform: translateY(0); }
+
+    /* ══════════════════════════════════════
+       SECTION 1 — BLOG HERO
+    ══════════════════════════════════════ */
+    .blog-hero {
+      background: linear-gradient(135deg, rgba(21,27,53,0.92) 0%, rgba(35,26,94,0.88) 60%, rgba(21,27,53,0.94) 100%),
+                  url('https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=1600&q=80') center/cover no-repeat;
+      padding: 130px 0 80px;
+      position: relative;
+      overflow: hidden;
+    }
+    .blog-hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 70% 50%, rgba(118,87,232,.25) 0%, transparent 60%);
+    }
+    .blog-hero-content { position: relative; z-index: 2; }
+    .blog-hero h1 { font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 800; color: #fff; }
+    .blog-hero .lead { color: rgba(255,255,255,.65); max-width: 500px; margin-left: auto; margin-right: auto; }
+    .blog-hero .tag-cloud { justify-content: center; }
+    .blog-hero .search-filter-bar { max-width: 640px; margin-left: auto; margin-right: auto; }
+
+    /* Animated Tag Cloud */
+    .tag-cloud { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 32px; }
+    .tag-pill {
+      background: rgba(118,87,232,.15);
+      color: rgba(255,255,255,.8);
+      border: 1px solid rgba(118,87,232,.3);
+      border-radius: 50px;
+      padding: 6px 16px;
+      font-size: .8rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all .25s;
+      animation: tagFloat 4s ease-in-out infinite;
+    }
+    .tag-pill:nth-child(even) { animation-delay: 1s; }
+    .tag-pill:nth-child(3n) { animation-delay: 2s; }
+    .tag-pill:hover, .tag-pill.active {
+      background: linear-gradient(135deg, var(--purple), var(--coral));
+      color: #fff; border-color: transparent;
+      transform: translateY(-3px); box-shadow: 0 6px 18px rgba(118,87,232,.4);
+    }
+    @keyframes tagFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-4px); }
+    }
+
+    /* Search & Filter bar */
+    .search-filter-bar { background: rgba(255,255,255,.07); border: 1px solid rgba(118,87,232,.25); border-radius: 16px; padding: 20px 24px; backdrop-filter: blur(8px); }
+    .search-filter-bar input {
+      background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.2);
+      color: #fff; border-radius: 10px; padding: 10px 16px;
+    }
+    .search-filter-bar input::placeholder { color: rgba(255,255,255,.45); }
+    .search-filter-bar input:focus { background: rgba(255,255,255,.15); border-color: var(--purple); box-shadow: 0 0 0 3px rgba(118,87,232,.2); color:#fff; }
+    .filter-btn {
+      background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.2);
+      color: rgba(255,255,255,.8); border-radius: 10px; padding: 10px 18px;
+      font-size: .88rem; cursor: pointer; transition: all .2s;
+    }
+    .filter-btn:hover, .filter-btn.active { background: var(--purple); border-color: var(--purple); color:#fff; }
+
+    /* ══════════════════════════════════════
+       SECTION 2 — FEATURED POST
+    ══════════════════════════════════════ */
+    .section-featured { padding: 80px 0; background: #f8f9ff; }
+    .featured-card {
+      border-radius: 24px; overflow: hidden;
+      box-shadow: 0 20px 60px rgba(118,87,232,.15);
+      display: flex; flex-direction: column;
+      background: #fff;
+    }
+    @media (min-width: 768px) { .featured-card { flex-direction: row; } }
+    .featured-img-wrap {
+      position: relative; flex: 0 0 55%;
+      min-height: 380px; overflow: hidden;
+    }
+    .featured-img-wrap img { width: 100%; height: 100%; object-fit: cover; transition: transform .6s; }
+    .featured-card:hover .featured-img-wrap img { transform: scale(1.04); }
+    .featured-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(21,27,53,.55) 0%, rgba(118,87,232,.35) 100%);
+    }
+    .featured-badge-wrap { position: absolute; top: 20px; left: 20px; }
+    .cat-pill {
+      border-radius: 50px; padding: 5px 14px; font-size: .75rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: .5px;
+    }
+    .cat-featured { background: var(--coral); color: #fff; }
+    .cat-event-planning { background: #7657E8; color: #fff; }
+    .cat-music { background: #e84057; color: #fff; }
+    .cat-technology { background: #0d9488; color: #fff; }
+    .cat-sports { background: #f59e0b; color: #fff; }
+    .cat-culture { background: #8b5cf6; color: #fff; }
+    .cat-business { background: #3b82f6; color: #fff; }
+
+    .featured-content { flex: 1; padding: 36px 36px; display: flex; flex-direction: column; justify-content: center; }
+    .featured-content h2 { font-size: clamp(1.3rem,2.5vw,1.9rem); font-weight: 800; color: var(--navy); margin-bottom: 14px; line-height: 1.25; }
+    .featured-excerpt { color: #555; font-size: .95rem; line-height: 1.7; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; margin-bottom: 20px; }
+    .author-row { display: flex; align-items: center; gap: 10px; color: #666; font-size: .85rem; }
+    .author-avatar-sm { width: 36px; height: 36px; border-radius: 50%; object-fit: cover; border: 2px solid var(--purple); }
+    .meta-sep { color: #ccc; }
+    .read-more-btn {
+      display: inline-block; align-self: flex-start; margin-top: 20px;
+      background: linear-gradient(135deg, var(--purple), var(--coral));
+      color: #fff; border: none; border-radius: 50px; padding: 10px 22px;
+      font-weight: 700; font-family: 'Plus Jakarta Sans', sans-serif; text-decoration: none;
+      transition: transform .2s, box-shadow .2s;
+    }
+    .read-more-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 22px rgba(118,87,232,.4); color:#fff; }
+
+    /* ══════════════════════════════════════
+       SECTION 3 — BLOG GRID
+    ══════════════════════════════════════ */
+    .section-blog-grid { padding: 80px 0; }
+    .blog-card {
+      border-radius: 18px; overflow: hidden;
+      box-shadow: 0 4px 24px rgba(118,87,232,.09);
+      border: 1px solid rgba(118,87,232,.07);
+      background: #fff; height: 100%;
+      transition: transform .3s, box-shadow .3s;
+    }
+    .blog-card:hover { transform: translateY(-8px); box-shadow: 0 20px 50px rgba(118,87,232,.18); }
+    .blog-card-img { position: relative; height: 210px; overflow: hidden; }
+    .blog-card-img img { width: 100%; height: 100%; object-fit: cover; transition: transform .5s; }
+    .blog-card:hover .blog-card-img img { transform: scale(1.06); }
+    .blog-card-body { padding: 20px; }
+    .blog-card-title { font-size: 1.02rem; font-weight: 700; color: var(--navy); margin: 10px 0 8px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; line-height: 1.4; }
+    .blog-card-excerpt { font-size: .85rem; color: #666; line-height: 1.6; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin-bottom: 14px; }
+    .blog-card-footer { display: flex; align-items: center; justify-content: space-between; padding-top: 12px; border-top: 1px solid #f0f0f0; }
+    .blog-card-author { display: flex; align-items: center; gap: 8px; }
+    .blog-author-avatar { width: 28px; height: 28px; border-radius: 50%; object-fit: cover; }
+    .blog-author-name { font-size: .78rem; font-weight: 600; color: var(--navy); }
+    .blog-meta-right { display: flex; align-items: center; gap: 10px; font-size: .75rem; color: #888; }
+    .heart-count { display: flex; align-items: center; gap: 3px; color: #e84057; font-size: .78rem; cursor: pointer; }
+    .heart-count i { font-size: .85rem; }
+
+    /* ══════════════════════════════════════
+       SECTION 4 — BLOG SIDEBAR
+    ══════════════════════════════════════ */
+    .section-sidebar { padding: 80px 0; background: #f8f9ff; }
+    .sidebar-widget {
+      background: #fff; border-radius: 18px; padding: 28px;
+      box-shadow: 0 4px 24px rgba(118,87,232,.09);
+      border: 1px solid rgba(118,87,232,.07);
+      margin-bottom: 28px;
+    }
+    .sidebar-widget-title { font-size: 1.1rem; font-weight: 800; color: var(--navy); margin-bottom: 20px; padding-bottom: 12px; border-bottom: 2px solid var(--lavender); }
+    .popular-post-item { display: flex; gap: 12px; align-items: flex-start; padding: 10px 0; border-bottom: 1px solid #f0f0f0; }
+    .popular-post-item:last-child { border-bottom: none; }
+    .popular-post-thumb { width: 68px; height: 52px; border-radius: 10px; object-fit: cover; flex-shrink: 0; }
+    .popular-post-title { font-size: .85rem; font-weight: 600; color: var(--navy); line-height: 1.4; margin-bottom: 4px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; text-decoration: none; }
+    .popular-post-title:hover { color: var(--purple); }
+    .popular-post-date { font-size: .75rem; color: #888; }
+    .category-item { display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #f5f5f5; cursor: pointer; transition: color .2s; }
+    .category-item:last-child { border-bottom: none; }
+    .category-item-name { display: flex; align-items: center; gap: 8px; font-size: .9rem; color: #444; font-weight: 500; }
+    .category-item-name i { color: var(--purple); }
+    .category-item:hover .category-item-name { color: var(--purple); }
+    .category-count { background: var(--lavender); color: var(--purple); border-radius: 20px; padding: 2px 10px; font-size: .75rem; font-weight: 700; }
+    .tag-cloud-sidebar { display: flex; flex-wrap: wrap; gap: 8px; }
+    .tag-sidebar {
+      background: var(--lavender); color: var(--purple); border-radius: 50px;
+      padding: 5px 14px; font-size: .78rem; font-weight: 600; cursor: pointer;
+      transition: all .2s; border: 1px solid rgba(118,87,232,.15); text-decoration: none;
+    }
+    .tag-sidebar:hover { background: var(--purple); color: #fff; }
+    .newsletter-input { border: 1.5px solid #e0daf8; border-radius: 10px; padding: 10px 14px; font-size: .88rem; width: 100%; margin-bottom: 10px; }
+    .newsletter-input:focus { outline: none; border-color: var(--purple); box-shadow: 0 0 0 3px rgba(118,87,232,.12); }
+    .btn-newsletter { width: 100%; background: linear-gradient(135deg, var(--purple), var(--coral)); color: #fff; border: none; border-radius: 10px; padding: 11px; font-weight: 700; font-family: 'Plus Jakarta Sans',sans-serif; cursor: pointer; transition: transform .2s, box-shadow .2s; }
+    .btn-newsletter:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(118,87,232,.4); }
+    .social-follow-btn {
+      display: flex; align-items: center; gap: 10px; padding: 10px 14px; border-radius: 10px;
+      border: 1.5px solid #e8e3f8; color: #333; text-decoration: none; font-size: .88rem;
+      font-weight: 500; transition: all .2s; margin-bottom: 8px;
+    }
+    .social-follow-btn:hover { border-color: var(--purple); color: var(--purple); background: var(--lavender); }
+    .social-follow-btn i { font-size: 1.1rem; }
+    .sf-twitter i { color: #1da1f2; }
+    .sf-instagram i { color: #e1306c; }
+    .sf-linkedin i { color: #0077b5; }
+    .sf-youtube i { color: #ff0000; }
+    .follow-count { margin-left: auto; font-size: .78rem; color: #888; }
+
+    /* ══════════════════════════════════════
+       SECTION 5 — TRENDING TOPICS
+    ══════════════════════════════════════ */
+    .section-trending { padding: 80px 0; }
+    .trending-scroll { display: flex; gap: 20px; overflow-x: auto; padding-bottom: 16px; scrollbar-width: thin; scrollbar-color: var(--purple) #f0eeff; }
+    .trending-scroll::-webkit-scrollbar { height: 5px; }
+    .trending-scroll::-webkit-scrollbar-track { background: #f0eeff; border-radius: 10px; }
+    .trending-scroll::-webkit-scrollbar-thumb { background: var(--purple); border-radius: 10px; }
+    .topic-card {
+      flex: 0 0 230px; border-radius: 20px; overflow: hidden;
+      position: relative; min-height: 200px;
+      display: flex; flex-direction: column; justify-content: flex-end;
+      padding: 24px 20px; cursor: pointer;
+      transition: transform .3s, box-shadow .3s;
+    }
+    .topic-card:hover { transform: translateY(-8px); box-shadow: 0 20px 50px rgba(0,0,0,.2); }
+    .topic-card-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,.7) 0%, rgba(0,0,0,.2) 60%, transparent 100%);
+    }
+    .topic-card-content { position: relative; z-index: 2; }
+    .topic-tag { background: rgba(255,255,255,.2); color: rgba(255,255,255,.9); border-radius: 50px; padding: 3px 10px; font-size: .72rem; font-weight: 600; display: inline-block; margin-bottom: 8px; }
+    .topic-name { font-size: 1.1rem; font-weight: 800; color: #fff; margin-bottom: 6px; font-family: 'Plus Jakarta Sans',sans-serif; }
+    .topic-count { font-size: .8rem; color: rgba(255,255,255,.75); display: flex; align-items: center; gap: 5px; }
+
+    /* ══════════════════════════════════════
+       SECTION 6 — NEWSLETTER + PAGINATION
+    ══════════════════════════════════════ */
+    .section-newsletter { padding: 80px 0; background: var(--lavender); }
+    .nl-card {
+      background: #fff; border-radius: 24px; padding: 48px;
+      box-shadow: 0 10px 50px rgba(118,87,232,.12);
+      text-align: center;
+    }
+    .nl-card h2 { font-size: clamp(1.5rem,3vw,2.1rem); font-weight: 800; color: var(--navy); margin-bottom: 10px; }
+    .nl-card .lead { color: #666; max-width: 460px; margin: 0 auto 30px; }
+    .nl-features { display: flex; justify-content: center; flex-wrap: wrap; gap: 16px 32px; margin-bottom: 30px; }
+    .nl-feature { display: flex; align-items: center; gap: 7px; color: #555; font-size: .9rem; }
+    .nl-feature i { color: var(--purple); font-size: 1rem; }
+    .nl-form { display: flex; gap: 10px; max-width: 480px; margin: 0 auto; }
+    .nl-form input { flex: 1; border: 2px solid #e0daf8; border-radius: 50px; padding: 13px 20px; font-size: .95rem; outline: none; transition: border-color .2s; }
+    .nl-form input:focus { border-color: var(--purple); box-shadow: 0 0 0 3px rgba(118,87,232,.12); }
+    .nl-form button {
+      background: linear-gradient(135deg, var(--purple), var(--coral));
+      color: #fff; border: none; border-radius: 50px; padding: 13px 28px;
+      font-weight: 700; font-family: 'Plus Jakarta Sans',sans-serif; cursor: pointer;
+      white-space: nowrap; transition: transform .2s, box-shadow .2s;
+    }
+    .nl-form button:hover { transform: translateY(-2px); box-shadow: 0 8px 22px rgba(118,87,232,.4); }
+    @media (max-width: 480px) { .nl-form { flex-direction: column; } }
+
+    /* Pagination */
+    .blog-pagination { padding: 48px 0 0; }
+    .page-item .page-link { color: var(--purple); border: 1.5px solid #e0daf8; border-radius: 10px !important; margin: 0 3px; font-weight: 600; transition: all .2s; }
+    .page-item.active .page-link { background: linear-gradient(135deg, var(--purple), var(--coral)); border-color: transparent; color: #fff; }
+    .page-item .page-link:hover { background: var(--lavender); border-color: var(--purple); }
+    .page-item.disabled .page-link { color: #ccc; }
+
+    /* Write for us */
+    .write-for-us {
+      background: var(--navy); border-radius: 20px; padding: 40px;
+      display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap;
+      margin-top: 48px; position: relative; overflow: hidden;
+    }
+    .write-for-us::after {
+      content: '\F4CB'; font-family: 'bootstrap-icons';
+      position: absolute; right: 60px; top: 50%; transform: translateY(-50%);
+      font-size: 5rem; opacity: .08;
+    }
+    .write-for-us h4 { color: #fff; font-size: 1.3rem; font-weight: 800; margin-bottom: 6px; }
+    .write-for-us p { color: rgba(255,255,255,.65); font-size: .88rem; margin: 0; }
+    .btn-write { background: linear-gradient(135deg, var(--purple), var(--coral)); color: #fff; border: none; border-radius: 50px; padding: 12px 28px; font-weight: 700; font-family: 'Plus Jakarta Sans',sans-serif; text-decoration: none; white-space: nowrap; transition: transform .2s, box-shadow .2s; }
+    .btn-write:hover { transform: translateY(-2px); box-shadow: 0 8px 22px rgba(118,87,232,.5); color:#fff; }
+
+    /* ── FOOTER ── */
+    .footer { background: var(--navy); padding: 60px 0 30px; }
+    .footer-brand { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 1.5rem; font-weight: 800; color: #fff; }
+    .footer-brand span { color: var(--purple); }
+    .footer-desc { color: rgba(255,255,255,.55); font-size: .88rem; margin-top: 10px; line-height: 1.6; }
+    .footer-title { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; color: #fff; margin-bottom: 18px; font-size: 1rem; }
+    .footer-link { display: block; color: rgba(255,255,255,.55); text-decoration: none; font-size: .88rem; margin-bottom: 8px; transition: color .2s; }
+    .footer-link:hover { color: var(--coral); }
+    .footer-divider { border-color: rgba(255,255,255,.08); margin: 30px 0; }
+    .footer-bottom { color: rgba(255,255,255,.4); font-size: .82rem; }
+    .social-btn { width: 38px; height: 38px; border-radius: 10px; background: rgba(255,255,255,.07); display: inline-flex; align-items: center; justify-content: center; color: rgba(255,255,255,.7); text-decoration: none; transition: all .2s; margin-right: 6px; }
+    .social-btn:hover { background: var(--purple); color: #fff; transform: translateY(-2px); }
+      /* ─── LIGHT MODE HIGH CONTRAST RULES ─── */
+    [data-theme="light"] body { background: #FFFFFF !important; color: #151B35 !important; }
+    [data-theme="light"] .navbar-eventora { background: rgba(255,255,255,0.95) !important; border-bottom: 1px solid #E2E8F0 !important; }
+    [data-theme="light"] .navbar-eventora .navbar-brand { color: #151B35 !important; }
+    [data-theme="light"] .navbar-eventora .nav-link { color: #151B35 !important; font-weight: 600 !important; }
+    [data-theme="light"] .navbar-eventora .nav-link:hover,
+    [data-theme="light"] .navbar-eventora .nav-link.active { color: #7657E8 !important; }
+    [data-theme="light"] .section-featured { background: #FFFFFF !important; }
+    [data-theme="light"] .section-blog-grid { background: #F8F9FD !important; }
+    [data-theme="light"] .section-trending-topics { background: #FFFFFF !important; }
+    [data-theme="light"] .section-newsletter { background: #F1EDFF !important; }
+    [data-theme="light"] .blog-card, [data-theme="light"] .featured-blog-card, [data-theme="light"] .sidebar-widget {
+      background: #FFFFFF !important;
+      border: 1px solid #E2E8F0 !important;
+      color: #151B35 !important;
+      box-shadow: 0 4px 20px rgba(21,27,53,0.06) !important;
+    }
+    [data-theme="light"] .blog-card-title, [data-theme="light"] .featured-card-title, [data-theme="light"] .sidebar-widget-title { color: #151B35 !important; }
+    [data-theme="light"] .blog-card-excerpt, [data-theme="light"] .featured-card-excerpt, [data-theme="light"] .post-meta { color: #475569 !important; }
+    [data-theme="light"] .category-list-item { color: #151B35 !important; border-color: #E2E8F0 !important; }
+    [data-theme="light"] .category-list-item:hover { color: #7657E8 !important; }
+    [data-theme="light"] .tag-cloud-item {
+      background: #F1F5F9 !important;
+      color: #151B35 !important;
+      border: 1px solid #CBD5E1 !important;
+    }
+    [data-theme="light"] .search-filter-bar input {
+      background: #FFFFFF !important;
+      color: #0F172A !important;
+      border: 1.5px solid #CBD5E1 !important;
+    }
+    [data-theme="light"] .search-filter-bar input::placeholder {
+      color: #64748B !important;
+    }
+    /* ─── DUAL MODE HIGH CONTRAST ─── */
+    [data-theme="dark"] .section-featured { background: #0B0F1E !important; }
+    [data-theme="dark"] .section-blog-grid { background: #131933 !important; }
+    [data-theme="dark"] .section-trending-topics { background: #0B0F1E !important; }
+    [data-theme="dark"] .section-newsletter { background: #131933 !important; }
+    [data-theme="dark"] .blog-card, [data-theme="dark"] .featured-blog-card, [data-theme="dark"] .sidebar-widget {
+      background: #151B35 !important;
+      border-color: rgba(255,255,255,0.14) !important;
+      color: #F8FAFC !important;
+    }
+    [data-theme="dark"] .blog-card-title, [data-theme="dark"] .featured-card-title, [data-theme="dark"] .sidebar-widget-title { color: #FFFFFF !important; }
+    [data-theme="dark"] .blog-card-excerpt, [data-theme="dark"] .featured-card-excerpt, [data-theme="dark"] .post-meta { color: #CBD5E1 !important; }
+    [data-theme="dark"] .category-list-item { color: #CBD5E1 !important; border-color: rgba(255,255,255,0.08) !important; }
+    [data-theme="dark"] .category-list-item:hover { color: #A78BFA !important; }
+    [data-theme="dark"] .tag-cloud-item {
+      background: #1E2748 !important;
+      color: #E2E8F0 !important;
+      border-color: rgba(255,255,255,0.14) !important;
+    }
+    [data-theme="dark"] .search-filter-bar input {
+      background: #1E2748 !important;
+      color: #FFFFFF !important;
+      border-color: rgba(255,255,255,0.2) !important;
+    }
+</style>
+<script src="assets/js/theme.js"></script>
+<style id="responsive-fixes">
+  /* ── Responsive fixes: blog.html ── */
+  html, body { overflow-x: hidden; }
+  img, iframe, video, svg { max-width: 100%; }
+  .navbar-eventora .navbar-brand,
+  .navbar-eventora .btn { white-space: nowrap; }
+
+  /* ── 1024px ── */
+  @media (max-width:1024px) {
+    .navbar-eventora .navbar-nav { gap: .2rem !important; }
+    .navbar-eventora .nav-link { padding: .45rem .55rem !important; font-size: .9rem; }
+    .navbar-eventora .navbar-collapse .d-flex { gap: .4rem !important; }
+    .navbar-eventora .btn-sm { padding: .35rem .7rem !important; font-size: .75rem !important; }
+    .navbar-eventora .nav-icon-btn { width: 32px; height: 32px; }
+
+    .blog-hero { padding: 110px 0 64px; }
+    .blog-hero .search-filter-bar { max-width: 100%; }
+    .search-filter-bar { padding: 16px 18px; }
+    .section-featured,
+    .section-blog-grid,
+    .section-sidebar,
+    .section-trending,
+    .section-newsletter { padding: 64px 0; }
+
+    .featured-img-wrap { min-height: 320px; flex: 0 0 50%; }
+    .featured-content { padding: 28px; }
+
+    .section-blog-grid .row.g-4 > [class*="col-"] { flex: 0 0 50%; max-width: 50%; }
+    .section-sidebar .row.g-5 > [class*="col-"] { flex: 0 0 100%; max-width: 100%; }
+    .sidebar-widget { padding: 24px; }
+    .nl-card { padding: 38px 28px; }
+    .write-for-us { padding: 30px; }
+    footer.footer-home { padding: 56px 0 26px; }
+  }
+
+  /* ── 768px ── */
+  @media (max-width:768px) {
+    .blog-hero { padding: 96px 0 52px; }
+    .blog-hero h1 { font-size: clamp(1.9rem, 8vw, 2.6rem); }
+    .blog-hero .lead { font-size: 1rem; }
+    .tag-cloud { gap: 8px; margin-bottom: 24px; justify-content: center; }
+    .tag-pill { padding: 5px 12px; font-size: .74rem; }
+    .search-filter-bar { padding: 14px; border-radius: 14px; }
+    .filter-btn { padding: 8px 12px; font-size: .8rem; }
+    .section-heading { font-size: 1.5rem; }
+
+    .section-featured .container > .d-flex,
+    .section-blog-grid .container > .d-flex,
+    .section-trending .container > .d-flex { flex-wrap: wrap; gap: .75rem; }
+
+    .featured-img-wrap { flex-basis: auto; min-height: 260px; }
+    .featured-content { padding: 24px 22px; }
+    .featured-content h2 { font-size: 1.35rem; }
+    .author-row { flex-wrap: wrap; }
+    .blog-card-img { height: 190px; }
+
+    .section-blog-grid .row.g-4 > [class*="col-"] { flex: 0 0 50%; max-width: 50%; }
+    .popular-post-thumb { width: 60px; height: 48px; }
+    .trending-scroll { gap: 14px; }
+    .topic-card { flex: 0 0 200px; }
+    .nl-card { padding: 32px 22px; }
+    .nl-features { gap: 12px 20px; }
+    .nl-form { max-width: 420px; }
+    .write-for-us { padding: 24px; }
+    .write-for-us::after { display: none; }
+
+    footer.footer-home .row.g-5 > [class*="col-"] { flex: 0 0 50%; max-width: 50%; }
+    footer.footer-home .row.g-5 > .col-lg-4 { flex: 0 0 100%; max-width: 100%; }
+  }
+
+  /* ── 480px ── */
+  @media (max-width:480px) {
+    .navbar-eventora .navbar-brand { font-size: 1.15rem; }
+    .navbar-eventora .brand-mark { width: 26px; height: 26px; }
+    .blog-hero { padding: 88px 0 44px; }
+    .blog-hero h1 { font-size: 1.8rem; }
+    .blog-hero .lead { font-size: .95rem; }
+    .tag-cloud { gap: 6px; }
+    .tag-pill { font-size: .7rem; padding: 4px 10px; }
+    .search-filter-bar { padding: 12px; }
+    .filter-btn { padding: 7px 10px; font-size: .76rem; }
+    .blog-hero .d-flex.gap-4 { flex-wrap: wrap; gap: .85rem !important; }
+    .blog-hero .d-flex.gap-4 > div > div:first-child { font-size: 1.35rem !important; }
+
+    .section-featured,
+    .section-blog-grid,
+    .section-sidebar,
+    .section-trending,
+    .section-newsletter { padding: 40px 0; }
+    .featured-img-wrap { min-height: 220px; }
+    .featured-content { padding: 20px 18px; }
+    .featured-content h2 { font-size: 1.2rem; }
+    .blog-card-img { height: 200px; }
+    .section-blog-grid .row.g-4 > [class*="col-"] { flex: 0 0 100%; max-width: 100%; }
+
+    .sidebar-widget { padding: 20px; }
+    .trending-scroll { gap: 12px; }
+    .topic-card { flex: 0 0 78vw; max-width: 260px; }
+    .nl-card { padding: 26px 18px; border-radius: 18px; }
+    .nl-features { flex-direction: column; align-items: center; gap: 10px; }
+    .nl-form { flex-direction: column; }
+    .nl-form button { width: 100%; }
+    .write-for-us { padding: 20px; }
+    .write-for-us h4 { font-size: 1.15rem; }
+    .btn-write { width: 100%; text-align: center; }
+    .blog-pagination { padding: 32px 0 0; }
+
+    footer.footer-home .row.g-5 > [class*="col-"] { flex: 0 0 100%; max-width: 100%; }
+  }
+
+  /* ── 360px ── */
+  @media (max-width:360px) {
+    .blog-hero { padding: 80px 0 36px; }
+    .blog-hero h1 { font-size: 1.55rem; }
+    .tag-pill { font-size: .66rem; padding: 4px 8px; }
+    .search-filter-bar { padding: 10px; }
+    .filter-btn { padding: 6px 8px; font-size: .72rem; }
+    .featured-content { padding: 16px 14px; }
+    .featured-content h2 { font-size: 1.1rem; }
+    .blog-card-body { padding: 16px; }
+    .blog-card-footer { flex-wrap: wrap; gap: 8px; }
+    .sidebar-widget { padding: 16px; }
+    .nl-card { padding: 22px 14px; }
+    .nl-card h2 { font-size: 1.3rem; }
+    .write-for-us { padding: 16px; }
+  }
+
+  /* ── 320px ── */
+  @media (max-width:320px) {
+    .blog-hero { padding: 76px 0 30px; }
+    .blog-hero h1 { font-size: 1.45rem; }
+    .blog-hero .lead { font-size: .9rem; }
+    .section-heading { font-size: 1.3rem; }
+    .tag-pill { font-size: .62rem; }
+    .search-filter-bar { padding: 8px; }
+    .filter-btn { font-size: .68rem; padding: 5px 7px; }
+    .featured-content { padding: 14px 12px; }
+    .featured-content h2 { font-size: 1.05rem; }
+    .blog-card-body { padding: 14px; }
+    .sidebar-widget { padding: 14px; }
+    .nl-card { padding: 18px 12px; }
+    .write-for-us { padding: 14px; }
+    .write-for-us h4 { font-size: 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ══ NAVBAR ══ -->
+<nav class="navbar navbar-expand-lg navbar-eventora fixed-top py-2">
+  <div class="container">
+    <a class="navbar-brand navbar-brand-logo" href="home.html"><img src="assets/images/logo-mark.svg" alt="" class="brand-mark" width="32" height="32" />Eventora</a>
+    <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+      <span class="navbar-toggler-icon" style="filter:invert(1);"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navMenu">
+      <ul class="navbar-nav mx-auto gap-1">
+        <li class="nav-item"><a class="nav-link" href="home.html">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="home2.html">Home 2</a></li>
+        <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+        <li class="nav-item"><a class="nav-link" href="services.html">Services</a></li>
+        <li class="nav-item"><a class="nav-link active" href="blog.html">Blog</a></li>
+        <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+      </ul>
+      <div class="d-flex align-items-center gap-2">
+        <span class="nav-icon-btn" id="themeToggle" title="Toggle Theme"><i class="bi bi-moon-stars"></i></span>
+        <span class="nav-icon-btn" id="rtlToggle" title="RTL Mode" style="font-size:.68rem;font-weight:700;letter-spacing:.5px;">RTL</span>
+        <a href="user-dashboard.html" class="btn-ev-outline btn btn-sm ms-2" style="padding:.4rem 1rem;font-size:.8rem;">User Dashboard</a>
+        <a href="admin-dashboard.html" class="btn-ev-primary btn btn-sm" style="padding:.4rem 1rem;font-size:.8rem;">Admin Dashboard</a>
+        <a href="login.html" class="btn-ev-primary btn btn-sm">Sign In</a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- ══════════════════════════════════════
+     SECTION 1 — BLOG HERO
+══════════════════════════════════════ -->
+<section class="blog-hero">
+  <div class="container blog-hero-content">
+    <div class="row justify-content-center text-center g-4">
+      <div class="col-lg-9">
+        <div class="service-badge mb-3" style="display:inline-block;background:linear-gradient(135deg,var(--purple),var(--coral));color:#fff;border-radius:50px;padding:6px 18px;font-size:.8rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;">
+          <i class="bi bi-newspaper me-1"></i>Eventora Blog
+        </div>
+        <h1 class="mb-3">Event Industry<br><span class="gradient-text">Insights</span></h1>
+        <p class="lead mb-4">Expert guides, trending news, and insider tips from the world's most exciting events industry.</p>
+
+        <!-- Animated Tag Cloud -->
+        <div class="tag-cloud">
+          <span class="tag-pill active">All Topics</span>
+          <span class="tag-pill"><i class="bi bi-music-note-beamed me-1"></i>Music</span>
+          <span class="tag-pill"><i class="bi bi-trophy me-1"></i>Sports</span>
+          <span class="tag-pill"><i class="bi bi-cpu me-1"></i>Tech</span>
+          <span class="tag-pill"><i class="bi bi-globe-americas me-1"></i>Culture</span>
+          <span class="tag-pill"><i class="bi bi-bar-chart me-1"></i>Business</span>
+          <span class="tag-pill"><i class="bi bi-stars me-1"></i>Festivals</span>
+          <span class="tag-pill"><i class="bi bi-robot me-1"></i>AI Events</span>
+          <span class="tag-pill"><i class="bi bi-tree me-1"></i>Sustainability</span>
+          <span class="tag-pill"><i class="bi bi-broadcast me-1"></i>Hybrid</span>
+        </div>
+      </div>
+
+      <div class="col-lg-9">
+        <!-- Search & Filter -->
+        <div class="search-filter-bar">
+          <div class="mb-3">
+            <div class="input-group">
+              <span class="input-group-text" style="background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-right:none;color:rgba(255,255,255,.6);">
+                <i class="bi bi-search"></i>
+              </span>
+              <input type="text" class="form-control" placeholder="Search articles, topics, authors…" style="border-left:none;" />
+            </div>
+          </div>
+          <div class="d-flex align-items-center justify-content-center gap-2 flex-wrap">
+            <span style="color:rgba(255,255,255,.6);font-size:.82rem;font-weight:500;">Filter:</span>
+            <button class="filter-btn active">All</button>
+            <button class="filter-btn"><i class="bi bi-newspaper me-1"></i>News</button>
+            <button class="filter-btn"><i class="bi bi-journal-bookmark me-1"></i>Guides</button>
+            <button class="filter-btn"><i class="bi bi-lightbulb me-1"></i>Tips</button>
+            <button class="filter-btn"><i class="bi bi-graph-up-arrow me-1"></i>Trends</button>
+            <button class="filter-btn"><i class="bi bi-file-earmark-text me-1"></i>Case Studies</button>
+          </div>
+        </div>
+
+        <!-- Quick stats -->
+        <div class="d-flex gap-4 mt-4 justify-content-center">
+          <div style="text-align:center;">
+            <div style="font-size:1.6rem;font-weight:800;color:#fff;font-family:'Plus Jakarta Sans',sans-serif;">240+</div>
+            <div style="color:rgba(255,255,255,.55);font-size:.8rem;">Articles</div>
+          </div>
+          <div style="text-align:center;">
+            <div style="font-size:1.6rem;font-weight:800;color:#fff;font-family:'Plus Jakarta Sans',sans-serif;">50K+</div>
+            <div style="color:rgba(255,255,255,.55);font-size:.8rem;">Monthly Readers</div>
+          </div>
+          <div style="text-align:center;">
+            <div style="font-size:1.6rem;font-weight:800;color:#fff;font-family:'Plus Jakarta Sans',sans-serif;">35</div>
+            <div style="color:rgba(255,255,255,.55);font-size:.8rem;">Expert Authors</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     SECTION 2 — FEATURED POST
+══════════════════════════════════════ -->
+<section class="section-featured">
+  <div class="container">
+    <div class="d-flex align-items-center justify-content-between mb-4">
+      <h2 class="section-heading mb-0">Featured Article</h2>
+      <a href="blog-details.html" class="btn-outline-custom" style="font-size:.88rem;padding:8px 20px;">View All Articles</a>
+    </div>
+
+    <div class="featured-card fade-in-up">
+      <!-- Image Side -->
+      <div class="featured-img-wrap">
+        <img src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=900&q=80" alt="Festival of the future" />
+        <div class="featured-overlay"></div>
+        <div class="featured-badge-wrap">
+          <span class="cat-pill cat-featured"><i class="bi bi-star-fill text-warning me-1"></i>Featured</span>
+          <span class="cat-pill cat-event-planning ms-2">Event Planning</span>
+        </div>
+      </div>
+      <!-- Content Side -->
+      <div class="featured-content">
+        <div style="font-size:.8rem;color:var(--purple);font-weight:600;text-transform:uppercase;letter-spacing:.5px;margin-bottom:12px;">
+          <i class="bi bi-clock me-1"></i>November 10, 2026 &nbsp;·&nbsp; 8 min read
+        </div>
+        <h2>The Future of Live Events: How AI and Immersive Tech Are Rewriting the Playbook for 2027</h2>
+        <p class="featured-excerpt">From holographic stages and AI-generated setlists to real-time personalization that adapts an entire festival to your mood — the live event industry is undergoing its most radical transformation in decades. We spoke with 12 industry leaders, analyzed $4B in event data, and attended 30+ events to bring you this definitive guide to what comes next.</p>
+        <div class="author-row">
+          <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&q=80" alt="Alex Chen" class="author-avatar-sm" />
+          <span style="font-weight:600;color:var(--navy);">Alex Chen</span>
+          <span class="meta-sep">·</span>
+          <span>Senior Editor, Eventora</span>
+          <span class="meta-sep">·</span>
+          <span><i class="bi bi-heart-fill" style="color:#e84057;"></i> 2.4K</span>
+        </div>
+        <a href="blog-details.html" class="read-more-btn">Read Full Article <i class="bi bi-arrow-right ms-1"></i></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     SECTION 3 — BLOG GRID (6 posts, 3 cols)
+══════════════════════════════════════ -->
+<section class="section-blog-grid">
+  <div class="container">
+    <div class="d-flex align-items-center justify-content-between mb-4">
+      <h2 class="section-heading mb-0">Latest Articles</h2>
+      <div class="d-flex gap-2">
+        <button class="filter-btn active" data-filter="latest" style="background:var(--lavender);border:1px solid rgba(118,87,232,.2);color:var(--purple);border-radius:10px;padding:7px 16px;font-size:.82rem;cursor:pointer;">Latest</button>
+        <button class="filter-btn" data-filter="popular" style="background:#fff;border:1px solid #e0daf8;color:#666;border-radius:10px;padding:7px 16px;font-size:.82rem;cursor:pointer;">Popular</button>
+        <button class="filter-btn" data-filter="trending" style="background:#fff;border:1px solid #e0daf8;color:#666;border-radius:10px;padding:7px 16px;font-size:.82rem;cursor:pointer;">Trending</button>
+      </div>
+    </div>
+
+    <div class="row g-4">
+      <!-- Post 1: Event Planning -->
+      <div class="col-md-6 col-lg-4 fade-in-up" data-trending="70">
+        <div class="blog-card">
+          <div class="blog-card-img">
+            <img src="https://images.unsplash.com/photo-1511578314322-379afb476865?w=600&q=80" alt="Event Planning" />
+            <div style="position:absolute;top:12px;left:12px;"><span class="cat-pill cat-event-planning">Event Planning</span></div>
+          </div>
+          <div class="blog-card-body">
+            <div class="blog-card-title">10 Event Planning Mistakes That Can Ruin Your Launch Party (And How to Avoid Every One)</div>
+            <div class="blog-card-excerpt">From venue booking blunders to catering disasters — real event planners share the costly mistakes they wish they'd known about before the big day.</div>
+            <div class="blog-card-footer">
+              <div class="blog-card-author">
+                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=60&q=80" alt="Emma W" class="blog-author-avatar" />
+                <div>
+                  <div class="blog-author-name">Emma Williams</div>
+                  <div style="font-size:.7rem;color:#aaa;">Nov 8 · 6 min</div>
+                </div>
+              </div>
+              <div class="blog-meta-right">
+                <div class="heart-count"><i class="bi bi-heart-fill"></i> 847</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Post 2: Music -->
+      <div class="col-md-6 col-lg-4 fade-in-up" data-trending="92" style="transition-delay:.08s;">
+        <div class="blog-card">
+          <div class="blog-card-img">
+            <img src="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=600&q=80" alt="Music Concert" />
+            <div style="position:absolute;top:12px;left:12px;"><span class="cat-pill cat-music">Music</span></div>
+          </div>
+          <div class="blog-card-body">
+            <div class="blog-card-title">Inside the World's Largest Music Festivals: Behind the Scenes with Coachella's Production Team</div>
+            <div class="blog-card-excerpt">An exclusive look at the 11-month planning cycle, 50,000-person logistics, and the technology that makes Coachella run like clockwork every April.</div>
+            <div class="blog-card-footer">
+              <div class="blog-card-author">
+                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=60&q=80" alt="Marcus L" class="blog-author-avatar" />
+                <div>
+                  <div class="blog-author-name">Marcus Lee</div>
+                  <div style="font-size:.7rem;color:#aaa;">Nov 5 · 10 min</div>
+                </div>
+              </div>
+              <div class="blog-meta-right">
+                <div class="heart-count"><i class="bi bi-heart-fill"></i> 1.2K</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Post 3: Technology -->
+      <div class="col-md-6 col-lg-4 fade-in-up" data-trending="96" style="transition-delay:.16s;">
+        <div class="blog-card">
+          <div class="blog-card-img">
+            <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=600&q=80" alt="Event Technology" />
+            <div style="position:absolute;top:12px;left:12px;"><span class="cat-pill cat-technology">Technology</span></div>
+          </div>
+          <div class="blog-card-body">
+            <div class="blog-card-title">RFID, Blockchain Tickets & Facial Recognition: The Tech Stack Powering Modern Events in 2026</div>
+            <div class="blog-card-excerpt">A deep dive into how cutting-edge technology is eliminating fraud, speeding entry, and creating richer data for event organizers worldwide.</div>
+            <div class="blog-card-footer">
+              <div class="blog-card-author">
+                <img src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?w=60&q=80" alt="Ravi P" class="blog-author-avatar" />
+                <div>
+                  <div class="blog-author-name">Ravi Patel</div>
+                  <div style="font-size:.7rem;color:#aaa;">Nov 2 · 7 min</div>
+                </div>
+              </div>
+              <div class="blog-meta-right">
+                <div class="heart-count"><i class="bi bi-heart-fill"></i> 634</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Post 4: Sports -->
+      <div class="col-md-6 col-lg-4 fade-in-up" data-trending="85" style="transition-delay:.24s;">
+        <div class="blog-card">
+          <div class="blog-card-img">
+            <img src="https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=600&q=80" alt="Sports Event" />
+            <div style="position:absolute;top:12px;left:12px;"><span class="cat-pill cat-sports">Sports</span></div>
+          </div>
+          <div class="blog-card-body">
+            <div class="blog-card-title">How to Score the Best Seats at Sold-Out Sporting Events: A Ticket Pro's Guide</div>
+            <div class="blog-card-excerpt">Former ticket resale expert reveals the strategies — both legal and ethical — that savvy sports fans use to get great seats when everything's "sold out."</div>
+            <div class="blog-card-footer">
+              <div class="blog-card-author">
+                <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=60&q=80" alt="Tom Baker" class="blog-author-avatar" />
+                <div>
+                  <div class="blog-author-name">Tom Baker</div>
+                  <div style="font-size:.7rem;color:#aaa;">Oct 29 · 5 min</div>
+                </div>
+              </div>
+              <div class="blog-meta-right">
+                <div class="heart-count"><i class="bi bi-heart-fill"></i> 923</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Post 5: Culture -->
+      <div class="col-md-6 col-lg-4 fade-in-up" data-trending="88" style="transition-delay:.32s;">
+        <div class="blog-card">
+          <div class="blog-card-img">
+            <img src="https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?w=600&q=80" alt="Culture Event" />
+            <div style="position:absolute;top:12px;left:12px;"><span class="cat-pill cat-culture">Culture</span></div>
+          </div>
+          <div class="blog-card-body">
+            <div class="blog-card-title">Beyond Borders: 15 Cultural Festivals Around the World You Need to Experience Before You Die</div>
+            <div class="blog-card-excerpt">From the vibrant chaos of Holi in Jaipur to the quiet reverence of Lantern Festival in Taiwan — a cultural event bucket list like no other.</div>
+            <div class="blog-card-footer">
+              <div class="blog-card-author">
+                <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=60&q=80" alt="Leila H" class="blog-author-avatar" />
+                <div>
+                  <div class="blog-author-name">Leila Hasani</div>
+                  <div style="font-size:.7rem;color:#aaa;">Oct 26 · 9 min</div>
+                </div>
+              </div>
+              <div class="blog-meta-right">
+                <div class="heart-count"><i class="bi bi-heart-fill"></i> 1.8K</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Post 6: Business -->
+      <div class="col-md-6 col-lg-4 fade-in-up" data-trending="78" style="transition-delay:.4s;">
+        <div class="blog-card">
+          <div class="blog-card-img">
+            <img src="https://images.unsplash.com/photo-1515187029135-18ee286d815b?w=600&q=80" alt="Business Events" />
+            <div style="position:absolute;top:12px;left:12px;"><span class="cat-pill cat-business">Business</span></div>
+          </div>
+          <div class="blog-card-body">
+            <div class="blog-card-title">ROI of Corporate Events: Why Companies That Invest in Live Experiences Outperform by 23%</div>
+            <div class="blog-card-excerpt">New research from Harvard Business Review reveals why in-person corporate events, conferences, and offsites deliver unmatched returns on culture, morale, and revenue.</div>
+            <div class="blog-card-footer">
+              <div class="blog-card-author">
+                <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=60&q=80" alt="Diana Ross" class="blog-author-avatar" />
+                <div>
+                  <div class="blog-author-name">Diana Ross</div>
+                  <div style="font-size:.7rem;color:#aaa;">Oct 22 · 8 min</div>
+                </div>
+              </div>
+              <div class="blog-meta-right">
+                <div class="heart-count"><i class="bi bi-heart-fill"></i> 756</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     SECTION 4 — BLOG SIDEBAR
+══════════════════════════════════════ -->
+<section class="section-sidebar">
+  <div class="container">
+    <div class="row g-5">
+      <!-- Popular Posts + Categories + Tags -->
+      <div class="col-lg-4">
+        <!-- Popular Posts -->
+        <div class="sidebar-widget">
+          <div class="sidebar-widget-title"><i class="bi bi-fire text-danger me-2"></i>Popular Posts</div>
+          <div class="popular-post-item">
+            <img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=200&q=80" alt="Pop post 1" class="popular-post-thumb" />
+            <div>
+              <a href="blog-details.html" class="popular-post-title">Why Every Event Needs a Dedicated Mobile App in 2026</a>
+              <div class="popular-post-date"><i class="bi bi-clock me-1"></i>Oct 15, 2026</div>
+            </div>
+          </div>
+          <div class="popular-post-item">
+            <img src="https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?w=200&q=80" alt="Pop post 2" class="popular-post-thumb" />
+            <div>
+              <a href="blog-details.html" class="popular-post-title">The Complete Guide to Selling Out Your Event in 48 Hours</a>
+              <div class="popular-post-date"><i class="bi bi-clock me-1"></i>Oct 8, 2026</div>
+            </div>
+          </div>
+          <div class="popular-post-item">
+            <img src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=200&q=80" alt="Pop post 3" class="popular-post-thumb" />
+            <div>
+              <a href="blog-details.html" class="popular-post-title">Hybrid Events Are Here to Stay — But Most Companies Are Still Doing Them Wrong</a>
+              <div class="popular-post-date"><i class="bi bi-clock me-1"></i>Sep 30, 2026</div>
+            </div>
+          </div>
+          <div class="popular-post-item">
+            <img src="https://images.unsplash.com/photo-1511578314322-379afb476865?w=200&q=80" alt="Pop post 4" class="popular-post-thumb" />
+            <div>
+              <a href="blog-details.html" class="popular-post-title">Zero-Waste Event Planning: A Practical Guide for Green Organizers</a>
+              <div class="popular-post-date"><i class="bi bi-clock me-1"></i>Sep 22, 2026</div>
+            </div>
+          </div>
+          <div class="popular-post-item">
+            <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=200&q=80" alt="Pop post 5" class="popular-post-thumb" />
+            <div>
+              <a href="blog-details.html" class="popular-post-title">AI Concierge Bots Are Transforming Attendee Experience at Large-Scale Events</a>
+              <div class="popular-post-date"><i class="bi bi-clock me-1"></i>Sep 14, 2026</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Categories + Tags + Newsletter + Social -->
+      <div class="col-lg-4">
+        <!-- Categories -->
+        <div class="sidebar-widget">
+          <div class="sidebar-widget-title"><i class="bi bi-grid me-2" style="color:var(--purple);"></i>Categories</div>
+          <div class="category-item"><div class="category-item-name"><i class="bi bi-calendar-event"></i>Event Planning</div><span class="category-count">58</span></div>
+          <div class="category-item"><div class="category-item-name"><i class="bi bi-music-note-beamed"></i>Music</div><span class="category-count">42</span></div>
+          <div class="category-item"><div class="category-item-name"><i class="bi bi-cpu"></i>Technology</div><span class="category-count">35</span></div>
+          <div class="category-item"><div class="category-item-name"><i class="bi bi-trophy"></i>Sports</div><span class="category-count">29</span></div>
+          <div class="category-item"><div class="category-item-name"><i class="bi bi-palette"></i>Culture</div><span class="category-count">24</span></div>
+          <div class="category-item"><div class="category-item-name"><i class="bi bi-briefcase"></i>Business</div><span class="category-count">31</span></div>
+          <div class="category-item"><div class="category-item-name"><i class="bi bi-graph-up"></i>Trends</div><span class="category-count">18</span></div>
+        </div>
+
+        <!-- Tags -->
+        <div class="sidebar-widget">
+          <div class="sidebar-widget-title"><i class="bi bi-tags me-2" style="color:var(--purple);"></i>Popular Tags</div>
+          <div class="tag-cloud-sidebar">
+            <a href="#" class="tag-sidebar">#EventTech</a>
+            <a href="#" class="tag-sidebar">#LiveEvents</a>
+            <a href="#" class="tag-sidebar">#FestivalSeason</a>
+            <a href="#" class="tag-sidebar">#HybridEvents</a>
+            <a href="#" class="tag-sidebar">#Sustainability</a>
+            <a href="#" class="tag-sidebar">#AIinEvents</a>
+            <a href="#" class="tag-sidebar">#TicketingTech</a>
+            <a href="#" class="tag-sidebar">#CorporateEvents</a>
+            <a href="#" class="tag-sidebar">#MusicFestival</a>
+            <a href="#" class="tag-sidebar">#EventMarketing</a>
+            <a href="#" class="tag-sidebar">#Concerts2026</a>
+            <a href="#" class="tag-sidebar">#GroupBooking</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Newsletter + Social Follow -->
+      <div class="col-lg-4">
+        <!-- Newsletter -->
+        <div class="sidebar-widget" style="background:linear-gradient(135deg,var(--navy),var(--navy-soft));border:none;">
+          <div class="sidebar-widget-title" style="color:#fff;border-bottom-color:rgba(255,255,255,.1);">
+            <i class="bi bi-envelope-heart me-2" style="color:var(--coral);"></i>Newsletter
+          </div>
+          <p style="color:rgba(255,255,255,.65);font-size:.88rem;margin-bottom:16px;">Get the latest event industry insights delivered to your inbox every week.</p>
+          <input type="email" class="newsletter-input" placeholder="Your email address" style="background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.2);color:#fff;" />
+          <button class="btn-newsletter">Subscribe Now <i class="bi bi-arrow-right ms-1"></i></button>
+          <div style="color:rgba(255,255,255,.4);font-size:.75rem;margin-top:10px;text-align:center;">
+            <i class="bi bi-lock me-1"></i>No spam. Unsubscribe anytime.
+          </div>
+        </div>
+
+        <!-- Social Follow -->
+        <div class="sidebar-widget">
+          <div class="sidebar-widget-title"><i class="bi bi-share me-2" style="color:var(--purple);"></i>Follow Us</div>
+          <a href="#" class="social-follow-btn sf-twitter"><i class="bi bi-twitter-x"></i><span>@EventoraHQ</span><span class="follow-count">48.2K followers</span></a>
+          <a href="#" class="social-follow-btn sf-instagram"><i class="bi bi-instagram"></i><span>eventora.official</span><span class="follow-count">92.7K followers</span></a>
+          <a href="#" class="social-follow-btn sf-linkedin"><i class="bi bi-linkedin"></i><span>Eventora Inc.</span><span class="follow-count">31.5K followers</span></a>
+          <a href="#" class="social-follow-btn sf-youtube"><i class="bi bi-youtube"></i><span>Eventora TV</span><span class="follow-count">18.3K subs</span></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     SECTION 5 — TRENDING TOPICS
+══════════════════════════════════════ -->
+<section class="section-trending">
+  <div class="container">
+    <div class="d-flex align-items-center justify-content-between mb-4">
+      <h2 class="section-heading mb-0">Trending Topics</h2>
+      <a href="blog.html" class="btn-outline-custom" style="font-size:.88rem;padding:8px 20px;">Explore All</a>
+    </div>
+
+    <div class="trending-scroll">
+      <!-- Topic 1: Festival Season -->
+      <div class="topic-card" style="background:linear-gradient(135deg,rgba(255,118,107,.82),rgba(245,78,130,.82)),url('https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=600&q=80') center/cover no-repeat;">
+        <div class="topic-card-overlay"></div>
+        <div class="topic-card-content">
+          <div class="topic-tag"><i class="bi bi-fire text-danger me-1"></i>Hot Right Now</div>
+          <div class="topic-name">Festival Season</div>
+          <div class="topic-count"><i class="bi bi-file-earmark-text"></i> 42 Articles</div>
+        </div>
+      </div>
+      <!-- Topic 2: Event Tech 2026 -->
+      <div class="topic-card" style="background:linear-gradient(135deg,rgba(118,87,232,.82),rgba(90,62,200,.82)),url('https://images.unsplash.com/photo-1518770660439-4636190af475?w=600&q=80') center/cover no-repeat;">
+        <div class="topic-card-overlay"></div>
+        <div class="topic-card-content">
+          <div class="topic-tag"><i class="bi bi-lightning-charge-fill text-warning me-1"></i>Trending</div>
+          <div class="topic-name">Event Tech 2026</div>
+          <div class="topic-count"><i class="bi bi-file-earmark-text"></i> 38 Articles</div>
+        </div>
+      </div>
+      <!-- Topic 3: Hybrid Events -->
+      <div class="topic-card" style="background:linear-gradient(135deg,rgba(13,148,136,.82),rgba(14,165,233,.82)),url('https://images.unsplash.com/photo-1587825140708-dfaf72ae4b04?w=600&q=80') center/cover no-repeat;">
+        <div class="topic-card-overlay"></div>
+        <div class="topic-card-content">
+          <div class="topic-tag"><i class="bi bi-activity text-info me-1"></i>Rising</div>
+          <div class="topic-name">Hybrid Events</div>
+          <div class="topic-count"><i class="bi bi-file-earmark-text"></i> 29 Articles</div>
+        </div>
+      </div>
+      <!-- Topic 4: Sustainability -->
+      <div class="topic-card" style="background:linear-gradient(135deg,rgba(22,163,74,.82),rgba(74,222,128,.82)),url('https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=600&q=80') center/cover no-repeat;">
+        <div class="topic-card-overlay"></div>
+        <div class="topic-card-content">
+          <div class="topic-tag"><i class="bi bi-tree-fill text-success me-1"></i>Green</div>
+          <div class="topic-name">Sustainability</div>
+          <div class="topic-count"><i class="bi bi-file-earmark-text"></i> 24 Articles</div>
+        </div>
+      </div>
+      <!-- Topic 5: AI in Events -->
+      <div class="topic-card" style="background:linear-gradient(135deg,rgba(245,158,11,.82),rgba(239,68,68,.82)),url('https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=600&q=80') center/cover no-repeat;">
+        <div class="topic-card-overlay"></div>
+        <div class="topic-card-content">
+          <div class="topic-tag"><i class="bi bi-cpu-fill text-purple me-1"></i>Future</div>
+          <div class="topic-name">AI in Events</div>
+          <div class="topic-count"><i class="bi bi-file-earmark-text"></i> 19 Articles</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     SECTION 6 — NEWSLETTER + PAGINATION
+══════════════════════════════════════ -->
+<section class="section-newsletter">
+  <div class="container">
+    <!-- Newsletter Card -->
+    <div class="nl-card fade-in-up">
+      <div style="font-size:2.5rem;margin-bottom:14px;color:var(--purple);"><i class="bi bi-envelope-paper-heart-fill"></i></div>
+      <h2>Stay Ahead of the Event Industry</h2>
+      <p class="lead">Join 50,000+ event professionals who get our weekly roundup of trends, tips, and exclusive insights.</p>
+
+      <div class="nl-features">
+        <div class="nl-feature"><i class="bi bi-check-circle-fill"></i>Weekly digest every Friday</div>
+        <div class="nl-feature"><i class="bi bi-check-circle-fill"></i>Exclusive industry reports</div>
+        <div class="nl-feature"><i class="bi bi-check-circle-fill"></i>Early access to research</div>
+        <div class="nl-feature"><i class="bi bi-check-circle-fill"></i>No spam, cancel anytime</div>
+      </div>
+
+      <div class="nl-form">
+        <input type="email" placeholder="Enter your email address…" />
+        <button type="submit">Subscribe <i class="bi bi-arrow-right ms-1"></i></button>
+      </div>
+
+      <div style="font-size:.8rem;color:#aaa;margin-top:12px;">
+        <i class="bi bi-shield-check me-1"></i>Your privacy is protected. Unsubscribe in one click at any time.
+      </div>
+    </div>
+
+    <!-- Write for Us CTA -->
+    <div class="blog-pagination text-center">
+      <div class="write-for-us mt-4">
+        <div>
+          <h4>Share Your Expertise with 50K Readers</h4>
+          <p>Write for Eventora Blog — we welcome guest articles from event professionals, organizers, and industry experts.</p>
+        </div>
+        <a href="contact.html" class="btn-write"><i class="bi bi-pencil-square me-1"></i>Write for Us</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ FOOTER ══ -->
+<footer class="footer-home">
+  <div class="container">
+    <div class="row g-5 mb-4">
+      <div class="col-lg-4">
+        <div class="footer-logo mb-3">Eventora</div>
+        <p class="footer-desc mb-4">Your premier destination for discovering, booking, and creating unforgettable event experiences worldwide.</p>
+        <div class="d-flex gap-2">
+          <a href="#" class="social-btn"><i class="bi bi-facebook"></i></a>
+          <a href="#" class="social-btn"><i class="bi bi-twitter-x"></i></a>
+          <a href="#" class="social-btn"><i class="bi bi-instagram"></i></a>
+          <a href="#" class="social-btn"><i class="bi bi-linkedin"></i></a>
+          <a href="#" class="social-btn"><i class="bi bi-youtube"></i></a>
+        </div>
+      </div>
+      <div class="col-6 col-lg-2">
+        <div class="footer-heading">Quick Links</div>
+        <ul class="footer-links">
+          <li><a href="home.html">Home</a></li>
+          <li><a href="home2.html">Home 2</a></li>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="services.html">Services</a></li>
+          <li><a href="blog.html">Blog</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div class="col-6 col-lg-2">
+        <div class="footer-heading">Categories</div>
+        <ul class="footer-links">
+          <li><a href="#">Music Events</a></li>
+          <li><a href="#">Sports Events</a></li>
+          <li><a href="#">Tech Conferences</a></li>
+          <li><a href="#">Cultural Shows</a></li>
+          <li><a href="#">Food Festivals</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-4">
+        <div class="footer-heading">Newsletter</div>
+        <p style="color:#8a94b8;font-size:.9rem;margin-bottom:1rem;">Get the latest events delivered to your inbox every week.</p>
+        <div class="input-group mb-3">
+          <input type="email" class="form-control newsletter-input" placeholder="Enter your email" />
+          <button class="btn-ev-primary btn">Subscribe</button>
+        </div>
+        <p style="color:#6b7591;font-size:.8rem;"><i class="bi bi-geo-alt me-1"></i>123 Event Avenue, New York, NY 10001</p>
+        <p style="color:#6b7591;font-size:.8rem;"><i class="bi bi-envelope me-1"></i>hello@eventora.com</p>
+        <p style="color:#6b7591;font-size:.8rem;"><i class="bi bi-telephone me-1"></i>+1 (800) 123-4567</p>
+      </div>
+    </div>
+    <div class="footer-bottom d-flex flex-column flex-md-row justify-content-between align-items-center">
+      <span>© 2025 Eventora. All rights reserved.</span>
+      <div class="d-flex gap-3 mt-2 mt-md-0">
+        <a href="#" style="color:#6b7591;text-decoration:none;font-size:.85rem;">Privacy Policy</a>
+        <a href="#" style="color:#6b7591;text-decoration:none;font-size:.85rem;">Terms of Service</a>
+        <a href="#" style="color:#6b7591;text-decoration:none;font-size:.85rem;">Cookie Policy</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  // Animate on scroll
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.fade-in-up').forEach(el => observer.observe(el));
+
+  // Navbar scroll effect
+  window.addEventListener('scroll', () => {
+    const nav = document.querySelector('.navbar-eventora');
+    nav.style.background = window.scrollY > 60
+      ? 'rgba(21,27,53,0.98)'
+      : 'rgba(21,27,53,0.92)';
+  });
+
+  // Tag cloud toggle
+  document.querySelectorAll('.tag-pill').forEach(pill => {
+    pill.addEventListener('click', () => {
+      document.querySelectorAll('.tag-pill').forEach(p => p.classList.remove('active'));
+      pill.classList.add('active');
+    });
+  });
+
+  // Filter buttons + Latest Articles sorting
+  const articleGrid = document.querySelector('.section-blog-grid .row.g-4');
+  const articleCols = articleGrid ? Array.from(articleGrid.children) : [];
+
+  const colHearts = (col) => {
+    const txt = (col.querySelector('.heart-count')?.textContent || '0').trim().toUpperCase();
+    const num = parseFloat(txt.replace(/[^0-9.]/g, '')) || 0;
+    return txt.includes('K') ? num * 1000 : num;
+  };
+
+  const colDate = (col) => {
+    const name = col.querySelector('.blog-author-name');
+    const meta = name ? name.nextElementSibling : null;
+    const m = (meta ? meta.textContent : '').match(/([A-Za-z]{3})\s+(\d+)/);
+    if (!m) return 0;
+    const months = { Jan: 1, Feb: 2, Mar: 3, Apr: 4, May: 5, Jun: 6, Jul: 7, Aug: 8, Sep: 9, Oct: 10, Nov: 11, Dec: 12 };
+    return (months[m[1]] || 0) * 100 + parseInt(m[2], 10);
+  };
+
+  const articleSorters = {
+    latest: (a, b) => colDate(b) - colDate(a),
+    popular: (a, b) => colHearts(b) - colHearts(a),
+    trending: (a, b) => (parseFloat(b.dataset.trending) || 0) - (parseFloat(a.dataset.trending) || 0)
+  };
+
+  function sortArticles(mode) {
+    if (!articleGrid) return;
+    [...articleCols].sort(articleSorters[mode] || articleSorters.latest).forEach((col, i) => {
+      col.style.transitionDelay = (i * 0.06) + 's';
+      articleGrid.appendChild(col);
+    });
+  }
+
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const siblings = btn.closest('div').querySelectorAll('.filter-btn');
+      siblings.forEach(s => s.classList.remove('active'));
+      btn.classList.add('active');
+      if (btn.dataset.filter) sortArticles(btn.dataset.filter);
+    });
+  });
+
+  sortArticles('latest');
+
+  // Heart count toggle
+  document.querySelectorAll('.heart-count').forEach(el => {
+    el.addEventListener('click', () => {
+      const icon = el.querySelector('i');
+      if (icon.classList.contains('bi-heart-fill')) {
+        icon.classList.replace('bi-heart-fill', 'bi-heart');
+        el.style.color = '#888';
+      } else {
+        icon.classList.replace('bi-heart', 'bi-heart-fill');
+        el.style.color = '#e84057';
+      }
+    });
+  });
+
+  // Open blog details with that card's own image + title
+  function articleUrlFrom(card, imgSel, titleSel) {
+    const img = card.querySelector(imgSel);
+    const title = card.querySelector(titleSel);
+    const cat = card.querySelector('.cat-pill');
+    const params = new URLSearchParams();
+    if (img && img.getAttribute('src')) params.set('img', img.getAttribute('src'));
+    if (title) params.set('title', title.textContent.trim());
+    if (cat) params.set('cat', cat.textContent.trim());
+    return 'blog-details.html?' + params.toString();
+  }
+
+  document.querySelectorAll('.blog-card').forEach(card => {
+    card.style.cursor = 'pointer';
+    card.addEventListener('click', (e) => {
+      if (e.target.closest('.heart-count')) return;
+      window.location.href = articleUrlFrom(card, '.blog-card-img img', '.blog-card-title');
+    });
+  });
+
+  const featuredCard = document.querySelector('.featured-card');
+  if (featuredCard) {
+    const featuredUrl = articleUrlFrom(featuredCard, '.featured-img-wrap img', '.featured-content h2');
+    const featuredBtn = featuredCard.querySelector('.read-more-btn');
+    if (featuredBtn) featuredBtn.href = featuredUrl;
+    featuredCard.style.cursor = 'pointer';
+    featuredCard.addEventListener('click', (e) => {
+      if (e.target.closest('a')) return;
+      window.location.href = featuredUrl;
+    });
+  }
+</script>
+</body>
+</html>

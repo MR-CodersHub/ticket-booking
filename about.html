@@ -1,0 +1,1565 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About Us — Eventora</title>
+  <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg" />
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
+  <!-- Shared CSS -->
+  <link rel="stylesheet" href="assets/css/style.css" />
+  <style>
+    :root {
+      --navy: #151B35;
+      --purple: #7657E8;
+      --coral: #FF766B;
+      --lavender: #F1EDFF;
+      --white: #FFFFFF;
+      --navy-light: #1e2748;
+      --navy-mid: #232c52;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      color: #2d2d2d;
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    /* ─── NAVBAR ─────────────────────────────────── */
+    .navbar-eventora {
+      background: rgba(21, 27, 53, 0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(118, 87, 232, 0.2);
+      transition: all 0.3s ease;
+      padding: 14px 0;
+    }
+    .navbar-eventora .navbar-brand {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 800;
+      font-size: 1.5rem;
+      color: var(--white) !important;
+      letter-spacing: -0.5px;
+    }
+    .navbar-eventora .navbar-brand span { color: var(--coral); }
+    .navbar-eventora .nav-link {
+      color: rgba(255,255,255,0.8) !important;
+      font-weight: 500;
+      font-size: 0.92rem;
+      padding: 6px 14px !important;
+      transition: color 0.2s;
+    }
+    .navbar-eventora .nav-link:hover,
+    .navbar-eventora .nav-link.active { color: var(--coral) !important; }
+    .btn-nav-cta {
+      background: linear-gradient(135deg, var(--purple), var(--coral));
+      color: #fff !important;
+      border-radius: 50px;
+      padding: 8px 22px !important;
+      font-weight: 600;
+      font-size: 0.88rem;
+      transition: opacity 0.2s, transform 0.2s;
+    }
+    .btn-nav-cta:hover { opacity: 0.9; transform: translateY(-1px); }
+
+    /* ─── HERO ─────────────────────────────────── */
+    #hero {
+      min-height: 100vh;
+      background: linear-gradient(135deg, rgba(21,27,53,0.92) 0%, rgba(21,27,53,0.82) 50%, rgba(31,16,80,0.94) 100%),
+                  url('https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=1600&q=80') center/cover no-repeat;
+      position: relative;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+    }
+    #particleCanvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+    .hero-badge {
+      display: inline-block;
+      background: rgba(118,87,232,0.18);
+      border: 1px solid rgba(118,87,232,0.4);
+      color: #c4b5fd;
+      padding: 6px 18px;
+      border-radius: 50px;
+      font-size: 0.82rem;
+      font-weight: 500;
+      margin-bottom: 20px;
+      letter-spacing: 0.5px;
+    }
+    .hero-title {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: clamp(2.8rem, 6vw, 5rem);
+      font-weight: 800;
+      color: var(--white);
+      line-height: 1.1;
+      margin-bottom: 20px;
+    }
+    .gradient-text {
+      background: linear-gradient(135deg, var(--purple), var(--coral));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero-tagline {
+      font-size: 1.15rem;
+      color: rgba(255,255,255,0.72);
+      margin-bottom: 30px;
+      max-width: 560px;
+    }
+    /* breadcrumb */
+    .breadcrumb-wrap .breadcrumb-item a { color: rgba(255,255,255,0.6); text-decoration: none; font-size: 0.88rem; }
+    .breadcrumb-wrap .breadcrumb-item.active { color: var(--coral); font-size: 0.88rem; }
+    .breadcrumb-wrap .breadcrumb-item+.breadcrumb-item::before { color: rgba(255,255,255,0.4); }
+
+    /* stat counters */
+    .hero-stats { margin-top: 48px; }
+    .stat-item {
+      text-align: center;
+      padding: 24px 20px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(118,87,232,0.25);
+      border-radius: 16px;
+      backdrop-filter: blur(6px);
+      transition: transform 0.3s;
+    }
+    .stat-item:hover { transform: translateY(-4px); }
+    .stat-num {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 2.4rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--purple), var(--coral));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .stat-label { color: rgba(255,255,255,0.65); font-size: 0.85rem; margin-top: 4px; }
+    /* Hero stats are above the fold — keep them visible even before scroll JS runs */
+    .hero-stats .stat-item.animate-on-scroll { opacity: 1; transform: none; }
+
+    /* ─── SECTION GENERIC ─────────────────────── */
+    .section-tag {
+      display: inline-block;
+      background: rgba(118,87,232,0.12);
+      border: 1px solid rgba(118,87,232,0.3);
+      color: var(--purple);
+      padding: 5px 16px;
+      border-radius: 50px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-bottom: 14px;
+    }
+    .section-heading {
+      font-size: clamp(1.9rem, 3.5vw, 2.9rem);
+      font-weight: 800;
+      color: var(--navy);
+      line-height: 1.2;
+      position: relative;
+      display: inline-block;
+      margin-bottom: 16px;
+    }
+    .section-heading::after {
+      content: '';
+      position: absolute;
+      bottom: -8px;
+      left: 0;
+      width: 56px;
+      height: 4px;
+      background: var(--coral);
+      border-radius: 2px;
+    }
+    .section-sub {
+      color: #475569;
+      font-size: 1.05rem;
+      max-width: 560px;
+      margin: 0 auto;
+    }
+
+    /* ─── OUR STORY TIMELINE ─────────────────── */
+    #story { padding: 100px 0; background: #fff; }
+    .timeline { position: relative; padding-left: 52px; }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 24px;
+      top: 0;
+      bottom: 0;
+      width: 3px;
+      background: linear-gradient(to bottom, var(--coral), var(--purple));
+      border-radius: 2px;
+    }
+    .timeline-item { position: relative; margin-bottom: 44px; }
+    .timeline-item:last-child { margin-bottom: 0; }
+    .timeline-dot {
+      position: absolute;
+      left: -42px;
+      top: 4px;
+      width: 32px;
+      height: 32px;
+      background: linear-gradient(135deg, var(--purple), var(--coral));
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 0.8rem;
+      box-shadow: 0 0 0 4px rgba(118,87,232,0.15);
+      z-index: 1;
+    }
+    .timeline-year {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+      color: var(--coral);
+      font-size: 0.85rem;
+      margin-bottom: 4px;
+      letter-spacing: 0.5px;
+    }
+    .timeline-title {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: var(--navy);
+      margin-bottom: 6px;
+    }
+    .timeline-desc { color: #475569; font-size: 0.9rem; line-height: 1.6; }
+    .story-img {
+      width: 100%;
+      height: 580px;
+      object-fit: cover;
+      border-radius: 20px;
+      box-shadow: 0 30px 70px rgba(21,27,53,0.18);
+    }
+    .story-img-wrap { position: relative; }
+    .story-img-badge {
+      position: absolute;
+      bottom: 28px;
+      left: -20px;
+      background: var(--white);
+      border-radius: 16px;
+      padding: 16px 22px;
+      box-shadow: 0 12px 36px rgba(21,27,53,0.14);
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .story-img-badge .badge-icon {
+      width: 44px; height: 44px;
+      background: linear-gradient(135deg, var(--purple), var(--coral));
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      color: #fff; font-size: 1.2rem;
+    }
+    .story-img-badge .badge-num { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 1.3rem; color: var(--navy); }
+    .story-img-badge .badge-label { font-size: 0.78rem; color: #475569; }
+
+    /* ─── MISSION & VALUES ───────────────────── */
+    #values { padding: 100px 0; background: var(--lavender); }
+    .value-card {
+      background: rgba(255,255,255,0.65);
+      border: 1px solid rgba(118,87,232,0.12);
+      border-radius: 20px;
+      padding: 36px 28px;
+      text-align: center;
+      transition: all 0.35s ease;
+      backdrop-filter: blur(8px);
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+    .value-card:hover {
+      background: rgba(255,255,255,0.9);
+      border-color: rgba(118,87,232,0.4);
+      box-shadow: 0 20px 50px rgba(118,87,232,0.14);
+      transform: translateY(-6px);
+    }
+    .value-icon {
+      font-size: 2.4rem;
+      margin-bottom: 16px;
+      display: block;
+      color: var(--purple);
+    }
+    .value-title {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+      font-size: 1.15rem;
+      color: var(--navy);
+      margin-bottom: 10px;
+    }
+    .value-desc { color: #475569; font-size: 0.9rem; line-height: 1.6; }
+
+    /* ─── OUR TEAM ───────────────────────────── */
+    #team { padding: 100px 0; background: #fff; }
+    .team-card {
+      border-radius: 20px;
+      border: 1px solid rgba(118,87,232,0.1);
+      overflow: hidden;
+      transition: all 0.35s ease;
+      text-align: center;
+      background: #fff;
+      height: 100%;
+    }
+    .team-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 24px 60px rgba(118,87,232,0.14);
+      border-color: rgba(118,87,232,0.3);
+    }
+    .team-img-wrap { position: relative; overflow: hidden; height: 280px; }
+    .team-img {
+      width: 100%;
+      height: 280px;
+      object-fit: cover;
+      object-position: center 25%;
+      transition: transform 0.4s ease;
+    }
+    .team-card:hover .team-img { transform: scale(1.06); }
+    .team-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(21,27,53,0.6) 0%, transparent 50%);
+      opacity: 0;
+      transition: opacity 0.35s;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      padding-bottom: 16px;
+      gap: 10px;
+    }
+    .team-card:hover .team-overlay { opacity: 1; }
+    .team-social-btn {
+      width: 36px; height: 36px;
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.4);
+      border-radius: 50%;
+      color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.9rem;
+      text-decoration: none;
+      backdrop-filter: blur(4px);
+      transition: background 0.2s;
+    }
+    .team-social-btn:hover { background: var(--purple); color: #fff; }
+    .team-info { padding: 20px 16px; }
+    .team-name {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+      font-size: 1.05rem;
+      color: var(--navy);
+      margin-bottom: 4px;
+    }
+    .team-role {
+      font-size: 0.83rem;
+      color: var(--purple);
+      font-weight: 500;
+    }
+
+    /* ─── ACHIEVEMENTS ───────────────────────── */
+    #achievements {
+      padding: 100px 0;
+      position: relative;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 12% 15%, rgba(118,87,232,0.22), transparent 45%),
+        radial-gradient(circle at 88% 85%, rgba(255,118,107,0.16), transparent 45%),
+        var(--navy);
+    }
+    #achievements .container { position: relative; z-index: 1; }
+    .ach-stat {
+      position: relative;
+      text-align: center;
+      padding: 36px 20px 32px;
+      background: linear-gradient(160deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02));
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 20px;
+      backdrop-filter: blur(8px);
+      height: 100%;
+      transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+    .ach-stat:hover {
+      transform: translateY(-6px);
+      border-color: rgba(118,87,232,0.55);
+      box-shadow: 0 18px 48px rgba(118,87,232,0.22);
+    }
+    .ach-icon {
+      width: 56px;
+      height: 56px;
+      margin: 0 auto 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 16px;
+      font-size: 1.5rem;
+      color: #fff;
+      background: linear-gradient(135deg, var(--purple), var(--coral));
+      box-shadow: 0 10px 24px rgba(118,87,232,0.35);
+    }
+    .ach-num {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: clamp(2.2rem, 4vw, 3.2rem);
+      font-weight: 800;
+      line-height: 1.1;
+      background: linear-gradient(135deg, #ffffff, #c9c0ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .ach-label { color: rgba(255,255,255,0.68); font-size: .95rem; margin-top: 8px; letter-spacing: .3px; }
+    .award-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      background: linear-gradient(160deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02));
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 14px;
+      padding: 14px 22px;
+      margin: 8px;
+      color: rgba(255,255,255,0.9);
+      font-size: 0.9rem;
+      font-weight: 600;
+      backdrop-filter: blur(6px);
+      transition: transform 0.3s ease, border-color 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+    }
+    .award-badge:hover {
+      transform: translateY(-4px);
+      border-color: rgba(118,87,232,0.55);
+      background: rgba(118,87,232,0.14);
+      box-shadow: 0 12px 30px rgba(118,87,232,0.22);
+    }
+    .award-badge svg { flex-shrink: 0; }
+    .press-logo {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 10px;
+      padding: 14px 24px;
+      margin: 8px;
+      color: rgba(255,255,255,0.5);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+      font-size: 1.05rem;
+      letter-spacing: -0.3px;
+      transition: all 0.3s;
+    }
+    .press-logo:hover {
+      background: rgba(118,87,232,0.12);
+      border-color: rgba(118,87,232,0.4);
+      color: rgba(255,255,255,0.85);
+      transform: translateY(-3px);
+    }
+    .ach-section-heading {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: clamp(1.9rem, 3.5vw, 2.9rem);
+      font-weight: 800;
+      color: var(--white);
+      position: relative;
+      display: inline-block;
+      margin-bottom: 16px;
+    }
+    .ach-section-heading::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 64px;
+      height: 4px;
+      background: linear-gradient(90deg, var(--purple), var(--coral));
+      border-radius: 2px;
+    }
+
+    /* ─── TESTIMONIALS + CTA ─────────────────── */
+    #testimonials { padding: 100px 0; background: #f8f7ff; }
+    .testi-card {
+      background: var(--white);
+      border-radius: 20px;
+      padding: 36px 30px;
+      border: 1px solid rgba(118,87,232,0.1);
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      transition: all 0.35s;
+    }
+    .testi-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 50px rgba(118,87,232,0.12);
+    }
+    .testi-stars { color: #f59e0b; font-size: 1rem; margin-bottom: 16px; letter-spacing: 2px; }
+    .testi-quote {
+      color: #374151;
+      font-size: 0.98rem;
+      line-height: 1.75;
+      font-style: italic;
+      margin-bottom: 24px;
+      flex: 1;
+    }
+    .testi-quote::before { content: '\201C'; color: var(--purple); font-size: 2rem; line-height: 0; vertical-align: -0.5em; margin-right: 2px; }
+    .testi-author { display: flex; align-items: center; gap: 14px; }
+    .testi-avatar { width: 52px; height: 52px; border-radius: 50%; object-fit: cover; border: 2px solid var(--lavender); }
+    .testi-name { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; font-size: 0.95rem; color: var(--navy); }
+    .testi-role { font-size: 0.8rem; color: var(--purple); font-weight: 500; }
+    /* CTA */
+    .cta-band {
+      background: linear-gradient(135deg, var(--navy) 0%, #2a1f5e 50%, var(--navy) 100%);
+      border-radius: 24px;
+      padding: 60px 48px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      margin-top: 60px;
+    }
+    .cta-band::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 30% 50%, rgba(118,87,232,0.2) 0%, transparent 60%),
+                  radial-gradient(circle at 70% 50%, rgba(255,118,107,0.1) 0%, transparent 60%);
+    }
+    .cta-band-title {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: clamp(1.6rem, 3vw, 2.4rem);
+      font-weight: 800;
+      color: var(--white);
+      margin-bottom: 12px;
+      position: relative;
+    }
+    .cta-band-sub { color: rgba(255,255,255,0.65); margin-bottom: 32px; position: relative; }
+    .btn-cta-primary {
+      background: linear-gradient(135deg, var(--purple), var(--coral));
+      color: #fff;
+      border: none;
+      border-radius: 50px;
+      padding: 14px 36px;
+      font-weight: 700;
+      font-size: 1rem;
+      transition: all 0.3s;
+      position: relative;
+    }
+    .btn-cta-primary:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(118,87,232,0.4); color: #fff; }
+    .btn-cta-outline {
+      background: transparent;
+      color: #fff;
+      border: 2px solid rgba(255,255,255,0.4);
+      border-radius: 50px;
+      padding: 13px 36px;
+      font-weight: 700;
+      font-size: 1rem;
+      transition: all 0.3s;
+      position: relative;
+    }
+    .btn-cta-outline:hover { border-color: #fff; background: rgba(255,255,255,0.08); color: #fff; }
+
+    /* ─── FOOTER ─────────────────────────────── */
+    footer {
+      background: var(--navy);
+      border-top: 1px solid rgba(255,255,255,0.06);
+      padding: 60px 0 28px;
+      color: rgba(255,255,255,0.65);
+    }
+    .footer-brand {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 800;
+      font-size: 1.5rem;
+      color: var(--white);
+    }
+    .footer-brand span { color: var(--coral); }
+    .footer-desc { font-size: 0.88rem; line-height: 1.7; margin-top: 10px; max-width: 260px; }
+    .footer-heading {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+      color: var(--white);
+      font-size: 0.95rem;
+      margin-bottom: 16px;
+    }
+    .footer-links { list-style: none; padding: 0; }
+    .footer-links li { margin-bottom: 10px; }
+    .footer-links a { color: rgba(255,255,255,0.6); text-decoration: none; font-size: 0.88rem; transition: color 0.2s; }
+    .footer-links a:hover { color: var(--coral); }
+    .footer-bottom { border-top: 1px solid rgba(255,255,255,0.06); padding-top: 20px; margin-top: 44px; font-size: 0.82rem; }
+    .footer-social a {
+      width: 36px; height: 36px;
+      display: inline-flex; align-items: center; justify-content: center;
+      background: rgba(255,255,255,0.06);
+      border-radius: 50%;
+      color: rgba(255,255,255,0.65);
+      margin-right: 8px;
+      transition: all 0.2s;
+      text-decoration: none;
+    }
+    .footer-social a:hover { background: var(--purple); color: #fff; }
+
+    /* ─── SCROLL ANIMATION ───────────────────── */
+    .animate-on-scroll {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.65s ease, transform 0.65s ease;
+    }
+    .animate-on-scroll.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (max-width: 768px) {
+      .story-img-badge { left: 10px; }
+      .ach-stat { padding: 26px 14px 22px; }
+      .cta-band { padding: 40px 24px; }
+    }
+      /* ─── LIGHT MODE HIGH CONTRAST RULES ─── */
+    [data-theme="light"] body { background: #FFFFFF !important; color: #151B35 !important; }
+    [data-theme="light"] .navbar-eventora { background: rgba(255,255,255,0.95) !important; border-bottom: 1px solid #E2E8F0 !important; }
+    [data-theme="light"] .navbar-eventora .navbar-brand { color: #151B35 !important; }
+    [data-theme="light"] .navbar-eventora .nav-link { color: #151B35 !important; font-weight: 600 !important; }
+    [data-theme="light"] .navbar-eventora .nav-link:hover,
+    [data-theme="light"] .navbar-eventora .nav-link.active { color: #7657E8 !important; }
+    [data-theme="light"] #story { background: #FFFFFF !important; }
+    [data-theme="light"] #values { background: #F8F9FD !important; }
+    [data-theme="light"] #team { background: #FFFFFF !important; }
+    [data-theme="light"] #testimonials { background: #F1EDFF !important; }
+    [data-theme="light"] .value-card, 
+    [data-theme="light"] .team-card, 
+    [data-theme="light"] .testi-card {
+      background: #FFFFFF !important;
+      border: 1px solid #E2E8F0 !important;
+      color: #151B35 !important;
+      box-shadow: 0 4px 20px rgba(21,27,53,0.06) !important;
+    }
+    [data-theme="light"] .section-heading { color: #151B35 !important; }
+    [data-theme="light"] .section-sub, [data-theme="light"] .text-muted { color: #475569 !important; }
+    [data-theme="light"] .value-title, [data-theme="light"] .team-name { color: #151B35 !important; }
+    [data-theme="light"] .value-desc { color: #475569 !important; }
+    [data-theme="light"] .timeline-title { color: #151B35 !important; }
+    [data-theme="light"] .timeline-desc { color: #475569 !important; }
+    [data-theme="light"] .testi-name { color: #151B35 !important; }
+    [data-theme="light"] .testi-quote { color: #334155 !important; }
+    [data-theme="light"] .story-img-badge { background: #FFFFFF !important; border: 1px solid #E2E8F0 !important; }
+    [data-theme="light"] .story-img-badge .badge-num { color: #151B35 !important; }
+    [data-theme="light"] .story-img-badge .badge-label { color: #475569 !important; }
+    /* ─── DUAL MODE HIGH CONTRAST ─── */
+    [data-theme="dark"] #story { background: #0B0F1E !important; }
+    [data-theme="dark"] #values { background: #131933 !important; }
+    [data-theme="dark"] #team { background: #0B0F1E !important; }
+    [data-theme="dark"] #testimonials { background: #131933 !important; }
+    [data-theme="dark"] .value-card, 
+    [data-theme="dark"] .team-card, 
+    [data-theme="dark"] .testi-card {
+      background: #151B35 !important;
+      border-color: rgba(255,255,255,0.14) !important;
+      color: #F8FAFC !important;
+    }
+    [data-theme="dark"] .section-heading { color: #FFFFFF !important; }
+    [data-theme="dark"] .section-sub, [data-theme="dark"] .text-muted { color: #CBD5E1 !important; }
+    [data-theme="dark"] .value-title, [data-theme="dark"] .team-name { color: #FFFFFF !important; }
+    [data-theme="dark"] .value-desc, [data-theme="dark"] .team-role { color: #CBD5E1 !important; }
+    [data-theme="dark"] .timeline-title { color: #FFFFFF !important; }
+    [data-theme="dark"] .timeline-desc { color: #CBD5E1 !important; }
+    [data-theme="dark"] .testi-author-name { color: #FFFFFF !important; }
+    [data-theme="dark"] .testi-author-role { color: #A5B4CF !important; }
+    [data-theme="dark"] .testi-quote { color: #E2E8F0 !important; }
+    [data-theme="dark"] .ach-stat { border-color: rgba(255,255,255,0.12) !important; }
+</style>
+<script src="assets/js/theme.js"></script>
+ 
+<style id="responsive-fixes">
+  /* Tablet: 1024px and below */
+  @media (max-width: 1024px) {
+    html, body { overflow-x: hidden; }
+    img, iframe, video, svg { max-width: 100%; }
+    h1, h2, h3, h4, h5, h6, p, a, li, span { overflow-wrap: break-word; }
+
+    .navbar-eventora .container { gap: .5rem; }
+    .navbar-eventora .navbar-collapse { max-height: calc(100vh - 64px); overflow-y: auto; flex-wrap: wrap; }
+    .navbar-eventora .navbar-collapse > .d-flex { flex-wrap: wrap; gap: .4rem; }
+    .navbar-eventora .nav-link { padding: .5rem .65rem !important; }
+    .navbar-eventora a[href="user-dashboard.html"],
+    .navbar-eventora a[href="admin-dashboard.html"] { display: inline-block; }
+
+    #hero { min-height: auto; padding: 120px 0 80px; }
+    #hero .container { padding-top: 0 !important; }
+    .hero-title { font-size: clamp(2.2rem, 7vw, 3.4rem); }
+    .hero-tagline { max-width: 100%; font-size: 1.05rem; }
+    .hero-stats { margin-top: 36px; }
+
+    #story, #values, #team, #achievements, #testimonials { padding: 80px 0; }
+    .story-img { height: 460px; }
+    #values .row > [class*="col-"] { flex: 0 0 50%; max-width: 50%; }
+    #team .row > [class*="col-"] { flex: 0 0 50%; max-width: 50%; }
+    #testimonials .row.mb-5 > [class*="col-"] { flex: 0 0 50%; max-width: 50%; }
+    .ach-section-heading { font-size: clamp(1.7rem, 4vw, 2.4rem); }
+    .cta-band { padding: 52px 36px; }
+    footer { padding: 56px 0 26px; }
+  }
+
+  /* Small tablet / large phone: 768px and below */
+  @media (max-width: 768px) {
+    .row.g-5 { --bs-gutter-x: 1.5rem; --bs-gutter-y: 1.5rem; }
+    #hero { padding: 100px 0 66px; }
+    .hero-title { font-size: clamp(1.9rem, 8vw, 2.6rem); }
+    .hero-badge { padding: 5px 14px; font-size: .75rem; }
+
+    #story, #values, #team, #achievements, #testimonials { padding: 64px 0; }
+    #values .row > [class*="col-"],
+    #team .row > [class*="col-"],
+    #achievements .row > [class*="col-"],
+    #testimonials .row.mb-5 > [class*="col-"] { flex: 0 0 100%; max-width: 100%; }
+
+    .story-img { height: 360px; border-radius: 16px; }
+    .story-img-badge { left: 12px; right: 12px; bottom: 16px; padding: 12px 16px; }
+    .timeline { padding-left: 44px; }
+    .timeline::before { left: 20px; }
+    .timeline-dot { left: -38px; width: 28px; height: 28px; font-size: .72rem; }
+
+    .value-card, .testi-card { padding: 28px 22px; }
+    .team-img-wrap { height: 240px; }
+    .team-img { height: 240px !important; }
+
+    .ach-stat { padding: 26px 16px; }
+    .award-badge, .press-logo { margin: 5px; padding: 10px 16px; font-size: .85rem; }
+
+    .cta-band { padding: 40px 22px; border-radius: 18px; margin-top: 44px; }
+    .btn-cta-primary, .btn-cta-outline { width: 100%; max-width: 320px; padding: 12px 22px; }
+
+    .navbar-eventora .navbar-nav .nav-link { text-align: center; }
+    .navbar-eventora .navbar-collapse > .d-flex { flex-direction: column; align-items: center !important; gap: 10px; margin-top: 12px; }
+    .navbar-eventora .navbar-collapse > .d-flex > .btn { width: 100%; }
+    .navbar-eventora a[href="user-dashboard.html"],
+    .navbar-eventora a[href="admin-dashboard.html"] { display: inline-block; }
+
+    footer .row > [class*="col-"] { flex: 0 0 100%; max-width: 100%; }
+    footer.footer-home .footer-desc { max-width: none; }
+    .footer-bottom { text-align: center; }
+  }
+
+  /* Phone: 480px and below */
+  @media (max-width: 480px) {
+    #hero { padding: 92px 0 58px; }
+    .hero-title { font-size: clamp(1.7rem, 9vw, 2.2rem); }
+    .hero-tagline { font-size: .95rem; margin-bottom: 22px; }
+    .breadcrumb-wrap .breadcrumb-item a,
+    .breadcrumb-wrap .breadcrumb-item.active { font-size: .8rem; }
+    .hero-stats { margin-top: 28px; }
+    .hero-stats .row { --bs-gutter-x: .9rem; --bs-gutter-y: .9rem; }
+    .stat-item { padding: 14px 8px; border-radius: 12px; }
+    .stat-num { font-size: 1.6rem; }
+    .stat-label { font-size: .72rem; }
+
+    #story, #values, #team, #achievements, #testimonials { padding: 48px 0; }
+    .section-heading, .ach-section-heading { font-size: clamp(1.5rem, 6vw, 1.9rem); }
+    .section-sub { font-size: .92rem; }
+    .section-tag { font-size: .7rem; padding: 4px 12px; }
+
+    .timeline { padding-left: 34px; }
+    .timeline::before { left: 14px; }
+    .timeline-dot { left: -32px; width: 24px; height: 24px; font-size: .62rem; }
+    .timeline-title { font-size: 1rem; }
+    .timeline-desc { font-size: .85rem; }
+    .story-img { height: 280px; }
+    .story-img-badge { padding: 10px 14px; }
+    .story-img-badge .badge-num { font-size: 1.05rem; }
+
+    .value-card { padding: 22px 16px; }
+    .value-icon { font-size: 1.9rem; margin-bottom: 10px; }
+    .value-title { font-size: 1rem; }
+
+    .team-img-wrap, .team-img { height: 220px; }
+    .team-img { height: 220px !important; }
+    .team-info { padding: 16px 12px; }
+
+    .ach-icon { width: 46px; height: 46px; font-size: 1.2rem; }
+    .ach-num { font-size: 1.9rem; }
+    .ach-label { font-size: .85rem; }
+    .award-badge { width: 100%; justify-content: center; margin: 4px 0; }
+    .award-badge svg { width: 18px; height: 18px; }
+    .press-logo { padding: 9px 14px; font-size: .9rem; }
+
+    .testi-card { padding: 22px 18px; }
+    .testi-quote { font-size: .9rem; }
+    .testi-avatar { width: 44px; height: 44px; }
+
+    .cta-band { padding: 34px 18px; }
+    .cta-band-title { font-size: 1.4rem; }
+    .cta-band-sub { font-size: .9rem; }
+
+    footer.footer-home .input-group { flex-wrap: wrap; gap: 8px; }
+    footer.footer-home .input-group .form-control,
+    footer.footer-home .input-group .btn { width: 100%; border-radius: 10px !important; }
+    footer.footer-home .footer-bottom > .d-flex { flex-wrap: wrap; justify-content: center; row-gap: .4rem; }
+  }
+
+  /* Small phone: 360px and below */
+  @media (max-width: 360px) {
+    #hero { padding: 84px 0 52px; }
+    .hero-title { font-size: 1.65rem; }
+    .navbar-eventora .navbar-brand { font-size: 1.12rem; }
+    .navbar-eventora .navbar-brand .brand-mark { width: 26px; height: 26px; }
+    .stat-item { padding: 12px 6px; }
+    .stat-num { font-size: 1.4rem; }
+    .stat-label { font-size: .66rem; }
+    .section-heading, .ach-section-heading { font-size: 1.4rem; }
+    .timeline { padding-left: 30px; }
+    .timeline-dot { left: -28px; width: 22px; height: 22px; }
+    .story-img { height: 240px; }
+    .team-img-wrap, .team-img { height: 200px; }
+    .team-img { height: 200px !important; }
+    .cta-band { padding: 28px 14px; }
+    .btn-cta-primary, .btn-cta-outline { padding: 11px 16px; font-size: .9rem; max-width: 100%; }
+  }
+
+  /* Extra small phone: 320px and below */
+  @media (max-width: 320px) {
+    #hero { padding: 78px 0 46px; }
+    .hero-title { font-size: 1.5rem; }
+    .hero-tagline { font-size: .88rem; }
+    .navbar-eventora .navbar-brand { font-size: 1rem; }
+    .navbar-eventora .navbar-brand .brand-mark { width: 24px; height: 24px; }
+    .stat-num { font-size: 1.25rem; }
+    .section-heading, .ach-section-heading { font-size: 1.28rem; }
+    .story-img { height: 210px; }
+    .team-img-wrap, .team-img { height: 180px; }
+    .team-img { height: 180px !important; }
+    .award-badge, .press-logo { font-size: .78rem; padding: 8px 10px; }
+    .cta-band-title { font-size: 1.2rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ─────────────────────────── NAVBAR ─────────────────────────── -->
+<nav class="navbar navbar-expand-lg navbar-eventora fixed-top py-2">
+  <div class="container">
+    <a class="navbar-brand navbar-brand-logo" href="home.html"><img src="assets/images/logo-mark.svg" alt="" class="brand-mark" width="32" height="32" />Eventora</a>
+    <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+      <span class="navbar-toggler-icon" style="filter:invert(1);"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navMenu">
+      <ul class="navbar-nav mx-auto gap-1">
+        <li class="nav-item"><a class="nav-link" href="home.html">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="home2.html">Home 2</a></li>
+        <li class="nav-item"><a class="nav-link active" href="about.html">About</a></li>
+        <li class="nav-item"><a class="nav-link" href="services.html">Services</a></li>
+        <li class="nav-item"><a class="nav-link" href="blog.html">Blog</a></li>
+        <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+      </ul>
+      <div class="d-flex align-items-center gap-2">
+        <span class="nav-icon-btn" id="themeToggle" title="Toggle Theme"><i class="bi bi-moon-stars"></i></span>
+        <span class="nav-icon-btn" id="rtlToggle" title="RTL Mode" style="font-size:.68rem;font-weight:700;letter-spacing:.5px;">RTL</span>
+        <a href="user-dashboard.html" class="btn-ev-outline btn btn-sm ms-2" style="padding:.4rem 1rem;font-size:.8rem;">User Dashboard</a>
+        <a href="admin-dashboard.html" class="btn-ev-primary btn btn-sm" style="padding:.4rem 1rem;font-size:.8rem;">Admin Dashboard</a>
+        <a href="login.html" class="btn-ev-primary btn btn-sm">Sign In</a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SECTION 1 — PAGE HERO
+═══════════════════════════════════════════════════════════ -->
+<section id="hero">
+  <canvas id="particleCanvas"></canvas>
+
+  <div class="container position-relative" style="z-index:2; padding-top: 100px;">
+    <div class="row justify-content-center text-center">
+      <div class="col-lg-8">
+        <!-- breadcrumb -->
+        <nav aria-label="breadcrumb" class="breadcrumb-wrap mb-4">
+          <ol class="breadcrumb justify-content-center" style="background:transparent">
+            <li class="breadcrumb-item"><a href="home.html"><i class="bi bi-house-fill me-1"></i>Home</a></li>
+            <li class="breadcrumb-item active">About Us</li>
+          </ol>
+        </nav>
+
+        <div class="hero-badge"><i class="bi bi-star-fill"></i> &nbsp;Our Story &amp; Mission</div>
+        <h1 class="hero-title">
+          About <span class="gradient-text">Eventora</span>
+        </h1>
+        <p class="hero-tagline mx-auto">
+          Connecting People to Extraordinary Experiences Since 2019. We're on a mission to make every event unforgettable.
+        </p>
+      </div>
+    </div>
+
+    <!-- stat counters -->
+    <div class="hero-stats">
+      <div class="row g-3 justify-content-center">
+        <div class="col-6 col-md-3">
+          <div class="stat-item animate-on-scroll">
+            <div class="stat-num" data-target="50000" data-suffix="K+">0</div>
+            <div class="stat-label">Events Listed</div>
+          </div>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="stat-item animate-on-scroll">
+            <div class="stat-num" data-target="2000000" data-suffix="M+">0</div>
+            <div class="stat-label">Happy Users</div>
+          </div>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="stat-item animate-on-scroll">
+            <div class="stat-num" data-target="500" data-suffix="+">0</div>
+            <div class="stat-label">Cities Covered</div>
+          </div>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="stat-item animate-on-scroll">
+            <div class="stat-num" data-target="15" data-suffix="+">0</div>
+            <div class="stat-label">Countries</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- scroll cue -->
+  <div class="position-absolute bottom-0 start-50 translate-middle-x mb-4" style="z-index:2">
+    <div style="width:28px;height:48px;border:2px solid rgba(255,255,255,0.3);border-radius:14px;display:flex;justify-content:center;padding-top:6px">
+      <div style="width:4px;height:10px;background:var(--coral);border-radius:2px;animation:scrollDot 1.6s infinite"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SECTION 2 — OUR STORY / TIMELINE
+═══════════════════════════════════════════════════════════ -->
+<section id="story">
+  <div class="container">
+    <div class="row g-5 align-items-center">
+
+      <!-- LEFT: timeline -->
+      <div class="col-lg-5 animate-on-scroll">
+        <div class="section-tag">Our Journey</div>
+        <h2 class="section-heading mb-4">Seven Years of<br>Extraordinary Events</h2>
+        <p class="text-muted mb-5" style="font-size:.95rem;line-height:1.75">From a small startup to a global platform, every step of our journey has been driven by passion for connecting people with the moments that matter most.</p>
+
+        <div class="timeline">
+          <!-- milestones -->
+          <div class="timeline-item">
+            <div class="timeline-dot"><i class="bi bi-rocket-takeoff-fill"></i></div>
+            <div class="timeline-year">2019</div>
+            <div class="timeline-title">Eventora Founded</div>
+            <div class="timeline-desc">Born in a small co-working space with a vision to democratize event ticketing. Launched beta with 50 local events in New York.</div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot"><i class="bi bi-graph-up-arrow"></i></div>
+            <div class="timeline-year">2020</div>
+            <div class="timeline-title">Virtual Events Pivot</div>
+            <div class="timeline-desc">Rapidly adapted to support virtual and hybrid events, onboarding 10,000+ users during the global shift to online experiences.</div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot"><i class="bi bi-trophy-fill"></i></div>
+            <div class="timeline-year">2021</div>
+            <div class="timeline-title">Series A Funding &amp; 100K Users</div>
+            <div class="timeline-desc">Secured $12M in Series A funding and crossed the 100,000 user milestone. Expanded to 50+ cities across North America.</div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot"><i class="bi bi-globe2"></i></div>
+            <div class="timeline-year">2022</div>
+            <div class="timeline-title">Global Expansion</div>
+            <div class="timeline-desc">Launched in Europe and Asia-Pacific markets. Partnered with 500+ event organizers and reached 500K registered users.</div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot"><i class="bi bi-stars"></i></div>
+            <div class="timeline-year">2024</div>
+            <div class="timeline-title">1 Million Tickets Milestone</div>
+            <div class="timeline-desc">Celebrated selling our millionth ticket. Launched the AI-powered event recommendation engine and mobile app v3.0.</div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot"><i class="bi bi-lightning-charge-fill"></i></div>
+            <div class="timeline-year">2026</div>
+            <div class="timeline-title">2M+ Users &amp; 15 Countries</div>
+            <div class="timeline-desc">Today, Eventora powers 50K+ events across 500 cities in 15 countries, with 2 million passionate users and growing every day.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT: photo -->
+      <div class="col-lg-7 animate-on-scroll">
+        <div class="story-img-wrap ps-lg-4">
+          <img
+            src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=1200&q=80"
+            alt="Bustling event venue"
+            class="story-img"
+          />
+          <!-- floating badge -->
+          <div class="story-img-badge">
+            <div class="badge-icon"><i class="bi bi-calendar-event-fill"></i></div>
+            <div>
+              <div class="badge-num">50K+</div>
+              <div class="badge-label">Events this year</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SECTION 3 — MISSION & VALUES
+═══════════════════════════════════════════════════════════ -->
+<section id="values">
+  <div class="container">
+    <div class="text-center mb-5 animate-on-scroll">
+      <div class="section-tag">What We Stand For</div>
+      <h2 class="section-heading" style="display:inline-block">Our Mission &amp; Values</h2>
+      <p class="section-sub mt-4">
+        These six principles guide every decision we make — from the features we build to the partnerships we form.
+      </p>
+    </div>
+
+    <div class="row g-4">
+      <!-- Innovation -->
+      <div class="col-md-4 col-sm-6 animate-on-scroll">
+        <div class="value-card">
+          <span class="value-icon"><i class="bi bi-rocket-takeoff"></i></span>
+          <div class="value-title">Innovation</div>
+          <div class="value-desc">We continuously push boundaries, using cutting-edge technology to reimagine how people discover and experience events.</div>
+        </div>
+      </div>
+      <!-- Trust -->
+      <div class="col-md-4 col-sm-6 animate-on-scroll">
+        <div class="value-card">
+          <span class="value-icon"><i class="bi bi-shield-check"></i></span>
+          <div class="value-title">Trust</div>
+          <div class="value-desc">Secure payments, verified organizers, and transparent policies ensure every transaction is safe and reliable.</div>
+        </div>
+      </div>
+      <!-- Inclusivity -->
+      <div class="col-md-4 col-sm-6 animate-on-scroll">
+        <div class="value-card">
+          <span class="value-icon"><i class="bi bi-globe"></i></span>
+          <div class="value-title">Inclusivity</div>
+          <div class="value-desc">Events are for everyone. We celebrate diversity and work to ensure our platform is accessible to all communities.</div>
+        </div>
+      </div>
+      <!-- Excellence -->
+      <div class="col-md-4 col-sm-6 animate-on-scroll">
+        <div class="value-card">
+          <span class="value-icon"><i class="bi bi-star-fill"></i></span>
+          <div class="value-title">Excellence</div>
+          <div class="value-desc">From user experience to customer support, we hold ourselves to the highest standards in every interaction.</div>
+        </div>
+      </div>
+      <!-- Community -->
+      <div class="col-md-4 col-sm-6 animate-on-scroll">
+        <div class="value-card">
+          <span class="value-icon"><i class="bi bi-people-fill"></i></span>
+          <div class="value-title">Community</div>
+          <div class="value-desc">We're more than a platform — we're a community of event lovers, organizers, and creators building something bigger together.</div>
+        </div>
+      </div>
+      <!-- Impact -->
+      <div class="col-md-4 col-sm-6 animate-on-scroll">
+        <div class="value-card">
+          <span class="value-icon"><i class="bi bi-lightbulb"></i></span>
+          <div class="value-title">Impact</div>
+          <div class="value-desc">Every event creates ripples — economic, cultural, and social. We amplify those ripples to build a better world.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SECTION 4 — OUR TEAM
+═══════════════════════════════════════════════════════════ -->
+<section id="team">
+  <div class="container">
+    <div class="text-center mb-5 animate-on-scroll">
+      <div class="section-tag">The People Behind Eventora</div>
+      <h2 class="section-heading" style="display:inline-block">Meet the Team</h2>
+      <p class="section-sub mt-4">Our diverse team of event enthusiasts, engineers, and designers is united by one goal — making every event unforgettable.</p>
+    </div>
+
+    <div class="row g-4">
+      <!-- Member 1 -->
+      <div class="col-lg-3 col-md-4 col-6 animate-on-scroll">
+        <div class="team-card">
+          <div class="team-img-wrap">
+            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&h=600&fit=crop&crop=faces&q=80" alt="James Harlow" class="team-img" style="width:100%;height:280px;object-fit:cover;" />
+            <div class="team-overlay">
+              <a href="#" class="team-social-btn"><i class="bi bi-linkedin"></i></a>
+              <a href="#" class="team-social-btn"><i class="bi bi-twitter-x"></i></a>
+            </div>
+          </div>
+          <div class="team-info">
+            <div class="team-name">James Harlow</div>
+            <div class="team-role">Co-Founder &amp; CEO</div>
+          </div>
+        </div>
+      </div>
+      <!-- Member 2 -->
+      <div class="col-lg-3 col-md-4 col-6 animate-on-scroll">
+        <div class="team-card">
+          <div class="team-img-wrap">
+            <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=600&h=600&fit=crop&crop=faces&q=80" alt="Sophia Chen" class="team-img" style="width:100%;height:280px;object-fit:cover;" />
+            <div class="team-overlay">
+              <a href="#" class="team-social-btn"><i class="bi bi-linkedin"></i></a>
+              <a href="#" class="team-social-btn"><i class="bi bi-twitter-x"></i></a>
+            </div>
+          </div>
+          <div class="team-info">
+            <div class="team-name">Sophia Chen</div>
+            <div class="team-role">Co-Founder &amp; CTO</div>
+          </div>
+        </div>
+      </div>
+      <!-- Member 3 -->
+      <div class="col-lg-3 col-md-4 col-6 animate-on-scroll">
+        <div class="team-card">
+          <div class="team-img-wrap">
+            <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=600&h=600&fit=crop&crop=faces&q=80" alt="Marcus Reed" class="team-img" style="width:100%;height:280px;object-fit:cover;" />
+            <div class="team-overlay">
+              <a href="#" class="team-social-btn"><i class="bi bi-linkedin"></i></a>
+              <a href="#" class="team-social-btn"><i class="bi bi-twitter-x"></i></a>
+            </div>
+          </div>
+          <div class="team-info">
+            <div class="team-name">Marcus Reed</div>
+            <div class="team-role">Head of Product</div>
+          </div>
+        </div>
+      </div>
+      <!-- Member 4 -->
+      <div class="col-lg-3 col-md-4 col-6 animate-on-scroll">
+        <div class="team-card">
+          <div class="team-img-wrap">
+            <img src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=600&h=600&fit=crop&crop=faces&q=80" alt="Aisha Patel" class="team-img" style="width:100%;height:280px;object-fit:cover;" />
+            <div class="team-overlay">
+              <a href="#" class="team-social-btn"><i class="bi bi-linkedin"></i></a>
+              <a href="#" class="team-social-btn"><i class="bi bi-twitter-x"></i></a>
+            </div>
+          </div>
+          <div class="team-info">
+            <div class="team-name">Aisha Patel</div>
+            <div class="team-role">VP of Marketing</div>
+          </div>
+        </div>
+      </div>
+      <!-- Member 5 -->
+      <div class="col-lg-3 col-md-4 col-6 animate-on-scroll">
+        <div class="team-card">
+          <div class="team-img-wrap">
+            <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=600&h=600&fit=crop&crop=faces&q=80" alt="Luca Moretti" class="team-img" style="width:100%;height:280px;object-fit:cover;" />
+            <div class="team-overlay">
+              <a href="#" class="team-social-btn"><i class="bi bi-linkedin"></i></a>
+              <a href="#" class="team-social-btn"><i class="bi bi-twitter-x"></i></a>
+            </div>
+          </div>
+          <div class="team-info">
+            <div class="team-name">Luca Moretti</div>
+            <div class="team-role">Lead Engineer</div>
+          </div>
+        </div>
+      </div>
+      <!-- Member 6 -->
+      <div class="col-lg-3 col-md-4 col-6 animate-on-scroll">
+        <div class="team-card">
+          <div class="team-img-wrap">
+            <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=600&h=600&fit=crop&crop=faces&q=80" alt="Nadia Kim" class="team-img" style="width:100%;height:280px;object-fit:cover;" />
+            <div class="team-overlay">
+              <a href="#" class="team-social-btn"><i class="bi bi-linkedin"></i></a>
+              <a href="#" class="team-social-btn"><i class="bi bi-twitter-x"></i></a>
+            </div>
+          </div>
+          <div class="team-info">
+            <div class="team-name">Nadia Kim</div>
+            <div class="team-role">UX Design Lead</div>
+          </div>
+        </div>
+      </div>
+      <!-- Member 7 -->
+      <div class="col-lg-3 col-md-4 col-6 animate-on-scroll">
+        <div class="team-card">
+          <div class="team-img-wrap">
+            <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=600&h=600&fit=crop&crop=faces&q=80" alt="Dylan Foster" class="team-img" style="width:100%;height:280px;object-fit:cover;" />
+            <div class="team-overlay">
+              <a href="#" class="team-social-btn"><i class="bi bi-linkedin"></i></a>
+              <a href="#" class="team-social-btn"><i class="bi bi-twitter-x"></i></a>
+            </div>
+          </div>
+          <div class="team-info">
+            <div class="team-name">Dylan Foster</div>
+            <div class="team-role">Head of Partnerships</div>
+          </div>
+        </div>
+      </div>
+      <!-- Member 8 -->
+      <div class="col-lg-3 col-md-4 col-6 animate-on-scroll">
+        <div class="team-card">
+          <div class="team-img-wrap">
+            <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=600&h=600&fit=crop&crop=faces&q=80" alt="Priya Sharma" class="team-img" style="width:100%;height:280px;object-fit:cover;" />
+            <div class="team-overlay">
+              <a href="#" class="team-social-btn"><i class="bi bi-linkedin"></i></a>
+              <a href="#" class="team-social-btn"><i class="bi bi-twitter-x"></i></a>
+            </div>
+          </div>
+          <div class="team-info">
+            <div class="team-name">Priya Sharma</div>
+            <div class="team-role">Customer Success</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SECTION 5 — ACHIEVEMENTS & AWARDS
+═══════════════════════════════════════════════════════════ -->
+<section id="achievements">
+  <div class="container">
+    <div class="text-center mb-5 animate-on-scroll">
+      <div class="section-tag" style="background:rgba(118,87,232,0.2);border-color:rgba(118,87,232,0.4);color:#c4b5fd">
+        Recognition &amp; Milestones
+      </div>
+      <h2 class="ach-section-heading mx-auto">Achievements &amp; Awards</h2>
+      <p class="mt-4" style="color:rgba(255,255,255,0.6);max-width:520px;margin:0 auto">
+        Our growth is a testament to the trust our users and partners place in us every day.
+      </p>
+    </div>
+
+    <!-- Big stat blocks -->
+    <div class="row g-4 mb-5 animate-on-scroll">
+      <div class="col-md-4">
+        <div class="ach-stat">
+          <div class="ach-icon"><i class="bi bi-calendar2-event-fill"></i></div>
+          <div class="ach-num count-up" data-target="50000" data-display="50K+">50K+</div>
+          <div class="ach-label">Events Hosted</div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="ach-stat">
+          <div class="ach-icon"><i class="bi bi-ticket-perforated-fill"></i></div>
+          <div class="ach-num count-up" data-target="2000000" data-display="2M+">2M+</div>
+          <div class="ach-label">Tickets Sold</div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="ach-stat">
+          <div class="ach-icon"><i class="bi bi-geo-alt-fill"></i></div>
+          <div class="ach-num count-up" data-target="500" data-display="500+">500+</div>
+          <div class="ach-label">Cities Reached</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Award badges -->
+    <div class="text-center mb-5 animate-on-scroll">
+      <h5 class="text-white mb-4" style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:700"><i class="bi bi-trophy-fill me-2" style="color:#f59e0b"></i>Awards &amp; Recognition</h5>
+      <div class="d-flex flex-wrap justify-content-center">
+        <div class="award-badge">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          Best Event Platform 2024
+        </div>
+        <div class="award-badge">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#818cf8" stroke-width="2"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg>
+          Startup of the Year 2022
+        </div>
+        <div class="award-badge">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          Most Trusted Platform 2023
+        </div>
+        <div class="award-badge">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#f472b6" stroke-width="2"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg>
+          Fastest Growing SaaS 2023
+        </div>
+      </div>
+    </div>
+
+    <!-- Press strip -->
+    <div class="text-center animate-on-scroll">
+      <p class="mb-4" style="color:rgba(255,255,255,0.45);font-size:.85rem;text-transform:uppercase;letter-spacing:1.5px">Featured In</p>
+      <div class="d-flex flex-wrap justify-content-center align-items-center">
+        <span class="press-logo">TechCrunch</span>
+        <span class="press-logo">Forbes</span>
+        <span class="press-logo">Wired</span>
+        <span class="press-logo">Fast Company</span>
+        <span class="press-logo">The Verge</span>
+        <span class="press-logo">Bloomberg</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SECTION 6 — TESTIMONIALS + CTA
+═══════════════════════════════════════════════════════════ -->
+<section id="testimonials">
+  <div class="container">
+    <div class="text-center mb-5 animate-on-scroll">
+      <div class="section-tag">What People Say</div>
+      <h2 class="section-heading" style="display:inline-block">Voices from Our Community</h2>
+      <p class="section-sub mt-4">Real stories from event organizers and attendees who made unforgettable memories with Eventora.</p>
+    </div>
+
+    <div class="row g-4 mb-5">
+      <!-- Testimonial 1 -->
+      <div class="col-md-4 animate-on-scroll">
+        <div class="testi-card">
+          <div class="testi-stars"><span class="text-warning"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i></span></div>
+          <p class="testi-quote">Eventora transformed how we manage our annual tech conference. The registration flow is seamless and the analytics dashboard gives us insights we never had before. Absolutely essential for any organizer.</p>
+          <div class="testi-author">
+            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&q=80" alt="David Kim" class="testi-avatar" />
+            <div>
+              <div class="testi-name">David Kim</div>
+              <div class="testi-role">Event Organizer, TechSummit</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Testimonial 2 -->
+      <div class="col-md-4 animate-on-scroll">
+        <div class="testi-card">
+          <div class="testi-stars"><span class="text-warning"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i></span></div>
+          <p class="testi-quote">I've booked over 30 events through Eventora in the past two years. The discovery algorithm is brilliant — it always finds events I didn't even know I wanted to attend. Best event app I've ever used.</p>
+          <div class="testi-author">
+            <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&q=80" alt="Emma Williams" class="testi-avatar" />
+            <div>
+              <div class="testi-name">Emma Williams</div>
+              <div class="testi-role">Regular Attendee</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Testimonial 3 -->
+      <div class="col-md-4 animate-on-scroll">
+        <div class="testi-card">
+          <div class="testi-stars"><span class="text-warning"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i></span></div>
+          <p class="testi-quote">Partnering with Eventora was a game-changer for our music festival. We sold out 5,000 tickets in under 48 hours. The promotion tools and customer support team are simply outstanding.</p>
+          <div class="testi-author">
+            <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&q=80" alt="Carlos Rivera" class="testi-avatar" />
+            <div>
+              <div class="testi-name">Carlos Rivera</div>
+              <div class="testi-role">Festival Director, SoundWave</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CTA BAND -->
+    <div class="cta-band animate-on-scroll">
+      <h2 class="cta-band-title">Ready to Experience Something Extraordinary?</h2>
+      <p class="cta-band-sub">Join over 2 million people who discover, book, and create unforgettable events with Eventora.</p>
+      <div class="d-flex flex-wrap justify-content-center gap-2 align-items-center">
+        <a href="home.html" class="btn btn-cta-primary">
+          <i class="bi bi-ticket-perforated-fill me-2"></i>Start Booking
+        </a>
+        <a href="contact.html" class="btn btn-cta-outline">
+          <i class="bi bi-handshake me-2"></i>Partner With Us
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────────────────── FOOTER ─────────────────────────── -->
+<footer class="footer-home">
+  <div class="container">
+    <div class="row g-5 mb-4">
+      <div class="col-lg-4">
+        <div class="footer-logo mb-3">Eventora</div>
+        <p class="footer-desc mb-4">Your premier destination for discovering, booking, and creating unforgettable event experiences worldwide.</p>
+        <div class="d-flex gap-2">
+          <a href="#" class="social-btn"><i class="bi bi-facebook"></i></a>
+          <a href="#" class="social-btn"><i class="bi bi-twitter-x"></i></a>
+          <a href="#" class="social-btn"><i class="bi bi-instagram"></i></a>
+          <a href="#" class="social-btn"><i class="bi bi-linkedin"></i></a>
+          <a href="#" class="social-btn"><i class="bi bi-youtube"></i></a>
+        </div>
+      </div>
+      <div class="col-6 col-lg-2">
+        <div class="footer-heading">Quick Links</div>
+        <ul class="footer-links">
+          <li><a href="home.html">Home</a></li>
+          <li><a href="home2.html">Home 2</a></li>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="services.html">Services</a></li>
+          <li><a href="blog.html">Blog</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div class="col-6 col-lg-2">
+        <div class="footer-heading">Categories</div>
+        <ul class="footer-links">
+          <li><a href="#">Music Events</a></li>
+          <li><a href="#">Sports Events</a></li>
+          <li><a href="#">Tech Conferences</a></li>
+          <li><a href="#">Cultural Shows</a></li>
+          <li><a href="#">Food Festivals</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-4">
+        <div class="footer-heading">Newsletter</div>
+        <p style="color:#8a94b8;font-size:.9rem;margin-bottom:1rem;">Get the latest events delivered to your inbox every week.</p>
+        <div class="input-group mb-3">
+          <input type="email" class="form-control newsletter-input" placeholder="Enter your email" />
+          <button class="btn-ev-primary btn">Subscribe</button>
+        </div>
+        <p style="color:#6b7591;font-size:.8rem;"><i class="bi bi-geo-alt me-1"></i>123 Event Avenue, New York, NY 10001</p>
+        <p style="color:#6b7591;font-size:.8rem;"><i class="bi bi-envelope me-1"></i>hello@eventora.com</p>
+        <p style="color:#6b7591;font-size:.8rem;"><i class="bi bi-telephone me-1"></i>+1 (800) 123-4567</p>
+      </div>
+    </div>
+    <div class="footer-bottom d-flex flex-column flex-md-row justify-content-between align-items-center">
+      <span>© 2025 Eventora. All rights reserved.</span>
+      <div class="d-flex gap-3 mt-2 mt-md-0">
+        <a href="#" style="color:#6b7591;text-decoration:none;font-size:.85rem;">Privacy Policy</a>
+        <a href="#" style="color:#6b7591;text-decoration:none;font-size:.85rem;">Terms of Service</a>
+        <a href="#" style="color:#6b7591;text-decoration:none;font-size:.85rem;">Cookie Policy</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+/* ── PARTICLE CANVAS ─────────────────────────── */
+(function () {
+  const canvas = document.getElementById('particleCanvas');
+  const ctx = canvas.getContext('2d');
+  let particles = [];
+  const NUM = 80;
+
+  function resize() {
+    canvas.width = canvas.offsetWidth;
+    canvas.height = canvas.offsetHeight;
+  }
+  window.addEventListener('resize', resize);
+  resize();
+
+  function Particle() {
+    this.x = Math.random() * canvas.width;
+    this.y = Math.random() * canvas.height;
+    this.r = Math.random() * 2 + 0.5;
+    this.vx = (Math.random() - 0.5) * 0.4;
+    this.vy = (Math.random() - 0.5) * 0.4;
+    this.alpha = Math.random() * 0.5 + 0.15;
+  }
+
+  for (let i = 0; i < NUM; i++) particles.push(new Particle());
+
+  function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    particles.forEach(p => {
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(118,87,232,${p.alpha})`;
+      ctx.fill();
+      p.x += p.vx;
+      p.y += p.vy;
+      if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
+      if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+    });
+
+    // connecting lines
+    for (let i = 0; i < particles.length; i++) {
+      for (let j = i + 1; j < particles.length; j++) {
+        const dx = particles[i].x - particles[j].x;
+        const dy = particles[i].y - particles[j].y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < 110) {
+          ctx.beginPath();
+          ctx.moveTo(particles[i].x, particles[i].y);
+          ctx.lineTo(particles[j].x, particles[j].y);
+          ctx.strokeStyle = `rgba(118,87,232,${0.12 * (1 - dist / 110)})`;
+          ctx.lineWidth = 0.6;
+          ctx.stroke();
+        }
+      }
+    }
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+/* ── SCROLL ANIMATION ────────────────────────── */
+const animEls = document.querySelectorAll('.animate-on-scroll');
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      obs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.12 });
+animEls.forEach(el => obs.observe(el));
+
+/* ── COUNT-UP ────────────────────────────────── */
+function animateCount(el) {
+  const target = parseInt(el.dataset.target, 10);
+  const display = el.dataset.display;
+  const duration = 1800;
+  const start = performance.now();
+
+  function step(now) {
+    const elapsed = now - start;
+    const progress = Math.min(elapsed / duration, 1);
+    const ease = 1 - Math.pow(1 - progress, 3);
+    const value = Math.round(ease * target);
+
+    if (target >= 1000000) {
+      const m = value / 1000000;
+      el.textContent = (m % 1 === 0 ? m.toFixed(0) : m.toFixed(1)) + 'M+';
+    } else if (target >= 1000) {
+      el.textContent = Math.round(value / 1000) + 'K+';
+    } else {
+      el.textContent = value + (el.dataset.suffix || '+');
+    }
+
+    if (progress < 1) {
+      requestAnimationFrame(step);
+    } else if (display) {
+      el.textContent = display;
+    }
+  }
+  requestAnimationFrame(step);
+}
+
+const countObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      animateCount(e.target);
+      countObs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.5 });
+
+document.querySelectorAll('[data-target]').forEach(el => countObs.observe(el));
+
+/* ── SCROLL DOT ANIMATION ─── */
+const style = document.createElement('style');
+style.textContent = `
+  @keyframes scrollDot {
+    0%   { transform: translateY(0); opacity: 1; }
+    80%  { transform: translateY(16px); opacity: 0; }
+    100% { transform: translateY(0); opacity: 0; }
+  }
+  @keyframes scrollDotReset {
+    100% { opacity: 1; }
+  }
+`;
+document.head.appendChild(style);
+</script>
+</body>
+</html>

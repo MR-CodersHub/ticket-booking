@@ -1,0 +1,771 @@
+﻿<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Eventora — Page Navigator</title>
+  <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg" />
+
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            navy:     '#151B35',
+            'navy-dark': '#0d1124',
+            'navy-light': '#1E2647',
+            purple:   '#7657E8',
+            'purple-light': '#9478EF',
+            coral:    '#FF766B',
+            lavender: '#F1EDFF',
+          },
+          fontFamily: {
+            heading: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
+            body:    ['Inter', 'system-ui', 'sans-serif'],
+          },
+          backgroundImage: {
+            'gradient-brand': 'linear-gradient(135deg, #7657E8 0%, #FF766B 100%)',
+            'gradient-hero':  'linear-gradient(135deg, #151B35 0%, #2a1f5e 50%, #151B35 100%)',
+          },
+          boxShadow: {
+            'purple': '0 8px 30px rgba(118,87,232,0.35)',
+            'card':   '0 10px 40px rgba(21,27,53,0.12)',
+          },
+          animation: {
+            'fade-up':    'fadeUp 0.5s ease both',
+            'float':      'float 5s ease-in-out infinite',
+            'pulse-glow': 'pulseGlow 2s ease infinite',
+          },
+          keyframes: {
+            fadeUp: {
+              from: { opacity: '0', transform: 'translateY(20px)' },
+              to:   { opacity: '1', transform: 'translateY(0)' },
+            },
+            float: {
+              '0%,100%': { transform: 'translateY(0)' },
+              '50%':     { transform: 'translateY(-10px)' },
+            },
+            pulseGlow: {
+              '0%,100%': { boxShadow: '0 0 0 0 rgba(118,87,232,0.4)' },
+              '50%':     { boxShadow: '0 0 0 12px rgba(118,87,232,0)' },
+            },
+          },
+        },
+      },
+    };
+  </script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ── Custom scrollbar ── */
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: #F1EDFF; }
+    ::-webkit-scrollbar-thumb { background: linear-gradient(#7657E8,#FF766B); border-radius: 99px; }
+
+    /* ── Gradient text ── */
+    .g-text {
+      background: linear-gradient(135deg, #7657E8, #FF766B);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* ── Dark gradient text ── */
+    .dark .g-text {
+      background: linear-gradient(135deg, #9478EF, #FF9690);
+      -webkit-background-clip: text;
+      background-clip: text;
+    }
+
+    /* ── Page card ── */
+    .page-card {
+      transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1),
+                  box-shadow 0.3s ease,
+                  border-color 0.25s ease;
+    }
+    .page-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 50px rgba(118,87,232,0.22);
+      border-color: rgba(118,87,232,0.4);
+    }
+
+    /* ── Stagger animation ── */
+    .page-card:nth-child(1)  { animation-delay: 0.05s; }
+    .page-card:nth-child(2)  { animation-delay: 0.10s; }
+    .page-card:nth-child(3)  { animation-delay: 0.15s; }
+    .page-card:nth-child(4)  { animation-delay: 0.20s; }
+    .page-card:nth-child(5)  { animation-delay: 0.25s; }
+    .page-card:nth-child(6)  { animation-delay: 0.30s; }
+    .page-card:nth-child(7)  { animation-delay: 0.35s; }
+    .page-card:nth-child(8)  { animation-delay: 0.40s; }
+    .page-card:nth-child(9)  { animation-delay: 0.45s; }
+    .page-card:nth-child(10) { animation-delay: 0.50s; }
+    .page-card:nth-child(11) { animation-delay: 0.55s; }
+    .page-card:nth-child(12) { animation-delay: 0.60s; }
+    .page-card:nth-child(13) { animation-delay: 0.65s; }
+
+    /* ── Particle dots ── */
+    .particle {
+      position: absolute;
+      border-radius: 50%;
+      animation: float 6s ease-in-out infinite;
+      pointer-events: none;
+    }
+
+    /* ── Noise texture ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: -1;
+      opacity: 0.4;
+    }
+
+    @keyframes float {
+      0%,100% { transform: translateY(0) rotate(0deg); }
+      33%      { transform: translateY(-14px) rotate(5deg); }
+      66%      { transform: translateY(-7px) rotate(-3deg); }
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .animate-fade-up { animation: fadeUp 0.6s ease both; }
+
+    /* ── Glow ring ── */
+    .glow-ring {
+      position: absolute;
+      inset: -2px;
+      border-radius: inherit;
+      background: linear-gradient(135deg, #7657E8, #FF766B);
+      z-index: -1;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .page-card:hover .glow-ring { opacity: 1; }
+
+    /* ── Dark mode card ── */
+    .dark .page-card {
+      background: rgba(30,38,71,0.8);
+      border-color: rgba(118,87,232,0.15);
+    }
+    .dark .page-card:hover {
+      border-color: rgba(118,87,232,0.5);
+      box-shadow: 0 20px 50px rgba(118,87,232,0.3);
+    }
+
+    /* ── Badge category colours in dark mode ── */
+    .dark .badge-public { background: rgba(118,87,232,0.2); color: #9478EF; }
+    /* ── Dark & Light mode cards ── */
+    [data-theme="dark"] .page-card,
+    .dark .page-card {
+      background: #151B35 !important;
+      border-color: rgba(255,255,255,0.14) !important;
+      color: #F8FAFC !important;
+    }
+    [data-theme="light"] .page-card {
+      background: #FFFFFF !important;
+      border-color: #E2E8F0 !important;
+      color: #151B35 !important;
+    }
+    </style>
+<script src="assets/js/theme.js"></script>
+
+  <style id="responsive-fixes">
+    /* ── Responsive fixes (additive only) ── */
+    html, body { overflow-x: hidden; }
+    img, iframe, video, svg { max-width: 100%; }
+    main .page-card { min-width: 0; }
+    main .page-card .font-mono { overflow-wrap: anywhere; }
+
+    /* ───────── 1024px ───────── */
+    @media (max-width: 1024px) {
+      main .grid.grid-cols-1 { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.1rem; }
+      header .max-w-7xl { padding-left: 1.25rem; padding-right: 1.25rem; }
+      main section.pt-20 { padding-top: 4rem; }
+      main section.pb-24 { padding-bottom: 5rem; }
+      .page-card .p-6 { padding: 1.4rem; }
+    }
+
+    /* ───────── 768px ───────── */
+    @media (max-width: 768px) {
+      header .max-w-7xl { padding-left: 1rem; padding-right: 1rem; padding-top: .85rem; padding-bottom: .85rem; gap: .75rem; }
+      main section.pt-20 { padding-top: 3rem; padding-left: 1rem; padding-right: 1rem; }
+      main section.pb-24 { padding-left: 1rem; padding-right: 1rem; padding-bottom: 4rem; }
+      main section h1.font-heading { font-size: 3rem; line-height: 1.1; }
+      main section .gap-8 { gap: 1.25rem; }
+      main .grid.grid-cols-1 { gap: 1rem; }
+      .page-card .p-6 { padding: 1.25rem; }
+      main .mt-16 { margin-top: 2.5rem; }
+    }
+
+    /* ───────── 480px ───────── */
+    @media (max-width: 480px) {
+      main .grid.grid-cols-1 { grid-template-columns: minmax(0, 1fr); gap: .9rem; }
+      header .max-w-7xl { padding-left: .9rem; padding-right: .9rem; gap: .5rem; }
+      main section.pt-20 { padding-top: 2.4rem; }
+      main section h1.font-heading { font-size: 2.25rem; }
+      main section p.max-w-2xl { font-size: 1rem; line-height: 1.6; }
+      main section .gap-8 { gap: .9rem; }
+      main section .w-px.h-10 { display: none; }
+      .page-card .p-6 { padding: 1.1rem; }
+      main section .inline-flex { max-width: 100%; }
+      main section .inline-flex.flex-col { width: 100%; padding: 1.25rem; }
+      main section .inline-flex.flex-col .text-left { text-align: center; }
+      .page-card .w-12.h-12 { width: 2.5rem; height: 2.5rem; margin-bottom: .75rem; }
+      footer .max-w-7xl { padding-left: .9rem; padding-right: .9rem; }
+    }
+
+    /* ───────── 360px ───────── */
+    @media (max-width: 360px) {
+      header .max-w-7xl { gap: .4rem; padding-left: .75rem; padding-right: .75rem; }
+      header span.font-heading { font-size: 1.05rem; }
+      header .w-9.h-9 { width: 2rem; height: 2rem; }
+      main section h1.font-heading { font-size: 1.95rem; }
+      main section .gap-8 { gap: .7rem; }
+      main section .gap-8 .text-3xl { font-size: 1.5rem; }
+      main .grid.grid-cols-1 { gap: .75rem; }
+      .page-card .p-6 { padding: 1rem; }
+      main section .inline-flex.flex-col { padding: 1rem; }
+      main section .inline-flex.flex-col > a { flex-shrink: 1; }
+      footer .max-w-7xl { padding-left: .75rem; padding-right: .75rem; }
+      footer .flex.items-center.gap-4 { flex-wrap: wrap; justify-content: center; gap: .5rem; }
+    }
+
+    /* ───────── 320px ───────── */
+    @media (max-width: 320px) {
+      header span.font-heading { font-size: .98rem; }
+      main section h1.font-heading { font-size: 1.75rem; }
+      main section .gap-8 { gap: .55rem; }
+      .page-card .p-6 { padding: .85rem; }
+      .page-card .text-lg { font-size: 1.02rem; }
+      main section .inline-flex.flex-col { padding: .85rem; }
+      footer .max-w-7xl { padding-left: .65rem; padding-right: .65rem; }
+    }
+  </style>
+</head>
+
+<body class="font-body bg-lavender dark:bg-navy-dark min-h-screen transition-colors duration-500">
+
+  <!-- ── Floating Particles ───────────────────────────────── -->
+  <div aria-hidden="true" class="fixed inset-0 overflow-hidden pointer-events-none z-0">
+    <div class="particle w-72 h-72 bg-purple/10 dark:bg-purple/5 blur-3xl -top-24 -left-24" style="animation-duration:7s"></div>
+    <div class="particle w-96 h-96 bg-coral/10 dark:bg-coral/5 blur-3xl -bottom-32 -right-32" style="animation-duration:9s;animation-delay:2s"></div>
+    <div class="particle w-48 h-48 bg-purple/8 blur-2xl top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" style="animation-duration:11s;animation-delay:4s"></div>
+    <!-- Dot grid -->
+    <svg class="absolute inset-0 w-full h-full opacity-5 dark:opacity-10" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <pattern id="dots" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
+          <circle cx="2" cy="2" r="1.5" fill="#7657E8"/>
+        </pattern>
+      </defs>
+      <rect width="100%" height="100%" fill="url(#dots)"/>
+    </svg>
+  </div>
+
+  <!-- ── Navbar ─────────────────────────────────────────────── -->
+  <header class="sticky top-0 z-50 backdrop-blur-xl bg-white/70 dark:bg-navy/80 border-b border-purple/10 transition-all duration-300">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between gap-4">
+      <!-- Logo -->
+      <div class="flex items-center gap-3">
+        <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-purple to-coral flex items-center justify-center shadow-purple animate-pulse-glow flex-shrink-0">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M20 4H4C2.9 4 2 4.9 2 6V18C2 19.1 2.9 20 4 20H20C21.1 20 22 19.1 22 18V6C22 4.9 21.1 4 20 4Z" stroke="white" stroke-width="2" stroke-linecap="round"/>
+            <path d="M8 2V6M16 2V6M2 10H22" stroke="white" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <span class="font-heading font-800 text-xl text-navy dark:text-white tracking-tight">
+          Evento<span class="g-text">ra</span>
+        </span>
+      </div>
+
+      <!-- Center label -->
+      <span class="hidden sm:inline-flex items-center gap-2 text-xs font-heading font-semibold uppercase tracking-widest text-purple/70 bg-purple/8 dark:bg-purple/10 px-4 py-1.5 rounded-full border border-purple/15">
+        <span class="w-1.5 h-1.5 rounded-full bg-purple animate-ping inline-block"></span>
+        Dev Navigator
+      </span>
+
+      <!-- Dark toggle -->
+      <button id="themeToggle" aria-label="Toggle dark mode"
+        class="w-10 h-10 rounded-xl bg-white dark:bg-navy-light border border-purple/15 dark:border-purple/25 flex items-center justify-center text-navy dark:text-lavender shadow-sm hover:shadow-purple transition-all duration-200 hover:scale-105 flex-shrink-0">
+        <!-- Sun icon -->
+        <svg id="iconSun" class="hidden dark:block w-5 h-5 text-yellow-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <circle cx="12" cy="12" r="5"/><path d="M12 2v2M12 20v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M2 12h2M20 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+        </svg>
+        <!-- Moon icon -->
+        <svg id="iconMoon" class="block dark:hidden w-5 h-5 text-purple" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <main class="relative z-10">
+
+    <!-- ── Hero ──────────────────────────────────────────────── -->
+    <section class="pt-20 pb-16 px-6 text-center">
+      <div class="max-w-4xl mx-auto">
+
+        <!-- Label -->
+        <div class="inline-flex items-center gap-2 bg-white dark:bg-navy-light border border-purple/20 rounded-full px-4 py-1.5 mb-6 shadow-sm animate-fade-up">
+          <span class="w-2 h-2 rounded-full bg-gradient-to-r from-purple to-coral"></span>
+          <span class="text-xs font-heading font-700 uppercase tracking-widest text-purple dark:text-purple-light">Platform Overview — 13 Pages</span>
+        </div>
+
+        <!-- Heading -->
+        <h1 class="font-heading font-800 text-5xl sm:text-6xl lg:text-7xl text-navy dark:text-white leading-tight mb-6 animate-fade-up" style="animation-delay:0.1s">
+          Eventora
+          <span class="block g-text">Page Navigator</span>
+        </h1>
+
+        <!-- Tagline -->
+        <p class="text-gray-500 dark:text-gray-400 text-lg sm:text-xl max-w-2xl mx-auto leading-relaxed animate-fade-up" style="animation-delay:0.2s">
+          Your all-in-one event ticketing &amp; management platform. Browse every page below — click any card to open it.
+        </p>
+
+        <!-- Stats row -->
+        <div class="flex flex-wrap items-center justify-center gap-8 mt-10 animate-fade-up" style="animation-delay:0.3s">
+          <div class="text-center">
+            <div class="font-heading font-800 text-3xl g-text">13</div>
+            <div class="text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase font-bold tracking-wider mt-1">Pages</div>
+          </div>
+          <div class="w-px h-10 bg-purple/15"></div>
+          <div class="text-center">
+            <div class="font-heading font-800 text-3xl g-text">2</div>
+            <div class="text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase font-bold tracking-wider mt-1">Dashboards</div>
+          </div>
+          <div class="w-px h-10 bg-purple/15"></div>
+          <div class="text-center">
+            <div class="font-heading font-800 text-3xl g-text">2</div>
+            <div class="text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase font-bold tracking-wider mt-1">Home Variants</div>
+          </div>
+          <div class="w-px h-10 bg-purple/15"></div>
+          <div class="text-center">
+            <div class="font-heading font-800 text-3xl g-text">∞</div>
+            <div class="text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase font-bold tracking-wider mt-1">Possibilities</div>
+          </div>
+        </div>
+
+        <!-- Gradient divider -->
+        <div class="mt-12 h-px bg-gradient-to-r from-transparent via-purple/30 to-transparent"></div>
+      </div>
+    </section>
+
+    <!-- ── Page Cards Grid ───────────────────────────────────── -->
+    <section class="pb-24 px-6">
+      <div class="max-w-7xl mx-auto">
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+
+          <!-- ── CARD: Home 1 ── -->
+          <a href="home.html"
+            class="page-card animate-fade-up group relative bg-white dark:bg-navy-light border border-purple/10 rounded-2xl overflow-hidden flex flex-col cursor-pointer no-underline"
+            aria-label="Home 1 – General Events">
+            <div class="glow-ring rounded-2xl"></div>
+            <div class="h-2 w-full bg-gradient-to-r from-purple to-coral"></div>
+            <div class="p-6 flex flex-col flex-1">
+              <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-purple/15 to-coral/10 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
+                <svg class="w-6 h-6 text-purple" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
+                </svg>
+              </div>
+              <div class="mb-auto">
+                <span class="inline-block text-xs font-heading font-700 uppercase tracking-wider text-purple bg-purple/10 px-2.5 py-0.5 rounded-full mb-3">Home</span>
+                <h3 class="font-heading font-700 text-lg text-navy dark:text-white leading-snug mb-2 group-hover:text-purple dark:group-hover:text-purple-light transition-colors">Home 1</h3>
+                <p class="text-sm text-gray-700 dark:text-gray-300">General Events landing page with hero, featured events, and categories.</p>
+              </div>
+              <div class="flex items-center justify-between mt-5 pt-4 border-t border-purple/8 dark:border-purple/15">
+                <span class="text-xs text-purple-700 dark:text-purple-300 font-mono font-semibold">home.html</span>
+                <span class="flex items-center gap-1 text-xs font-semibold text-purple group-hover:gap-2 transition-all">
+                  Open
+                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </span>
+              </div>
+            </div>
+          </a>
+
+          <!-- ── CARD: Home 2 ── -->
+          <a href="home2.html"
+            class="page-card animate-fade-up group relative bg-white dark:bg-navy-light border border-purple/10 rounded-2xl overflow-hidden flex flex-col cursor-pointer no-underline">
+            <div class="glow-ring rounded-2xl"></div>
+            <div class="h-2 w-full bg-gradient-to-r from-coral to-purple"></div>
+            <div class="p-6 flex flex-col flex-1">
+              <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-coral/15 to-purple/10 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
+                <svg class="w-6 h-6 text-coral" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/>
+                </svg>
+              </div>
+              <div class="mb-auto">
+                <span class="inline-block text-xs font-heading font-700 uppercase tracking-wider text-coral bg-coral/10 px-2.5 py-0.5 rounded-full mb-3">Home</span>
+                <h3 class="font-heading font-700 text-lg text-navy dark:text-white leading-snug mb-2 group-hover:text-coral transition-colors">Home 2</h3>
+                <p class="text-sm text-gray-700 dark:text-gray-300">Niche Events variant — focused categories and curated picks.</p>
+              </div>
+              <div class="flex items-center justify-between mt-5 pt-4 border-t border-purple/8 dark:border-purple/15">
+                <span class="text-xs text-purple-700 dark:text-purple-300 font-mono font-semibold">home2.html</span>
+                <span class="flex items-center gap-1 text-xs font-semibold text-coral group-hover:gap-2 transition-all">
+                  Open
+                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </span>
+              </div>
+            </div>
+          </a>
+
+          <!-- ── CARD: About ── -->
+          <a href="about.html"
+            class="page-card animate-fade-up group relative bg-white dark:bg-navy-light border border-purple/10 rounded-2xl overflow-hidden flex flex-col cursor-pointer no-underline">
+            <div class="glow-ring rounded-2xl"></div>
+            <div class="h-2 w-full bg-gradient-to-r from-purple to-purple-light"></div>
+            <div class="p-6 flex flex-col flex-1">
+              <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-purple/15 to-lavender/50 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
+                <svg class="w-6 h-6 text-purple" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/>
+                </svg>
+              </div>
+              <div class="mb-auto">
+                <span class="inline-block text-xs font-heading font-700 uppercase tracking-wider text-purple bg-purple/10 px-2.5 py-0.5 rounded-full mb-3">Company</span>
+                <h3 class="font-heading font-700 text-lg text-navy dark:text-white leading-snug mb-2 group-hover:text-purple dark:group-hover:text-purple-light transition-colors">About Us</h3>
+                <p class="text-sm text-gray-700 dark:text-gray-300">Our story, mission, team, and values behind Eventora.</p>
+              </div>
+              <div class="flex items-center justify-between mt-5 pt-4 border-t border-purple/8 dark:border-purple/15">
+                <span class="text-xs text-purple-700 dark:text-purple-300 font-mono font-semibold">about.html</span>
+                <span class="flex items-center gap-1 text-xs font-semibold text-purple group-hover:gap-2 transition-all">
+                  Open <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </span>
+              </div>
+            </div>
+          </a>
+
+          <!-- ── CARD: Services ── -->
+          <a href="services.html"
+            class="page-card animate-fade-up group relative bg-white dark:bg-navy-light border border-purple/10 rounded-2xl overflow-hidden flex flex-col cursor-pointer no-underline">
+            <div class="glow-ring rounded-2xl"></div>
+            <div class="h-2 w-full bg-gradient-to-r from-blue-500 to-purple"></div>
+            <div class="p-6 flex flex-col flex-1">
+              <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500/15 to-purple/10 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
+                <svg class="w-6 h-6 text-blue-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/>
+                </svg>
+              </div>
+              <div class="mb-auto">
+                <span class="inline-block text-xs font-heading font-700 uppercase tracking-wider text-blue-500 bg-blue-500/10 px-2.5 py-0.5 rounded-full mb-3">Services</span>
+                <h3 class="font-heading font-700 text-lg text-navy dark:text-white leading-snug mb-2 group-hover:text-blue-500 transition-colors">Services</h3>
+                <p class="text-sm text-gray-700 dark:text-gray-300">Everything Eventora offers — ticketing, management, analytics & more.</p>
+              </div>
+              <div class="flex items-center justify-between mt-5 pt-4 border-t border-purple/8 dark:border-purple/15">
+                <span class="text-xs text-purple-700 dark:text-purple-300 font-mono font-semibold">services.html</span>
+                <span class="flex items-center gap-1 text-xs font-semibold text-blue-500 group-hover:gap-2 transition-all">
+                  Open <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </span>
+              </div>
+            </div>
+          </a>
+
+          <!-- ── CARD: Service Details ── -->
+          <a href="service-details.html"
+            class="page-card animate-fade-up group relative bg-white dark:bg-navy-light border border-purple/10 rounded-2xl overflow-hidden flex flex-col cursor-pointer no-underline">
+            <div class="glow-ring rounded-2xl"></div>
+            <div class="h-2 w-full bg-gradient-to-r from-teal-500 to-blue-500"></div>
+            <div class="p-6 flex flex-col flex-1">
+              <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-teal-500/15 to-blue-500/10 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
+                <svg class="w-6 h-6 text-teal-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35M11 8v3h3"/>
+                </svg>
+              </div>
+              <div class="mb-auto">
+                <span class="inline-block text-xs font-heading font-700 uppercase tracking-wider text-teal-500 bg-teal-500/10 px-2.5 py-0.5 rounded-full mb-3">Services</span>
+                <h3 class="font-heading font-700 text-lg text-navy dark:text-white leading-snug mb-2 group-hover:text-teal-500 transition-colors">Service Details</h3>
+                <p class="text-sm text-gray-700 dark:text-gray-300">Deep-dive into a single service feature with pricing and FAQs.</p>
+              </div>
+              <div class="flex items-center justify-between mt-5 pt-4 border-t border-purple/8 dark:border-purple/15">
+                <span class="text-xs text-purple-700 dark:text-purple-300 font-mono font-semibold">service-details.html</span>
+                <span class="flex items-center gap-1 text-xs font-semibold text-teal-500 group-hover:gap-2 transition-all">
+                  Open <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </span>
+              </div>
+            </div>
+          </a>
+
+          <!-- ── CARD: Blog ── -->
+          <a href="blog.html"
+            class="page-card animate-fade-up group relative bg-white dark:bg-navy-light border border-purple/10 rounded-2xl overflow-hidden flex flex-col cursor-pointer no-underline">
+            <div class="glow-ring rounded-2xl"></div>
+            <div class="h-2 w-full bg-gradient-to-r from-orange-400 to-coral"></div>
+            <div class="p-6 flex flex-col flex-1">
+              <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-orange-400/15 to-coral/10 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
+                <svg class="w-6 h-6 text-orange-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/>
+                </svg>
+              </div>
+              <div class="mb-auto">
+                <span class="inline-block text-xs font-heading font-700 uppercase tracking-wider text-orange-400 bg-orange-400/10 px-2.5 py-0.5 rounded-full mb-3">Blog</span>
+                <h3 class="font-heading font-700 text-lg text-navy dark:text-white leading-snug mb-2 group-hover:text-orange-400 transition-colors">Blog</h3>
+                <p class="text-sm text-gray-700 dark:text-gray-300">Articles, event trends, tips, and event-industry insights.</p>
+              </div>
+              <div class="flex items-center justify-between mt-5 pt-4 border-t border-purple/8 dark:border-purple/15">
+                <span class="text-xs text-purple-700 dark:text-purple-300 font-mono font-semibold">blog.html</span>
+                <span class="flex items-center gap-1 text-xs font-semibold text-orange-400 group-hover:gap-2 transition-all">
+                  Open <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </span>
+              </div>
+            </div>
+          </a>
+
+          <!-- ── CARD: Blog Details ── -->
+          <a href="blog-details.html"
+            class="page-card animate-fade-up group relative bg-white dark:bg-navy-light border border-purple/10 rounded-2xl overflow-hidden flex flex-col cursor-pointer no-underline">
+            <div class="glow-ring rounded-2xl"></div>
+            <div class="h-2 w-full bg-gradient-to-r from-coral to-orange-400"></div>
+            <div class="p-6 flex flex-col flex-1">
+              <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-coral/15 to-orange-400/10 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
+                <svg class="w-6 h-6 text-coral" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
+                </svg>
+              </div>
+              <div class="mb-auto">
+                <span class="inline-block text-xs font-heading font-700 uppercase tracking-wider text-coral bg-coral/10 px-2.5 py-0.5 rounded-full mb-3">Blog</span>
+                <h3 class="font-heading font-700 text-lg text-navy dark:text-white leading-snug mb-2 group-hover:text-coral transition-colors">Blog Details</h3>
+                <p class="text-sm text-gray-700 dark:text-gray-300">Full single article view with comments, related posts, and sharing.</p>
+              </div>
+              <div class="flex items-center justify-between mt-5 pt-4 border-t border-purple/8 dark:border-purple/15">
+                <span class="text-xs text-purple-700 dark:text-purple-300 font-mono font-semibold">blog-details.html</span>
+                <span class="flex items-center gap-1 text-xs font-semibold text-coral group-hover:gap-2 transition-all">
+                  Open <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </span>
+              </div>
+            </div>
+          </a>
+
+          <!-- ── CARD: Contact ── -->
+          <a href="contact.html"
+            class="page-card animate-fade-up group relative bg-white dark:bg-navy-light border border-purple/10 rounded-2xl overflow-hidden flex flex-col cursor-pointer no-underline">
+            <div class="glow-ring rounded-2xl"></div>
+            <div class="h-2 w-full bg-gradient-to-r from-green-400 to-teal-400"></div>
+            <div class="p-6 flex flex-col flex-1">
+              <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-green-400/15 to-teal-400/10 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
+                <svg class="w-6 h-6 text-green-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.8 19.79 19.79 0 01.0 1.17 2 2 0 012 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 15z"/>
+                </svg>
+              </div>
+              <div class="mb-auto">
+                <span class="inline-block text-xs font-heading font-700 uppercase tracking-wider text-green-500 bg-green-500/10 px-2.5 py-0.5 rounded-full mb-3">Contact</span>
+                <h3 class="font-heading font-700 text-lg text-navy dark:text-white leading-snug mb-2 group-hover:text-green-500 transition-colors">Contact Us</h3>
+                <p class="text-sm text-gray-700 dark:text-gray-300">Get in touch via form, email, phone, or find us on the map.</p>
+              </div>
+              <div class="flex items-center justify-between mt-5 pt-4 border-t border-purple/8 dark:border-purple/15">
+                <span class="text-xs text-purple-700 dark:text-purple-300 font-mono font-semibold">contact.html</span>
+                <span class="flex items-center gap-1 text-xs font-semibold text-green-500 group-hover:gap-2 transition-all">
+                  Open <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </span>
+              </div>
+            </div>
+          </a>
+
+          <!-- ── CARD: User Dashboard ── -->
+          <a href="user-dashboard.html"
+            class="page-card animate-fade-up group relative bg-white dark:bg-navy-light border border-purple/10 rounded-2xl overflow-hidden flex flex-col cursor-pointer no-underline">
+            <div class="glow-ring rounded-2xl"></div>
+            <div class="h-2 w-full bg-gradient-to-r from-purple to-blue-400"></div>
+            <div class="p-6 flex flex-col flex-1">
+              <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-purple/15 to-blue-400/10 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
+                <svg class="w-6 h-6 text-purple" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/>
+                </svg>
+              </div>
+              <div class="mb-auto">
+                <span class="inline-block text-xs font-heading font-700 uppercase tracking-wider text-purple bg-purple/10 px-2.5 py-0.5 rounded-full mb-3">Dashboard</span>
+                <h3 class="font-heading font-700 text-lg text-navy dark:text-white leading-snug mb-2 group-hover:text-purple dark:group-hover:text-purple-light transition-colors">User Dashboard</h3>
+                <p class="text-sm text-gray-700 dark:text-gray-300">My tickets, bookings, wishlist, and account settings.</p>
+              </div>
+              <div class="flex items-center justify-between mt-5 pt-4 border-t border-purple/8 dark:border-purple/15">
+                <span class="text-xs text-purple-700 dark:text-purple-300 font-mono font-semibold">user-dashboard.html</span>
+                <span class="flex items-center gap-1 text-xs font-semibold text-purple group-hover:gap-2 transition-all">
+                  Open <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </span>
+              </div>
+            </div>
+          </a>
+
+          <!-- ── CARD: Admin Dashboard ── -->
+          <a href="admin-dashboard.html"
+            class="page-card animate-fade-up group relative bg-white dark:bg-navy-light border border-purple/10 rounded-2xl overflow-hidden flex flex-col cursor-pointer no-underline">
+            <div class="glow-ring rounded-2xl"></div>
+            <div class="h-2 w-full bg-gradient-to-r from-navy to-purple"></div>
+            <div class="p-6 flex flex-col flex-1">
+              <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-navy/10 to-purple/15 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
+                <svg class="w-6 h-6 text-navy dark:text-purple" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>
+                </svg>
+              </div>
+              <div class="mb-auto">
+                <span class="inline-block text-xs font-heading font-700 uppercase tracking-wider text-navy dark:text-purple bg-navy/10 dark:bg-purple/10 px-2.5 py-0.5 rounded-full mb-3">Dashboard</span>
+                <h3 class="font-heading font-700 text-lg text-navy dark:text-white leading-snug mb-2 group-hover:text-purple dark:group-hover:text-purple-light transition-colors">Admin Dashboard</h3>
+                <p class="text-sm text-gray-700 dark:text-gray-300">Analytics, event management, users, and revenue overview.</p>
+              </div>
+              <div class="flex items-center justify-between mt-5 pt-4 border-t border-purple/8 dark:border-purple/15">
+                <span class="text-xs text-purple-700 dark:text-purple-300 font-mono font-semibold">admin-dashboard.html</span>
+                <span class="flex items-center gap-1 text-xs font-semibold text-purple group-hover:gap-2 transition-all">
+                  Open <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </span>
+              </div>
+            </div>
+          </a>
+
+          <!-- ── CARD: Login / Register ── -->
+          <a href="login.html"
+            class="page-card animate-fade-up group relative bg-white dark:bg-navy-light border border-purple/10 rounded-2xl overflow-hidden flex flex-col cursor-pointer no-underline">
+            <div class="glow-ring rounded-2xl"></div>
+            <div class="h-2 w-full bg-gradient-to-r from-purple to-coral"></div>
+            <div class="p-6 flex flex-col flex-1">
+              <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-purple/15 to-coral/10 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
+                <svg class="w-6 h-6 text-purple" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path d="M15 3h4a2 2 0 012 2v14a2 2 0 01-2 2h-4M10 17l5-5-5-5M15 12H3"/>
+                </svg>
+              </div>
+              <div class="mb-auto">
+                <span class="inline-block text-xs font-heading font-700 uppercase tracking-wider text-purple bg-purple/10 px-2.5 py-0.5 rounded-full mb-3">Auth</span>
+                <h3 class="font-heading font-700 text-lg text-navy dark:text-white leading-snug mb-2 group-hover:text-purple dark:group-hover:text-purple-light transition-colors">Login / Register</h3>
+                <p class="text-sm text-gray-700 dark:text-gray-300">Sign in, create account, forgot password, and social auth.</p>
+              </div>
+              <div class="flex items-center justify-between mt-5 pt-4 border-t border-purple/8 dark:border-purple/15">
+                <span class="text-xs text-purple-700 dark:text-purple-300 font-mono font-semibold">login.html</span>
+                <span class="flex items-center gap-1 text-xs font-semibold text-purple group-hover:gap-2 transition-all">
+                  Open <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </span>
+              </div>
+            </div>
+          </a>
+
+          <!-- ── CARD: 404 ── -->
+          <a href="404.html"
+            class="page-card animate-fade-up group relative bg-white dark:bg-navy-light border border-purple/10 rounded-2xl overflow-hidden flex flex-col cursor-pointer no-underline">
+            <div class="glow-ring rounded-2xl"></div>
+            <div class="h-2 w-full bg-gradient-to-r from-coral to-red-400"></div>
+            <div class="p-6 flex flex-col flex-1">
+              <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-coral/15 to-red-400/10 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
+                <svg class="w-6 h-6 text-coral" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+                </svg>
+              </div>
+              <div class="mb-auto">
+                <span class="inline-block text-xs font-heading font-700 uppercase tracking-wider text-coral bg-coral/10 px-2.5 py-0.5 rounded-full mb-3">Error</span>
+                <h3 class="font-heading font-700 text-lg text-navy dark:text-white leading-snug mb-2 group-hover:text-coral transition-colors">404 Error</h3>
+                <p class="text-sm text-gray-700 dark:text-gray-300">Page not found — with friendly illustration and navigation.</p>
+              </div>
+              <div class="flex items-center justify-between mt-5 pt-4 border-t border-purple/8 dark:border-purple/15">
+                <span class="text-xs text-purple-700 dark:text-purple-300 font-mono font-semibold">404.html</span>
+                <span class="flex items-center gap-1 text-xs font-semibold text-coral group-hover:gap-2 transition-all">
+                  Open <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </span>
+              </div>
+            </div>
+          </a>
+
+          <!-- ── CARD: Coming Soon ── -->
+          <a href="coming-soon.html"
+            class="page-card animate-fade-up group relative bg-white dark:bg-navy-light border border-purple/10 rounded-2xl overflow-hidden flex flex-col cursor-pointer no-underline">
+            <div class="glow-ring rounded-2xl"></div>
+            <div class="h-2 w-full bg-gradient-to-r from-purple via-coral to-purple animate-[shimmer_2s_linear_infinite] bg-[length:200%_100%]"></div>
+            <div class="p-6 flex flex-col flex-1">
+              <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-purple/20 to-coral/15 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300 relative">
+                <svg class="w-6 h-6 text-purple" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                </svg>
+                <span class="absolute -top-1 -right-1 w-3 h-3 bg-coral rounded-full border-2 border-white dark:border-navy-light animate-ping"></span>
+              </div>
+              <div class="mb-auto">
+                <span class="inline-flex items-center gap-1 text-xs font-heading font-700 uppercase tracking-wider text-purple bg-gradient-to-r from-purple/10 to-coral/10 px-2.5 py-0.5 rounded-full mb-3 border border-purple/10">
+                  <span class="w-1.5 h-1.5 rounded-full bg-coral inline-block"></span>
+                  Special
+                </span>
+                <h3 class="font-heading font-700 text-lg text-navy dark:text-white leading-snug mb-2 group-hover:text-purple dark:group-hover:text-purple-light transition-colors">Coming Soon</h3>
+                <p class="text-sm text-gray-700 dark:text-gray-300">Countdown timer, newsletter sign-up for upcoming launch.</p>
+              </div>
+              <div class="flex items-center justify-between mt-5 pt-4 border-t border-purple/8 dark:border-purple/15">
+                <span class="text-xs text-purple-700 dark:text-purple-300 font-mono font-semibold">coming-soon.html</span>
+                <span class="flex items-center gap-1 text-xs font-semibold text-purple group-hover:gap-2 transition-all">
+                  Open <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </span>
+              </div>
+            </div>
+          </a>
+
+        </div><!-- /grid -->
+
+        <!-- ── Bottom CTA ── -->
+        <div class="mt-16 text-center animate-fade-up" style="animation-delay:0.7s">
+          <div class="inline-flex flex-col sm:flex-row items-center gap-4 bg-white dark:bg-navy-light border border-purple/15 rounded-2xl px-8 py-6 shadow-card">
+            <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-purple to-coral flex items-center justify-center flex-shrink-0">
+              <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+              </svg>
+            </div>
+            <div class="text-left">
+              <p class="font-heading font-700 text-navy dark:text-white text-lg leading-tight">Ready to build?</p>
+              <p class="text-sm text-gray-600 dark:text-gray-400 mt-0.5">Open any page above and start customizing with the shared style.css</p>
+            </div>
+            <a href="home.html"
+              class="inline-flex items-center gap-2 bg-gradient-to-r from-purple to-coral text-white font-heading font-600 text-sm px-5 py-2.5 rounded-full hover:shadow-purple hover:-translate-y-0.5 transition-all duration-200 flex-shrink-0">
+              Start Here
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ── Footer ── -->
+  <footer class="border-t border-purple/10 bg-white/50 dark:bg-navy/50 backdrop-blur-sm">
+    <div class="max-w-7xl mx-auto px-6 py-6 flex flex-col sm:flex-row items-center justify-between gap-3">
+      <div class="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
+        <span class="font-heading font-700 g-text">Eventora</span>
+        <span>·</span>
+        <span>Shared Assets — style.css &amp; index-nav.html</span>
+      </div>
+      <div class="flex items-center gap-4 text-xs text-gray-600 dark:text-gray-400">
+        <span>13 pages</span>
+        <span class="w-1 h-1 rounded-full bg-gray-300"></span>
+        <span>Tailwind CDN</span>
+        <span class="w-1 h-1 rounded-full bg-gray-300"></span>
+        <span>Plus Jakarta Sans + Inter</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ── Dark Mode Script ── -->
+  <script>
+    const toggle = document.getElementById('themeToggle');
+    const html   = document.documentElement;
+
+    // Persist preference
+    const saved = localStorage.getItem('eventora-theme');
+    if (saved === 'dark' || (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      html.classList.add('dark');
+    }
+
+    toggle.addEventListener('click', () => {
+      html.classList.toggle('dark');
+      localStorage.setItem('eventora-theme', html.classList.contains('dark') ? 'dark' : 'light');
+    });
+
+    // Navbar scroll effect
+    const header = document.querySelector('header');
+    window.addEventListener('scroll', () => {
+      header.classList.toggle('shadow-lg', window.scrollY > 20);
+    }, { passive: true });
+  </script>
+</body>
+</html>

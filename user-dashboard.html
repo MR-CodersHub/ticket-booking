@@ -1,0 +1,1984 @@
+﻿<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>User Dashboard – Eventora</title>
+  <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg" />
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
+  <!-- Shared CSS -->
+  <link rel="stylesheet" href="assets/css/style.css" />
+
+  <style>
+    :root {
+      --navy: #151B35;
+      --purple: #7657E8;
+      --coral: #FF766B;
+      --lavender: #F1EDFF;
+      --white: #FFFFFF;
+      --sidebar-w: 270px;
+      --sidebar-collapsed: 72px;
+      --navbar-h: 64px;
+      --font-head: 'Plus Jakarta Sans', sans-serif;
+      --font-body: 'Inter', sans-serif;
+      --bg: #F8F7FF;
+      --card-bg: #FFFFFF;
+      --text: #151B35;
+      --text-muted: #475569;
+      --border: #e5e7eb;
+      --input-bg: #f9fafb;
+    }
+    [data-theme="dark"] {
+      --bg: #0d1120;
+      --card-bg: #1a2240;
+      --text: #f1f5f9;
+      --text-muted: #CBD5E1;
+      --border: #2d3a5c;
+      --input-bg: #111827;
+      --navy: #0d1120;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--bg);
+      color: var(--text);
+      transition: background .3s, color .3s;
+      overflow-x: hidden;
+    }
+
+    h1,h2,h3,h4,h5,h6 { font-family: var(--font-head); }
+
+    /* ===== SCROLLBAR ===== */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--purple); border-radius: 3px; }
+
+    /* ===== TOP NAVBAR ===== */
+    .top-navbar {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1050;
+      height: var(--navbar-h);
+      background: rgba(21,27,53,0.92);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(118,87,232,0.2);
+      display: flex; align-items: center; padding: 0 1.25rem;
+      gap: 1rem;
+    }
+    .top-navbar .brand {
+      font-family: var(--font-head); font-weight: 800; font-size: 1.35rem;
+      background: linear-gradient(90deg, #7657E8, #FF766B);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      text-decoration: none; white-space: nowrap;
+    }
+    .top-navbar .nav-icon-btn {
+      background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 10px; color: #fff; width: 40px; height: 40px;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; font-size: 1.1rem; transition: all .2s; position: relative;
+    }
+    .top-navbar .nav-icon-btn:hover { background: rgba(118,87,232,0.3); border-color: var(--purple); }
+    .top-navbar .badge-dot {
+      position: absolute; top: 6px; right: 6px;
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--coral); border: 1.5px solid #151B35;
+    }
+    .top-navbar .search-btn {
+      background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 24px; color: rgba(255,255,255,0.6); padding: 0 1rem;
+      height: 40px; display: flex; align-items: center; gap: .5rem;
+      font-size: .85rem; cursor: pointer; transition: all .2s;
+    }
+    .top-navbar .search-btn:hover { background: rgba(118,87,232,0.2); color: #fff; border-color: var(--purple); }
+    .top-navbar .user-avatar-btn {
+      width: 36px; height: 36px; border-radius: 50%;
+      border: 2px solid var(--purple); overflow: hidden; cursor: pointer;
+    }
+    .top-navbar .user-avatar-btn img { width: 100%; height: 100%; object-fit: cover; }
+
+    /* ===== SIDEBAR ===== */
+    .sidebar {
+      position: fixed; top: var(--navbar-h); left: 0; bottom: 0;
+      width: var(--sidebar-w);
+      background: var(--navy);
+      border-right: 1px solid rgba(118,87,232,0.18);
+      display: flex; flex-direction: column;
+      transition: width .3s cubic-bezier(.4,0,.2,1), transform .3s;
+      z-index: 1040; overflow: hidden;
+    }
+    [data-theme="dark"] .sidebar { background: #0a0f1e; }
+    .sidebar.collapsed { width: var(--sidebar-collapsed); }
+    .sidebar-inner { overflow-y: auto; overflow-x: hidden; flex: 1; }
+
+    /* Sidebar user card */
+    .sidebar-user {
+      padding: 1.5rem 1.25rem 1rem;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+      transition: padding .3s;
+    }
+    .sidebar.collapsed .sidebar-user { padding: .75rem .5rem; align-items: center; display: flex; flex-direction: column; }
+    .sidebar-avatar {
+      width: 56px; height: 56px; border-radius: 50%;
+      border: 3px solid var(--purple); overflow: hidden;
+      flex-shrink: 0;
+    }
+    .sidebar-avatar img { width: 100%; height: 100%; object-fit: cover; }
+    .sidebar-user-info { margin-top: .75rem; transition: opacity .3s; }
+    .sidebar.collapsed .sidebar-user-info { opacity: 0; height: 0; overflow: hidden; margin: 0; }
+    .sidebar-user-info .name {
+      font-family: var(--font-head); font-weight: 700; font-size: .95rem;
+      color: #fff; white-space: nowrap;
+    }
+    .sidebar-user-info .email { font-size: .75rem; color: #CBD5E1; white-space: nowrap; }
+    .verified-badge {
+      display: inline-flex; align-items: center; gap: .2rem;
+      font-size: .68rem; color: #4ade80; margin-top: .25rem;
+    }
+
+    /* Sidebar nav */
+    .sidebar-nav { padding: .75rem 0; }
+    .sidebar-nav-item {
+      display: flex; align-items: center; gap: .85rem;
+      padding: .65rem 1.25rem; color: rgba(255,255,255,0.6);
+      cursor: pointer; border: none; background: none; width: 100%;
+      text-align: left; border-radius: 0;
+      font-family: var(--font-body); font-size: .875rem;
+      transition: all .2s; white-space: nowrap; position: relative;
+      text-decoration: none;
+    }
+    .sidebar.collapsed .sidebar-nav-item { justify-content: center; padding: .65rem; }
+    .sidebar.collapsed .sidebar-nav-item span { display: none; }
+    .sidebar-nav-item:hover, .sidebar-nav-item.active {
+      color: #fff; background: rgba(118,87,232,0.2);
+    }
+    .sidebar-nav-item.active { border-left: 3px solid var(--purple); }
+    .sidebar.collapsed .sidebar-nav-item.active { border-left: none; border-right: 3px solid var(--purple); }
+    .sidebar-nav-item .nav-icon { font-size: 1.1rem; flex-shrink: 0; }
+    .sidebar-nav-item .badge {
+      margin-left: auto; background: var(--coral); color: #fff;
+      font-size: .65rem; padding: .15rem .4rem; border-radius: 10px;
+    }
+    .sidebar.collapsed .sidebar-nav-item .badge { position: absolute; top: 6px; right: 6px; padding: .1rem .3rem; font-size: .6rem; }
+    .sidebar-section-label {
+      padding: .5rem 1.25rem; font-size: .65rem; text-transform: uppercase;
+      letter-spacing: .08em; color: #94A3B8; font-weight: 700; white-space: nowrap;
+    }
+    .sidebar.collapsed .sidebar-section-label { text-align: center; padding: .5rem 0; font-size: .55rem; }
+    .sidebar-logout {
+      padding: 1rem 1.25rem;
+      border-top: 1px solid rgba(255,255,255,0.07);
+    }
+    .sidebar.collapsed .sidebar-logout { padding: .75rem .5rem; }
+    .btn-logout {
+      display: flex; align-items: center; gap: .75rem;
+      width: 100%; padding: .6rem 1rem; border-radius: 10px;
+      background: rgba(255,118,107,0.12); border: 1px solid rgba(255,118,107,0.3);
+      color: var(--coral); font-size: .875rem; cursor: pointer;
+      transition: all .2s; white-space: nowrap; text-decoration: none;
+    }
+    .sidebar.collapsed .btn-logout { justify-content: center; padding: .6rem; }
+    .sidebar.collapsed .btn-logout span { display: none; }
+    .btn-logout:hover { background: rgba(255,118,107,0.25); color: var(--coral); }
+
+    /* ===== MAIN CONTENT ===== */
+    .main-wrapper {
+      margin-left: var(--sidebar-w);
+      margin-top: var(--navbar-h);
+      transition: margin-left .3s;
+      min-height: calc(100vh - var(--navbar-h));
+      padding: 2rem 1.75rem;
+    }
+    .sidebar.collapsed ~ .main-wrapper { margin-left: var(--sidebar-collapsed); }
+
+    /* ===== PANEL STYLES ===== */
+    .panel-section {
+      margin-bottom: 3rem;
+    }
+    .panel-title {
+      font-family: var(--font-head); font-size: 1.4rem; font-weight: 700;
+      color: var(--text); margin-bottom: .35rem;
+    }
+    .panel-subtitle { color: var(--text-muted); font-size: .875rem; margin-bottom: 1.5rem; }
+    .panel-divider {
+      width: 48px; height: 4px; border-radius: 2px;
+      background: linear-gradient(90deg, var(--purple), var(--coral));
+      margin-bottom: 1.5rem;
+    }
+
+    /* ===== KPI CARDS ===== */
+    .kpi-card {
+      background: var(--card-bg); border-radius: 16px;
+      padding: 1.4rem 1.5rem; border: 1px solid var(--border);
+      transition: transform .2s, box-shadow .2s;
+      position: relative; overflow: hidden;
+    }
+    .kpi-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, var(--purple), var(--coral));
+    }
+    .kpi-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(118,87,232,0.15); }
+    .kpi-icon {
+      width: 48px; height: 48px; border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem; margin-bottom: 1rem;
+    }
+    .kpi-value { font-family: var(--font-head); font-size: 2rem; font-weight: 800; color: var(--text); }
+    .kpi-label { font-size: .825rem; color: var(--text-muted); margin-bottom: .5rem; }
+    .kpi-trend { font-size: .75rem; display: inline-flex; align-items: center; gap: .25rem; padding: .2rem .5rem; border-radius: 20px; }
+    .trend-up { background: rgba(74,222,128,0.12); color: #22c55e; }
+    .trend-down { background: rgba(239,68,68,0.12); color: #ef4444; }
+
+    /* Quick Actions */
+    .quick-action-btn {
+      display: flex; flex-direction: column; align-items: center; gap: .5rem;
+      background: var(--card-bg); border: 1px solid var(--border);
+      border-radius: 14px; padding: 1.1rem .75rem;
+      cursor: pointer; transition: all .2s; text-decoration: none; color: var(--text);
+      font-size: .8rem; font-weight: 600; flex: 1; min-width: 100px;
+    }
+    .quick-action-btn .qa-icon {
+      width: 44px; height: 44px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center; font-size: 1.2rem;
+    }
+    .quick-action-btn:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(118,87,232,0.18); color: var(--text); border-color: var(--purple); }
+
+    /* Countdown Card */
+    .countdown-card {
+      background: linear-gradient(135deg, #151B35 0%, #2a1a6e 100%);
+      border-radius: 20px; overflow: hidden; border: 1px solid rgba(118,87,232,0.3);
+      display: flex; align-items: stretch; gap: 0;
+    }
+    .countdown-img { width: 220px; min-height: 180px; object-fit: cover; flex-shrink: 0; }
+    .countdown-body { padding: 1.5rem 2rem; flex: 1; display: flex; flex-direction: column; justify-content: center; }
+    .countdown-label { font-size: .75rem; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: .08em; }
+    .countdown-title { font-family: var(--font-head); font-size: 1.5rem; font-weight: 800; color: #fff; margin: .4rem 0 1rem; }
+    .countdown-timer { display: flex; gap: 1.25rem; margin-bottom: 1.25rem; }
+    .timer-unit { text-align: center; }
+    .timer-num {
+      font-family: var(--font-head); font-size: 2rem; font-weight: 800;
+      background: linear-gradient(135deg, var(--purple), var(--coral));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      line-height: 1;
+    }
+    .timer-label { font-size: .65rem; color: rgba(255,255,255,0.5); text-transform: uppercase; }
+
+    /* ===== BOOKING CARDS ===== */
+    .booking-filter-bar {
+      display: flex; align-items: center; gap: .5rem; flex-wrap: wrap;
+      margin-bottom: 1.5rem;
+    }
+    .filter-pill {
+      padding: .4rem 1.1rem; border-radius: 20px;
+      border: 1px solid var(--border); background: var(--card-bg);
+      color: var(--text-muted); font-size: .82rem; cursor: pointer;
+      transition: all .2s;
+    }
+    .filter-pill.active, .filter-pill:hover {
+      background: var(--purple); border-color: var(--purple); color: #fff;
+    }
+    .sort-select {
+      margin-left: auto; background: var(--card-bg); border: 1px solid var(--border);
+      border-radius: 10px; padding: .4rem .9rem; font-size: .82rem;
+      color: var(--text); cursor: pointer;
+    }
+    .toggle-view-btn {
+      background: var(--card-bg); border: 1px solid var(--border);
+      border-radius: 8px; overflow: hidden; display: flex;
+    }
+    .toggle-view-btn button {
+      border: none; background: transparent; padding: .4rem .75rem;
+      color: var(--text-muted); cursor: pointer; transition: all .2s;
+    }
+    .toggle-view-btn button.active { background: var(--purple); color: #fff; }
+
+    .booking-card {
+      background: var(--card-bg); border-radius: 16px; border: 1px solid var(--border);
+      overflow: hidden; transition: box-shadow .2s;
+      display: flex; gap: 0;
+    }
+    .booking-card:hover { box-shadow: 0 8px 24px rgba(118,87,232,0.12); }
+    .booking-card-img { width: 110px; min-height: 110px; object-fit: cover; flex-shrink: 0; }
+    .booking-card-body { padding: 1rem 1.25rem; flex: 1; display: flex; flex-direction: column; justify-content: space-between; }
+    .booking-card-title { font-family: var(--font-head); font-weight: 700; font-size: .95rem; color: var(--text); }
+    .booking-meta { font-size: .78rem; color: var(--text-muted); display: flex; gap: 1rem; flex-wrap: wrap; margin: .3rem 0; }
+    .booking-meta span { display: flex; align-items: center; gap: .25rem; }
+    .booking-ref { font-size: .72rem; color: var(--text-muted); font-family: monospace; }
+    .status-badge {
+      display: inline-block; padding: .22rem .65rem; border-radius: 20px;
+      font-size: .72rem; font-weight: 600;
+    }
+    .status-confirmed { background: rgba(74,222,128,0.12); color: #16a34a; }
+    .status-pending { background: rgba(251,191,36,0.12); color: #d97706; }
+    .status-cancelled { background: rgba(239,68,68,0.12); color: #dc2626; }
+
+    /* ===== TICKET CARDS ===== */
+    .ticket-card {
+      border-radius: 20px; overflow: hidden;
+      border: 1px solid var(--border);
+      box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+      background: var(--card-bg);
+    }
+    .ticket-header {
+      padding: 1.5rem; color: #fff; position: relative;
+    }
+    .ticket-header h5 { font-family: var(--font-head); font-weight: 800; font-size: 1.1rem; margin-bottom: .3rem; }
+    .ticket-type-badge {
+      display: inline-block; padding: .2rem .7rem; border-radius: 20px;
+      background: rgba(255,255,255,0.2); font-size: .72rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: .06em;
+    }
+    .ticket-body { padding: 1.25rem 1.5rem; }
+    .ticket-info-row { display: flex; justify-content: space-between; gap: 1rem; margin-bottom: .9rem; }
+    .ticket-info-label { font-size: .7rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: .05em; }
+    .ticket-info-value { font-size: .88rem; font-weight: 600; color: var(--text); }
+
+    .ticket-perforation {
+      display: flex; align-items: center; margin: 0 -1px;
+      border-top: 2px dashed var(--border); position: relative;
+    }
+    .ticket-perforation::before, .ticket-perforation::after {
+      content: ''; position: absolute;
+      width: 20px; height: 20px; border-radius: 50%;
+      background: var(--bg); border: 1px solid var(--border);
+      top: 50%; transform: translateY(-50%);
+    }
+    .ticket-perforation::before { left: -11px; }
+    .ticket-perforation::after { right: -11px; }
+
+    .ticket-qr-section { padding: 1.25rem 1.5rem; display: flex; gap: 1.5rem; align-items: center; }
+    .ticket-qr img { width: 100px; height: 100px; border-radius: 8px; }
+    .barcode {
+      display: flex; gap: 2px; align-items: flex-end; height: 48px;
+      flex-wrap: nowrap; overflow: hidden;
+    }
+    .barcode span {
+      display: block; background: var(--text); border-radius: 1px;
+      flex-shrink: 0;
+    }
+
+    /* ===== PAYMENTS ===== */
+    .credit-card-ui {
+      background: linear-gradient(135deg, #1a0a4a 0%, #7657E8 100%);
+      border-radius: 16px; padding: 1.5rem; color: #fff;
+      position: relative; overflow: hidden; min-width: 240px;
+    }
+    .credit-card-ui.orange { background: linear-gradient(135deg, #2a1a0a 0%, #FF766B 100%); }
+    .credit-card-ui::after {
+      content: ''; position: absolute; top: -40px; right: -40px;
+      width: 120px; height: 120px; border-radius: 50%;
+      background: rgba(255,255,255,0.08);
+    }
+    .card-number { font-family: 'Courier New', monospace; font-size: 1.1rem; letter-spacing: .15em; margin: 1rem 0 .5rem; }
+    .card-network { font-size: 1.5rem; }
+
+    .trans-table { font-size: .83rem; }
+    .trans-table th { color: var(--text-muted); font-weight: 500; font-size: .78rem; text-transform: uppercase; letter-spacing: .04em; border-bottom: 1px solid var(--border); }
+    .trans-table td { vertical-align: middle; padding: .75rem .5rem; border-bottom: 1px solid var(--border); color: var(--text); }
+
+    /* ===== NOTIFICATIONS ===== */
+    .notif-item {
+      display: flex; gap: 1rem; padding: 1rem 1.25rem;
+      border-bottom: 1px solid var(--border);
+      transition: background .2s; cursor: pointer; align-items: flex-start;
+    }
+    .notif-item:hover { background: rgba(118,87,232,0.04); }
+    .notif-item.unread { border-left: 3px solid var(--purple); }
+    .notif-icon {
+      width: 42px; height: 42px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem; flex-shrink: 0;
+    }
+    .notif-title { font-weight: 600; font-size: .875rem; color: var(--text); }
+    .notif-desc { font-size: .8rem; color: var(--text-muted); margin-top: .15rem; }
+    .notif-time { font-size: .72rem; color: var(--text-muted); margin-top: .3rem; white-space: nowrap; }
+    .notif-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--purple); flex-shrink: 0; margin-top: .4rem; }
+
+    /* ===== PROFILE SETTINGS ===== */
+    .avatar-upload {
+      border: 2px dashed var(--purple); border-radius: 16px;
+      padding: 2rem 1rem; text-align: center; cursor: pointer;
+      transition: all .2s; background: rgba(118,87,232,0.04);
+    }
+    .avatar-upload:hover { background: rgba(118,87,232,0.1); }
+    .avatar-upload img { width: 90px; height: 90px; border-radius: 50%; border: 3px solid var(--purple); object-fit: cover; margin-bottom: .75rem; }
+    .avatar-upload p { font-size: .8rem; color: var(--text-muted); }
+
+    .form-label { font-size: .825rem; font-weight: 500; color: var(--text); margin-bottom: .35rem; }
+    .form-control, .form-select {
+      background: var(--input-bg); border: 1px solid var(--border);
+      border-radius: 10px; color: var(--text); font-size: .875rem;
+      padding: .6rem .9rem; transition: all .2s;
+    }
+    .form-control:focus, .form-select:focus {
+      border-color: var(--purple); box-shadow: 0 0 0 3px rgba(118,87,232,0.12);
+      background: var(--input-bg); color: var(--text);
+    }
+
+    .password-strength { height: 4px; border-radius: 2px; background: var(--border); margin-top: .5rem; overflow: hidden; }
+    .password-strength-fill { height: 100%; border-radius: 2px; transition: width .3s; }
+
+    .toggle-switch { position: relative; display: inline-block; width: 44px; height: 24px; }
+    .toggle-switch input { opacity: 0; width: 0; height: 0; }
+    .toggle-slider {
+      position: absolute; cursor: pointer; inset: 0;
+      background: var(--border); border-radius: 24px; transition: .3s;
+    }
+    .toggle-slider::before {
+      content: ''; position: absolute; width: 18px; height: 18px;
+      border-radius: 50%; background: #fff; top: 3px; left: 3px; transition: .3s;
+    }
+    input:checked + .toggle-slider { background: var(--purple); }
+    input:checked + .toggle-slider::before { transform: translateX(20px); }
+
+    .danger-zone-card {
+      border: 1px solid rgba(239,68,68,0.3); border-radius: 16px;
+      padding: 1.5rem; background: rgba(239,68,68,0.04);
+    }
+
+    /* ===== BUTTONS ===== */
+    .btn-primary-ev {
+      background: linear-gradient(135deg, var(--purple), #9b7cf8);
+      border: none; color: #fff; border-radius: 10px; padding: .6rem 1.5rem;
+      font-weight: 600; font-size: .875rem; cursor: pointer; transition: all .2s;
+      display: inline-flex; align-items: center; gap: .4rem;
+    }
+    .btn-primary-ev:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(118,87,232,0.4); color: #fff; }
+    .btn-outline-ev {
+      background: transparent; border: 1.5px solid var(--purple);
+      color: var(--purple); border-radius: 10px; padding: .55rem 1.4rem;
+      font-weight: 600; font-size: .875rem; cursor: pointer; transition: all .2s;
+      display: inline-flex; align-items: center; gap: .4rem;
+    }
+    .btn-outline-ev:hover { background: var(--purple); color: #fff; }
+    .btn-sm-ev {
+      padding: .35rem 1rem; font-size: .8rem; border-radius: 8px;
+    }
+
+    /* ===== TOAST ===== */
+    .toast-container { position: fixed; bottom: 2rem; right: 2rem; z-index: 9999; }
+    .toast-ev {
+      background: #fff; border-radius: 14px; padding: 1rem 1.25rem;
+      display: flex; align-items: center; gap: .75rem;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+      border-left: 4px solid #22c55e; min-width: 280px;
+      animation: slideInRight .4s ease; font-size: .875rem;
+      border: 1px solid var(--border); border-left-width: 4px;
+    }
+    @keyframes slideInRight { from { transform: translateX(120%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+
+    /* ===== CHART ===== */
+    .chart-container { background: var(--card-bg); border-radius: 16px; border: 1px solid var(--border); padding: 1.5rem; }
+
+    /* ===== DROPDOWN ===== */
+    .user-dropdown {
+      position: absolute; top: calc(100% + 10px); right: 0;
+      background: var(--card-bg); border-radius: 14px;
+      border: 1px solid var(--border);
+      box-shadow: 0 12px 36px rgba(0,0,0,0.15);
+      min-width: 200px; z-index: 9999;
+      display: none; overflow: hidden;
+    }
+    .user-dropdown.show { display: block; }
+    .user-dropdown .dropdown-item {
+      padding: .6rem 1rem; font-size: .875rem; color: var(--text);
+      cursor: pointer; display: flex; align-items: center; gap: .6rem;
+      transition: background .15s; text-decoration: none;
+    }
+    .user-dropdown .dropdown-item:hover { background: rgba(118,87,232,0.08); }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 991px) {
+      .sidebar { transform: translateX(-100%); width: var(--sidebar-w) !important; }
+      .sidebar.mobile-open { transform: translateX(0); }
+      .main-wrapper { margin-left: 0 !important; padding: 1.25rem 1rem; }
+      .countdown-card { flex-direction: column; }
+      .countdown-img { width: 100%; height: 160px; }
+    }
+    @media (max-width: 767px) {
+      .kpi-card { margin-bottom: .75rem; }
+      .booking-card { flex-direction: column; }
+      .booking-card-img { width: 100%; height: 160px; }
+      .ticket-info-row { flex-direction: column; }
+    }
+    /* ─── DUAL MODE HIGH CONTRAST RULES ─── */
+    [data-theme="light"] body { background: #F8F9FD !important; color: #151B35 !important; }
+    [data-theme="light"] .kpi-card,
+    [data-theme="light"] .quick-action-btn,
+    [data-theme="light"] .booking-card,
+    [data-theme="light"] .chart-container,
+    [data-theme="light"] .card,
+    [data-theme="light"] .digital-ticket-card {
+      background: #FFFFFF !important;
+      border: 1px solid #E2E8F0 !important;
+      color: #151B35 !important;
+    }
+    [data-theme="light"] .panel-title,
+    [data-theme="light"] .kpi-value,
+    [data-theme="light"] .booking-card-title,
+    [data-theme="light"] .ticket-info-value,
+    [data-theme="light"] .notif-title {
+      color: #151B35 !important;
+    }
+    [data-theme="light"] .panel-subtitle,
+    [data-theme="light"] .kpi-label,
+    [data-theme="light"] .booking-meta,
+    [data-theme="light"] .ticket-info-label,
+    [data-theme="light"] .notif-desc,
+    [data-theme="light"] .notif-time {
+      color: #475569 !important;
+    }
+    [data-theme="light"] .trans-table th {
+      background: #F1F5F9 !important;
+      color: #1E293B !important;
+      font-weight: 700 !important;
+      border-bottom: 2px solid #CBD5E1 !important;
+    }
+    [data-theme="light"] .trans-table td {
+      color: #334155 !important;
+      border-color: #E2E8F0 !important;
+    }
+    [data-theme="light"] .form-control,
+    [data-theme="light"] .form-select {
+      background: #FFFFFF !important;
+      color: #0F172A !important;
+      border: 1.5px solid #CBD5E1 !important;
+    }
+    [data-theme="light"] .filter-pill {
+      background: #F1F5F9 !important;
+      color: #151B35 !important;
+      border-color: #CBD5E1 !important;
+      font-weight: 600 !important;
+    }
+    [data-theme="light"] .filter-pill.active {
+      background: var(--cta-gradient, linear-gradient(135deg, #7657E8, #D93829)) !important;
+      background-image: var(--cta-gradient, linear-gradient(135deg, #7657E8, #D93829)) !important;
+      color: #FFFFFF !important;
+      border-color: transparent !important;
+    }
+    [data-theme="light"] .sort-select {
+      background: #FFFFFF !important;
+      color: #151B35 !important;
+      border-color: #CBD5E1 !important;
+    }
+  </style>
+<script src="assets/js/theme.js"></script>
+<style id="responsive-fixes">
+  /* ── GLOBAL OVERFLOW / MEDIA SAFETY ── */
+  html, body { overflow-x: hidden; }
+  img, iframe, video, svg, canvas { max-width: 100%; }
+
+  /* ══════════ ≤1024px : narrower sidebar, reflowed content ══════════ */
+  @media (max-width: 1024px) {
+    :root { --sidebar-w: 210px; }
+    .top-navbar { gap: .75rem; padding: 0 1rem; }
+    .main-wrapper { padding: 1.5rem 1.25rem; }
+    .kpi-card { padding: 1.2rem 1.25rem; }
+    .chart-container { padding: 1.25rem; }
+    .credit-card-ui { min-width: 220px; }
+    .ticket-qr-section { gap: 1rem; }
+  }
+
+  /* ══════════ ≤768px ══════════ */
+  @media (max-width: 768px) {
+    .top-navbar { padding: 0 .85rem; gap: .6rem; }
+    .top-navbar .brand { font-size: 1.1rem; }
+    .top-navbar .nav-icon-btn { width: 36px; height: 36px; }
+
+    .main-wrapper { padding: 1.25rem 1rem; }
+    .kpi-card { padding: 1.1rem; }
+    .kpi-value { font-size: 1.7rem; }
+
+    .countdown-body { padding: 1.25rem; }
+    .countdown-timer { gap: .9rem; flex-wrap: wrap; }
+    .booking-card-body { padding: .9rem 1rem; }
+
+    .trans-table { min-width: 640px; }
+    .trans-table th, .trans-table td { padding: .6rem .4rem; white-space: nowrap; }
+
+    .chart-container { padding: 1rem; }
+    .notif-item { padding: .9rem 1rem; }
+    .toast-container { left: 1rem; right: 1rem; bottom: 1rem; }
+    .toast-ev { min-width: 0; width: 100%; }
+  }
+
+  /* ══════════ ≤480px ══════════ */
+  @media (max-width: 480px) {
+    .top-navbar { padding: 0 .6rem; gap: .4rem; }
+    .top-navbar .brand { font-size: 1rem; }
+    .top-navbar .nav-icon-btn { width: 34px; height: 34px; font-size: 1rem; }
+
+    .main-wrapper { padding: 1rem .75rem; }
+    .panel-title { font-size: 1.2rem; }
+    .panel-subtitle { font-size: .82rem; margin-bottom: 1rem; }
+
+    .kpi-card { padding: 1rem; }
+    .kpi-value { font-size: 1.5rem; }
+    .kpi-icon { width: 40px; height: 40px; font-size: 1.1rem; }
+    .quick-action-btn { min-width: calc(50% - .5rem); padding: .9rem .5rem; }
+
+    .countdown-title { font-size: 1.2rem; }
+    .countdown-timer { gap: .7rem; }
+    .timer-num { font-size: 1.6rem; }
+
+    .booking-card-img { height: 140px; }
+    .booking-meta { gap: .5rem 1rem; font-size: .75rem; }
+
+    .ticket-header { padding: 1.25rem; }
+    .ticket-body { padding: 1rem 1.25rem; }
+    .ticket-qr-section { flex-direction: column; align-items: flex-start; gap: .9rem; padding: 1rem 1.25rem; }
+
+    .credit-card-ui { min-width: 0; width: 100%; }
+    #payments .d-flex.gap-3 > div { flex: 1 1 100%; }
+    #payments .d-flex.gap-3 > div > .btn-outline-ev { width: 100%; min-width: 0; }
+
+    .chart-container { padding: .9rem; }
+    .notif-item { gap: .75rem; padding: .85rem .9rem; }
+    .notif-icon { width: 36px; height: 36px; font-size: 1rem; }
+
+    #profile-settings .row.g-3 > .col-6 { flex: 0 0 100%; max-width: 100%; }
+    .avatar-upload { padding: 1.5rem .75rem; }
+    .danger-zone-card { padding: 1.1rem; }
+    .toast-ev { padding: .8rem 1rem; }
+  }
+
+  /* ══════════ ≤360px ══════════ */
+  @media (max-width: 360px) {
+    .top-navbar { padding: 0 .45rem; gap: .3rem; }
+    .top-navbar .brand { font-size: .92rem; }
+    .top-navbar .nav-icon-btn { width: 32px; height: 32px; font-size: .9rem; }
+    .top-navbar .user-avatar-btn { width: 32px; height: 32px; }
+
+    .main-wrapper { padding: .9rem .6rem; }
+    .panel-title { font-size: 1.1rem; }
+    .kpi-value { font-size: 1.4rem; }
+    #overview > .row.g-3 > .col-6.col-xl-3 { flex: 0 0 100%; max-width: 100%; }
+
+    .countdown-title { font-size: 1.05rem; }
+    .timer-num { font-size: 1.35rem; }
+    .booking-card-title { font-size: .88rem; }
+    .ticket-info-row { flex-direction: column; gap: .5rem; }
+    .card-number { font-size: .95rem; letter-spacing: .1em; }
+    .notif-dot { display: none; }
+    .filter-pill { padding: .35rem .8rem; font-size: .78rem; }
+  }
+
+  /* ══════════ ≤320px ══════════ */
+  @media (max-width: 320px) {
+    .top-navbar { padding: 0 .35rem; gap: .25rem; }
+    .top-navbar .brand { font-size: .85rem; }
+    .top-navbar .nav-icon-btn { width: 30px; height: 30px; font-size: .82rem; }
+
+    .main-wrapper { padding: .75rem .5rem; }
+    .panel-title { font-size: 1rem; }
+    .kpi-card { padding: .85rem; }
+    .kpi-value { font-size: 1.3rem; }
+
+    .countdown-timer { gap: .5rem; }
+    .timer-num { font-size: 1.2rem; }
+    .ticket-qr img { width: 84px; height: 84px; }
+    .credit-card-ui { padding: 1.1rem; }
+    .card-number { font-size: .85rem; letter-spacing: .08em; }
+    .btn-primary-ev, .btn-outline-ev { padding: .5rem 1rem; font-size: .8rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== TOP NAVBAR ===== -->
+<nav class="top-navbar">
+  <button class="nav-icon-btn me-1" id="sidebarToggle" aria-label="Toggle sidebar">
+    <i class="bi bi-layout-sidebar"></i>
+  </button>
+  <a href="home.html" class="brand me-auto"><i class="bi bi-ticket-perforated-fill text-purple me-1"></i>Eventora</a>
+
+  <button class="search-btn d-none d-md-flex">
+    <i class="bi bi-search"></i> Search events…
+  </button>
+
+  <button class="nav-icon-btn" id="notifToggle">
+    <i class="bi bi-bell"></i>
+    <span class="badge-dot"></span>
+  </button>
+
+  <button class="nav-icon-btn" id="rtlToggle" title="RTL mode" style="font-size:.68rem;font-weight:700;letter-spacing:.5px;">RTL</button>
+
+  <button class="nav-icon-btn" id="darkToggle" title="Toggle dark mode">
+    <i class="bi bi-moon-stars" id="darkIcon"></i>
+  </button>
+
+  <div style="position:relative;">
+    <div class="user-avatar-btn" id="userAvatarBtn">
+      <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face" alt="Alex Johnson" />
+    </div>
+    <div class="user-dropdown" id="userDropdown">
+      <div style="padding:.85rem 1rem; border-bottom:1px solid var(--border);">
+        <div style="font-weight:700;font-size:.9rem;color:var(--text);">Alex Johnson</div>
+        <div style="font-size:.78rem;color:var(--text-muted);">alex.johnson@email.com</div>
+      </div>
+      <a href="#profile-settings" class="dropdown-item"><i class="bi bi-person"></i> Profile</a>
+      <a href="#notifications" class="dropdown-item"><i class="bi bi-bell"></i> Notifications <span style="background:var(--coral);color:#fff;font-size:.65rem;padding:.1rem .4rem;border-radius:10px;">3</span></a>
+      <a href="#payments" class="dropdown-item"><i class="bi bi-credit-card"></i> Payments</a>
+      <div style="border-top:1px solid var(--border); margin:.25rem 0;"></div>
+      <a href="login.html" class="dropdown-item" style="color:var(--coral);"><i class="bi bi-box-arrow-right"></i> Logout</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ===== SIDEBAR ===== -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-inner">
+    <!-- User Card -->
+    <div class="sidebar-user">
+      <div class="sidebar-avatar">
+        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop&crop=face" alt="Alex Johnson" />
+      </div>
+      <div class="sidebar-user-info">
+        <div class="name">Alex Johnson</div>
+        <div class="email">alex.johnson@email.com</div>
+        <div class="verified-badge"><i class="bi bi-patch-check-fill"></i> Verified Account</div>
+      </div>
+    </div>
+
+    <!-- Main Nav -->
+    <div class="sidebar-nav">
+      <div class="sidebar-section-label">Main Menu</div>
+      <a href="#overview" class="sidebar-nav-item active">
+        <i class="bi bi-grid-1x2 nav-icon"></i><span>Overview</span>
+      </a>
+      <a href="#my-bookings" class="sidebar-nav-item">
+        <i class="bi bi-calendar-check nav-icon"></i><span>My Bookings</span>
+      </a>
+      <a href="#my-tickets" class="sidebar-nav-item">
+        <i class="bi bi-ticket-perforated nav-icon"></i><span>My Tickets</span>
+      </a>
+      <a href="#my-bookings" class="sidebar-nav-item">
+        <i class="bi bi-clock-history nav-icon"></i><span>Booking History</span>
+      </a>
+
+      <div class="sidebar-section-label" style="margin-top:.5rem;">Account</div>
+      <a href="#payments" class="sidebar-nav-item">
+        <i class="bi bi-credit-card nav-icon"></i><span>Payments</span>
+      </a>
+      <a href="#notifications" class="sidebar-nav-item">
+        <i class="bi bi-bell nav-icon"></i>
+        <span>Notifications</span>
+        <span class="badge">3</span>
+      </a>
+      <a href="#profile-settings" class="sidebar-nav-item">
+        <i class="bi bi-gear nav-icon"></i><span>Profile Settings</span>
+      </a>
+      <a href="#" class="sidebar-nav-item">
+        <i class="bi bi-question-circle nav-icon"></i><span>Help &amp; Support</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- Logout -->
+  <div class="sidebar-logout">
+    <a href="login.html" class="btn-logout">
+      <i class="bi bi-box-arrow-left"></i><span>Logout</span>
+    </a>
+  </div>
+</aside>
+
+<!-- ===== MAIN CONTENT ===== -->
+<main class="main-wrapper" id="mainWrapper">
+
+  <!-- ══════════════════════════════════════
+       PANEL 1 — OVERVIEW DASHBOARD
+  ══════════════════════════════════════ -->
+  <section class="panel-section" id="overview">
+    <div class="panel-title"><i class="bi bi-hand-thumbs-up-fill text-warning me-2"></i>Welcome back, Alex!</div>
+    <p class="panel-subtitle">Here's what's happening with your events today.</p>
+    <div class="panel-divider"></div>
+
+    <!-- KPI Cards -->
+    <div class="row g-3 mb-4">
+      <div class="col-6 col-xl-3">
+        <div class="kpi-card">
+          <div class="kpi-icon" style="background:rgba(118,87,232,0.12);color:var(--purple);">
+            <i class="bi bi-calendar-event"></i>
+          </div>
+          <div class="kpi-label">Upcoming Events</div>
+          <div class="kpi-value">3</div>
+          <span class="kpi-trend trend-up"><i class="bi bi-arrow-up"></i> +1 this week</span>
+        </div>
+      </div>
+      <div class="col-6 col-xl-3">
+        <div class="kpi-card">
+          <div class="kpi-icon" style="background:rgba(255,118,107,0.12);color:var(--coral);">
+            <i class="bi bi-ticket-perforated"></i>
+          </div>
+          <div class="kpi-label">Tickets Owned</div>
+          <div class="kpi-value">8</div>
+          <span class="kpi-trend trend-up"><i class="bi bi-arrow-up"></i> 2 new</span>
+        </div>
+      </div>
+      <div class="col-6 col-xl-3">
+        <div class="kpi-card">
+          <div class="kpi-icon" style="background:rgba(74,222,128,0.12);color:#22c55e;">
+            <i class="bi bi-stars"></i>
+          </div>
+          <div class="kpi-label">Events Attended</div>
+          <div class="kpi-value">24</div>
+          <span class="kpi-trend trend-up"><i class="bi bi-arrow-up"></i> +3 this year</span>
+        </div>
+      </div>
+      <div class="col-6 col-xl-3">
+        <div class="kpi-card">
+          <div class="kpi-icon" style="background:rgba(251,191,36,0.12);color:#f59e0b;">
+            <i class="bi bi-currency-dollar"></i>
+          </div>
+          <div class="kpi-label">Total Spent</div>
+          <div class="kpi-value">$1,240</div>
+          <span class="kpi-trend trend-down"><i class="bi bi-arrow-down"></i> -12% vs last month</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="d-flex gap-3 mb-4 flex-wrap">
+      <a href="home.html" class="quick-action-btn">
+        <div class="qa-icon" style="background:rgba(118,87,232,0.12);color:var(--purple);"><i class="bi bi-search"></i></div>
+        Browse Events
+      </a>
+      <a href="#my-tickets" class="quick-action-btn">
+        <div class="qa-icon" style="background:rgba(255,118,107,0.12);color:var(--coral);"><i class="bi bi-ticket-perforated"></i></div>
+        My Tickets
+      </a>
+      <a href="#" class="quick-action-btn">
+        <div class="qa-icon" style="background:rgba(74,222,128,0.12);color:#22c55e;"><i class="bi bi-person-plus"></i></div>
+        Invite Friend
+      </a>
+      <a href="#" class="quick-action-btn">
+        <div class="qa-icon" style="background:rgba(251,191,36,0.12);color:#f59e0b;"><i class="bi bi-headset"></i></div>
+        Get Support
+      </a>
+    </div>
+
+    <!-- Countdown Card -->
+    <div class="countdown-card">
+      <img src="https://images.unsplash.com/photo-1540039155733-5bb30b53aa14?w=400&h=250&fit=crop" alt="Coldplay World Tour" class="countdown-img" />
+      <div class="countdown-body">
+        <div class="countdown-label"><i class="bi bi-music-note-beamed me-1"></i>Next Event</div>
+        <div class="countdown-title">Coldplay World Tour 2026</div>
+        <div class="countdown-timer">
+          <div class="timer-unit">
+            <div class="timer-num" id="cdDays">03</div>
+            <div class="timer-label">Days</div>
+          </div>
+          <div class="timer-unit" style="color:rgba(255,255,255,0.3);font-size:1.5rem;align-self:flex-start;padding-top:.2rem;">:</div>
+          <div class="timer-unit">
+            <div class="timer-num" id="cdHours">14</div>
+            <div class="timer-label">Hours</div>
+          </div>
+          <div class="timer-unit" style="color:rgba(255,255,255,0.3);font-size:1.5rem;align-self:flex-start;padding-top:.2rem;">:</div>
+          <div class="timer-unit">
+            <div class="timer-num" id="cdMins">22</div>
+            <div class="timer-label">Mins</div>
+          </div>
+          <div class="timer-unit" style="color:rgba(255,255,255,0.3);font-size:1.5rem;align-self:flex-start;padding-top:.2rem;">:</div>
+          <div class="timer-unit">
+            <div class="timer-num" id="cdSecs">00</div>
+            <div class="timer-label">Secs</div>
+          </div>
+        </div>
+        <div style="display:flex;gap:.75rem;flex-wrap:wrap;">
+          <a href="#my-tickets" class="btn-primary-ev"><i class="bi bi-ticket-perforated"></i> View Ticket</a>
+          <button class="btn-outline-ev" style="color:rgba(255,255,255,0.7);border-color:rgba(255,255,255,0.3);">
+            <i class="bi bi-calendar-plus"></i> Add to Calendar
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════
+       PANEL 2 — MY BOOKINGS
+  ══════════════════════════════════════ -->
+  <section class="panel-section" id="my-bookings">
+    <div class="panel-title"><i class="bi bi-calendar2-check-fill text-purple me-2"></i>My Bookings</div>
+    <p class="panel-subtitle">Manage and track all your event bookings in one place.</p>
+    <div class="panel-divider"></div>
+
+    <div class="booking-filter-bar">
+      <div class="toggle-view-btn">
+        <button class="active" title="Card view"><i class="bi bi-grid"></i></button>
+        <button title="Table view"><i class="bi bi-list"></i></button>
+      </div>
+      <div style="width:1px;height:28px;background:var(--border);"></div>
+      <button class="filter-pill active" onclick="filterBookings(this,'all')">All</button>
+      <button class="filter-pill" onclick="filterBookings(this,'upcoming')">Upcoming</button>
+      <button class="filter-pill" onclick="filterBookings(this,'past')">Past</button>
+      <button class="filter-pill" onclick="filterBookings(this,'cancelled')">Cancelled</button>
+      <select class="sort-select">
+        <option>Sort by: Date</option>
+        <option>Sort by: Price</option>
+        <option>Sort by: Event Name</option>
+      </select>
+    </div>
+
+    <div class="d-flex flex-column gap-3" id="bookingsContainer">
+      <!-- Booking 1 -->
+      <div class="booking-card">
+        <img src="https://images.unsplash.com/photo-1540039155733-5bb30b53aa14?w=200&h=140&fit=crop" class="booking-card-img" alt="Coldplay" />
+        <div class="booking-card-body">
+          <div class="d-flex align-items-start justify-content-between flex-wrap gap-2">
+            <div>
+              <div class="booking-card-title">Coldplay World Tour 2026</div>
+              <div class="booking-meta">
+                <span><i class="bi bi-calendar3"></i> Nov 17, 2026</span>
+                <span><i class="bi bi-clock"></i> 7:00 PM</span>
+                <span><i class="bi bi-geo-alt"></i> Wembley Stadium, London</span>
+              </div>
+              <div class="booking-ref">Booking Ref: #EVT-2026-00142</div>
+            </div>
+            <div class="d-flex align-items-center gap-2">
+              <span class="status-badge status-confirmed">Confirmed</span>
+              <div class="dropdown">
+                <button class="btn" style="border:1px solid var(--border);border-radius:8px;padding:.35rem .6rem;background:var(--card-bg);color:var(--text);" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></button>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" href="#">View Details</a></li>
+                  <li><a class="dropdown-item" href="#">Download Ticket</a></li>
+                  <li><a class="dropdown-item" href="#">Request Refund</a></li>
+                  <li><hr class="dropdown-divider"></li>
+                  <li><a class="dropdown-item text-danger" href="#">Cancel Booking</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="mt-2">
+            <a href="#my-tickets" class="btn-primary-ev btn-sm-ev">
+              <i class="bi bi-ticket-perforated"></i> View Ticket
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Booking 2 -->
+      <div class="booking-card">
+        <img src="https://images.unsplash.com/photo-1517457373958-b7bdd4587205?w=200&h=140&fit=crop" class="booking-card-img" alt="Tech Summit" />
+        <div class="booking-card-body">
+          <div class="d-flex align-items-start justify-content-between flex-wrap gap-2">
+            <div>
+              <div class="booking-card-title">Global Tech Summit 2026</div>
+              <div class="booking-meta">
+                <span><i class="bi bi-calendar3"></i> Dec 05, 2026</span>
+                <span><i class="bi bi-clock"></i> 9:00 AM</span>
+                <span><i class="bi bi-geo-alt"></i> ExCel London, London</span>
+              </div>
+              <div class="booking-ref">Booking Ref: #EVT-2026-00178</div>
+            </div>
+            <div class="d-flex align-items-center gap-2">
+              <span class="status-badge status-confirmed">Confirmed</span>
+              <div class="dropdown">
+                <button class="btn" style="border:1px solid var(--border);border-radius:8px;padding:.35rem .6rem;background:var(--card-bg);color:var(--text);" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></button>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" href="#">View Details</a></li>
+                  <li><a class="dropdown-item" href="#">Download Ticket</a></li>
+                  <li><hr class="dropdown-divider"></li>
+                  <li><a class="dropdown-item text-danger" href="#">Cancel Booking</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="mt-2">
+            <a href="#my-tickets" class="btn-primary-ev btn-sm-ev"><i class="bi bi-ticket-perforated"></i> View Ticket</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Booking 3 -->
+      <div class="booking-card">
+        <img src="https://images.unsplash.com/photo-1529543544282-ea669407fca3?w=200&h=140&fit=crop" class="booking-card-img" alt="Food Festival" />
+        <div class="booking-card-body">
+          <div class="d-flex align-items-start justify-content-between flex-wrap gap-2">
+            <div>
+              <div class="booking-card-title">International Food & Wine Festival</div>
+              <div class="booking-meta">
+                <span><i class="bi bi-calendar3"></i> Jan 20, 2027</span>
+                <span><i class="bi bi-clock"></i> 12:00 PM</span>
+                <span><i class="bi bi-geo-alt"></i> Hyde Park, London</span>
+              </div>
+              <div class="booking-ref">Booking Ref: #EVT-2027-00009</div>
+            </div>
+            <div class="d-flex align-items-center gap-2">
+              <span class="status-badge status-pending">Pending</span>
+              <div class="dropdown">
+                <button class="btn" style="border:1px solid var(--border);border-radius:8px;padding:.35rem .6rem;background:var(--card-bg);color:var(--text);" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></button>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" href="#">View Details</a></li>
+                  <li><a class="dropdown-item" href="#">Download Ticket</a></li>
+                  <li><hr class="dropdown-divider"></li>
+                  <li><a class="dropdown-item text-danger" href="#">Cancel Booking</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="mt-2">
+            <a href="#my-tickets" class="btn-outline-ev btn-sm-ev"><i class="bi bi-ticket-perforated"></i> View Ticket</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Booking 4 (Past) -->
+      <div class="booking-card">
+        <img src="https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=200&h=140&fit=crop" class="booking-card-img" alt="EDM Festival" />
+        <div class="booking-card-body">
+          <div class="d-flex align-items-start justify-content-between flex-wrap gap-2">
+            <div>
+              <div class="booking-card-title">Electric Daisy Carnival 2025</div>
+              <div class="booking-meta">
+                <span><i class="bi bi-calendar3"></i> May 10, 2025</span>
+                <span><i class="bi bi-clock"></i> 6:00 PM</span>
+                <span><i class="bi bi-geo-alt"></i> Las Vegas Motor Speedway, NV</span>
+              </div>
+              <div class="booking-ref">Booking Ref: #EVT-2025-00883</div>
+            </div>
+            <div class="d-flex align-items-center gap-2">
+              <span class="status-badge status-confirmed">Attended</span>
+              <div class="dropdown">
+                <button class="btn" style="border:1px solid var(--border);border-radius:8px;padding:.35rem .6rem;background:var(--card-bg);color:var(--text);" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></button>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" href="#">View Details</a></li>
+                  <li><a class="dropdown-item" href="#">Download Receipt</a></li>
+                  <li><a class="dropdown-item" href="#">Leave Review</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="mt-2">
+            <button class="btn-outline-ev btn-sm-ev"><i class="bi bi-star"></i> Leave Review</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Booking 5 (Cancelled) -->
+      <div class="booking-card" style="opacity:.8;">
+        <img src="https://images.unsplash.com/photo-1486325212027-8081e485255e?w=200&h=140&fit=crop&grayscale" class="booking-card-img" alt="Marathon" style="filter:grayscale(60%);" />
+        <div class="booking-card-body">
+          <div class="d-flex align-items-start justify-content-between flex-wrap gap-2">
+            <div>
+              <div class="booking-card-title">London Marathon 2025</div>
+              <div class="booking-meta">
+                <span><i class="bi bi-calendar3"></i> Apr 27, 2025</span>
+                <span><i class="bi bi-clock"></i> 8:00 AM</span>
+                <span><i class="bi bi-geo-alt"></i> Central London</span>
+              </div>
+              <div class="booking-ref">Booking Ref: #EVT-2025-00621</div>
+            </div>
+            <div class="d-flex align-items-center gap-2">
+              <span class="status-badge status-cancelled">Cancelled</span>
+              <div class="dropdown">
+                <button class="btn" style="border:1px solid var(--border);border-radius:8px;padding:.35rem .6rem;background:var(--card-bg);color:var(--text);" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></button>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" href="#">View Details</a></li>
+                  <li><a class="dropdown-item" href="#">Refund Status</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="mt-2">
+            <button class="btn-outline-ev btn-sm-ev" style="color:var(--coral);border-color:var(--coral);"><i class="bi bi-arrow-counterclockwise"></i> Request Refund</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════
+       PANEL 3 — DIGITAL TICKETS
+  ══════════════════════════════════════ -->
+  <section class="panel-section" id="my-tickets">
+    <div class="panel-title"><i class="bi bi-qr-code-scan text-purple me-2"></i>My Digital Tickets</div>
+    <p class="panel-subtitle">Your verified digital tickets — scan at the venue entrance.</p>
+    <div class="panel-divider"></div>
+
+    <div class="row g-4">
+
+      <!-- Ticket 1 — Coldplay -->
+      <div class="col-12 col-md-6 col-xl-4">
+        <div class="ticket-card">
+          <div class="ticket-header" style="background:linear-gradient(135deg,#7657E8,#4c35b5);">
+            <div class="d-flex justify-content-between align-items-start mb-2">
+              <span class="ticket-type-badge">VIP</span>
+              <span style="font-size:.75rem;opacity:.7;"><i class="bi bi-ticket-perforated me-1"></i>Eventora</span>
+            </div>
+            <h5>Coldplay World Tour 2026</h5>
+            <div style="font-size:.82rem;opacity:.8;"><i class="bi bi-calendar3 me-1"></i>November 17, 2026 • 7:00 PM</div>
+            <div style="font-size:.82rem;opacity:.8;"><i class="bi bi-geo-alt me-1"></i>Wembley Stadium, London</div>
+          </div>
+          <div class="ticket-body">
+            <div class="ticket-info-row">
+              <div>
+                <div class="ticket-info-label">Attendee</div>
+                <div class="ticket-info-value">Alex Johnson</div>
+              </div>
+              <div>
+                <div class="ticket-info-label">Ticket Type</div>
+                <div class="ticket-info-value">VIP Floor</div>
+              </div>
+            </div>
+            <div class="ticket-info-row">
+              <div>
+                <div class="ticket-info-label">Section / Zone</div>
+                <div class="ticket-info-value">Zone A – Row 3</div>
+              </div>
+              <div>
+                <div class="ticket-info-label">Seat</div>
+                <div class="ticket-info-value">A3-14</div>
+              </div>
+            </div>
+            <div class="ticket-info-row">
+              <div>
+                <div class="ticket-info-label">Booking Ref</div>
+                <div class="ticket-info-value" style="font-family:monospace;">#EVT-2026-00142</div>
+              </div>
+            </div>
+          </div>
+          <div class="ticket-perforation"></div>
+          <div class="ticket-qr-section">
+            <div class="ticket-qr">
+              <img src="https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=EVENTORA-TKT-001-EVT2026-00142" alt="QR Code" />
+            </div>
+            <div class="flex-grow-1">
+              <div style="font-size:.7rem;color:var(--text-muted);margin-bottom:.4rem;">SCAN AT ENTRY</div>
+              <div class="barcode" id="bc1"></div>
+              <div style="font-size:.65rem;color:var(--text-muted);margin-top:.3rem;font-family:monospace;">EVTORA001142A3</div>
+            </div>
+          </div>
+          <div style="padding:.75rem 1.5rem 1.25rem;display:flex;gap:.5rem;flex-wrap:wrap;">
+            <button class="btn-primary-ev btn-sm-ev"><i class="bi bi-download"></i> Download PDF</button>
+            <button class="btn-outline-ev btn-sm-ev"><i class="bi bi-share"></i> Share</button>
+            <button class="btn-outline-ev btn-sm-ev"><i class="bi bi-wallet2"></i> Add to Wallet</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Ticket 2 — Tech Summit -->
+      <div class="col-12 col-md-6 col-xl-4">
+        <div class="ticket-card">
+          <div class="ticket-header" style="background:linear-gradient(135deg,#FF766B,#c94f3f);">
+            <div class="d-flex justify-content-between align-items-start mb-2">
+              <span class="ticket-type-badge">GENERAL</span>
+              <span style="font-size:.75rem;opacity:.7;"><i class="bi bi-ticket-perforated me-1"></i>Eventora</span>
+            </div>
+            <h5>Global Tech Summit 2026</h5>
+            <div style="font-size:.82rem;opacity:.8;"><i class="bi bi-calendar3 me-1"></i>December 5, 2026 • 9:00 AM</div>
+            <div style="font-size:.82rem;opacity:.8;"><i class="bi bi-geo-alt me-1"></i>ExCel London, London</div>
+          </div>
+          <div class="ticket-body">
+            <div class="ticket-info-row">
+              <div>
+                <div class="ticket-info-label">Attendee</div>
+                <div class="ticket-info-value">Alex Johnson</div>
+              </div>
+              <div>
+                <div class="ticket-info-label">Ticket Type</div>
+                <div class="ticket-info-value">General Admission</div>
+              </div>
+            </div>
+            <div class="ticket-info-row">
+              <div>
+                <div class="ticket-info-label">Hall / Zone</div>
+                <div class="ticket-info-value">Hall 2 – Open Floor</div>
+              </div>
+              <div>
+                <div class="ticket-info-label">Day Pass</div>
+                <div class="ticket-info-value">All 3 Days</div>
+              </div>
+            </div>
+            <div class="ticket-info-row">
+              <div>
+                <div class="ticket-info-label">Booking Ref</div>
+                <div class="ticket-info-value" style="font-family:monospace;">#EVT-2026-00178</div>
+              </div>
+            </div>
+          </div>
+          <div class="ticket-perforation"></div>
+          <div class="ticket-qr-section">
+            <div class="ticket-qr">
+              <img src="https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=EVENTORA-TKT-002-EVT2026-00178" alt="QR Code" />
+            </div>
+            <div class="flex-grow-1">
+              <div style="font-size:.7rem;color:var(--text-muted);margin-bottom:.4rem;">SCAN AT ENTRY</div>
+              <div class="barcode" id="bc2"></div>
+              <div style="font-size:.65rem;color:var(--text-muted);margin-top:.3rem;font-family:monospace;">EVTORA002178H2</div>
+            </div>
+          </div>
+          <div style="padding:.75rem 1.5rem 1.25rem;display:flex;gap:.5rem;flex-wrap:wrap;">
+            <button class="btn-primary-ev btn-sm-ev"><i class="bi bi-download"></i> Download PDF</button>
+            <button class="btn-outline-ev btn-sm-ev"><i class="bi bi-share"></i> Share</button>
+            <button class="btn-outline-ev btn-sm-ev"><i class="bi bi-wallet2"></i> Add to Wallet</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Ticket 3 — Food Festival -->
+      <div class="col-12 col-md-6 col-xl-4">
+        <div class="ticket-card">
+          <div class="ticket-header" style="background:linear-gradient(135deg,#059669,#064e3b);">
+            <div class="d-flex justify-content-between align-items-start mb-2">
+              <span class="ticket-type-badge">PREMIUM</span>
+              <span style="font-size:.75rem;opacity:.7;"><i class="bi bi-ticket-perforated me-1"></i>Eventora</span>
+            </div>
+            <h5>Intl. Food &amp; Wine Festival</h5>
+            <div style="font-size:.82rem;opacity:.8;"><i class="bi bi-calendar3 me-1"></i>January 20, 2027 • 12:00 PM</div>
+            <div style="font-size:.82rem;opacity:.8;"><i class="bi bi-geo-alt me-1"></i>Hyde Park, London</div>
+          </div>
+          <div class="ticket-body">
+            <div class="ticket-info-row">
+              <div>
+                <div class="ticket-info-label">Attendee</div>
+                <div class="ticket-info-value">Alex Johnson</div>
+              </div>
+              <div>
+                <div class="ticket-info-label">Ticket Type</div>
+                <div class="ticket-info-value">Premium Tasting</div>
+              </div>
+            </div>
+            <div class="ticket-info-row">
+              <div>
+                <div class="ticket-info-label">Area / Zone</div>
+                <div class="ticket-info-value">Premium Pavilion</div>
+              </div>
+              <div>
+                <div class="ticket-info-label">Entry</div>
+                <div class="ticket-info-value">Priority Access</div>
+              </div>
+            </div>
+            <div class="ticket-info-row">
+              <div>
+                <div class="ticket-info-label">Booking Ref</div>
+                <div class="ticket-info-value" style="font-family:monospace;">#EVT-2027-00009</div>
+              </div>
+            </div>
+          </div>
+          <div class="ticket-perforation"></div>
+          <div class="ticket-qr-section">
+            <div class="ticket-qr">
+              <img src="https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=EVENTORA-TKT-003-EVT2027-00009" alt="QR Code" />
+            </div>
+            <div class="flex-grow-1">
+              <div style="font-size:.7rem;color:var(--text-muted);margin-bottom:.4rem;">SCAN AT ENTRY</div>
+              <div class="barcode" id="bc3"></div>
+              <div style="font-size:.65rem;color:var(--text-muted);margin-top:.3rem;font-family:monospace;">EVTORA003009PP</div>
+            </div>
+          </div>
+          <div style="padding:.75rem 1.5rem 1.25rem;display:flex;gap:.5rem;flex-wrap:wrap;">
+            <button class="btn-primary-ev btn-sm-ev"><i class="bi bi-download"></i> Download PDF</button>
+            <button class="btn-outline-ev btn-sm-ev"><i class="bi bi-share"></i> Share</button>
+            <button class="btn-outline-ev btn-sm-ev"><i class="bi bi-wallet2"></i> Add to Wallet</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════
+       PANEL 4 — PAYMENTS & TRANSACTIONS
+  ══════════════════════════════════════ -->
+  <section class="panel-section" id="payments">
+    <div class="panel-title"><i class="bi bi-credit-card-2-front-fill text-purple me-2"></i>Payments &amp; Transactions</div>
+    <p class="panel-subtitle">Track your spending, manage payment methods, and view receipts.</p>
+    <div class="panel-divider"></div>
+
+    <!-- Summary Cards -->
+    <div class="row g-3 mb-4">
+      <div class="col-6 col-md-4">
+        <div class="kpi-card">
+          <div class="kpi-icon" style="background:rgba(118,87,232,0.12);color:var(--purple);"><i class="bi bi-graph-up-arrow"></i></div>
+          <div class="kpi-label">Total Spent</div>
+          <div class="kpi-value">$1,240</div>
+          <span class="kpi-trend trend-up"><i class="bi bi-arrow-up"></i> Lifetime</span>
+        </div>
+      </div>
+      <div class="col-6 col-md-4">
+        <div class="kpi-card">
+          <div class="kpi-icon" style="background:rgba(251,191,36,0.12);color:#f59e0b;"><i class="bi bi-arrow-counterclockwise"></i></div>
+          <div class="kpi-label">Pending Refund</div>
+          <div class="kpi-value">$0</div>
+          <span class="kpi-trend" style="background:rgba(99,102,241,.1);color:#6366f1;"><i class="bi bi-dash"></i> No pending</span>
+        </div>
+      </div>
+      <div class="col-6 col-md-4">
+        <div class="kpi-card">
+          <div class="kpi-icon" style="background:rgba(74,222,128,0.12);color:#22c55e;"><i class="bi bi-credit-card-2-front"></i></div>
+          <div class="kpi-label">Saved Cards</div>
+          <div class="kpi-value">2</div>
+          <span class="kpi-trend trend-up"><i class="bi bi-check-circle"></i> Active</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Saved Cards -->
+    <h6 class="fw-700 mb-3" style="font-family:var(--font-head);font-weight:700;color:var(--text);">Saved Payment Methods</h6>
+    <div class="d-flex gap-3 mb-4 flex-wrap">
+      <div class="credit-card-ui">
+        <div class="d-flex justify-content-between align-items-center">
+          <div style="font-size:.75rem;opacity:.7;text-transform:uppercase;letter-spacing:.05em;">Credit Card</div>
+          <span class="card-network"><i class="bi bi-credit-card-2-front-fill text-white fs-5"></i></span>
+        </div>
+        <div class="card-number">•••• •••• •••• 4821</div>
+        <div class="d-flex justify-content-between align-items-center">
+          <div>
+            <div style="font-size:.65rem;opacity:.6;">CARDHOLDER</div>
+            <div style="font-size:.82rem;">ALEX JOHNSON</div>
+          </div>
+          <div>
+            <div style="font-size:.65rem;opacity:.6;">EXPIRES</div>
+            <div style="font-size:.82rem;">09 / 28</div>
+          </div>
+          <span style="background:rgba(74,222,128,0.2);color:#4ade80;font-size:.65rem;padding:.2rem .5rem;border-radius:10px;font-weight:700;">DEFAULT</span>
+        </div>
+      </div>
+      <div class="credit-card-ui orange">
+        <div class="d-flex justify-content-between align-items-center">
+          <div style="font-size:.75rem;opacity:.7;text-transform:uppercase;letter-spacing:.05em;">Debit Card</div>
+          <span class="card-network"><i class="bi bi-bank2 text-white fs-5"></i></span>
+        </div>
+        <div class="card-number">•••• •••• •••• 7390</div>
+        <div class="d-flex justify-content-between align-items-center">
+          <div>
+            <div style="font-size:.65rem;opacity:.6;">CARDHOLDER</div>
+            <div style="font-size:.82rem;">ALEX JOHNSON</div>
+          </div>
+          <div>
+            <div style="font-size:.65rem;opacity:.6;">EXPIRES</div>
+            <div style="font-size:.82rem;">03 / 27</div>
+          </div>
+          <span style="background:rgba(255,255,255,0.15);color:rgba(255,255,255,0.8);font-size:.65rem;padding:.2rem .5rem;border-radius:10px;">SECONDARY</span>
+        </div>
+      </div>
+      <div>
+        <button class="btn-outline-ev" style="height:100%;min-height:120px;min-width:160px;flex-direction:column;gap:.5rem;display:flex;align-items:center;justify-content:center;">
+          <i class="bi bi-plus-circle" style="font-size:1.5rem;"></i>
+          Add New Card
+        </button>
+      </div>
+    </div>
+
+    <!-- Transaction Table -->
+    <h6 class="fw-700 mb-3" style="font-family:var(--font-head);font-weight:700;color:var(--text);">Transaction History</h6>
+    <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:16px;overflow:auto;">
+      <table class="table trans-table mb-0">
+        <thead>
+          <tr>
+            <th class="ps-3">Date</th>
+            <th>Event</th>
+            <th>Amount</th>
+            <th>Method</th>
+            <th>Status</th>
+            <th class="pe-3">Receipt</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="ps-3">Nov 01, 2026</td><td>Coldplay World Tour</td><td><strong>$280.00</strong></td><td>•••• 4821</td><td><span class="status-badge status-confirmed">Paid</span></td><td class="pe-3"><a href="#" style="color:var(--purple);font-size:.82rem;"><i class="bi bi-download"></i> PDF</a></td></tr>
+          <tr><td class="ps-3">Oct 22, 2026</td><td>Global Tech Summit</td><td><strong>$199.00</strong></td><td>•••• 4821</td><td><span class="status-badge status-confirmed">Paid</span></td><td class="pe-3"><a href="#" style="color:var(--purple);font-size:.82rem;"><i class="bi bi-download"></i> PDF</a></td></tr>
+          <tr><td class="ps-3">Oct 10, 2026</td><td>Food &amp; Wine Festival</td><td><strong>$95.00</strong></td><td>•••• 7390</td><td><span class="status-badge status-pending">Pending</span></td><td class="pe-3"><a href="#" style="color:var(--text-muted);font-size:.82rem;">–</a></td></tr>
+          <tr><td class="ps-3">Sep 05, 2026</td><td>London Film Festival</td><td><strong>$75.00</strong></td><td>•••• 4821</td><td><span class="status-badge status-confirmed">Paid</span></td><td class="pe-3"><a href="#" style="color:var(--purple);font-size:.82rem;"><i class="bi bi-download"></i> PDF</a></td></tr>
+          <tr><td class="ps-3">Aug 15, 2026</td><td>Liverpool Music Fest</td><td><strong>$220.00</strong></td><td>•••• 4821</td><td><span class="status-badge status-confirmed">Paid</span></td><td class="pe-3"><a href="#" style="color:var(--purple);font-size:.82rem;"><i class="bi bi-download"></i> PDF</a></td></tr>
+          <tr><td class="ps-3">Jul 28, 2026</td><td>London Marathon</td><td><strong>$60.00</strong></td><td>•••• 7390</td><td><span class="status-badge status-cancelled">Refunded</span></td><td class="pe-3"><a href="#" style="color:var(--purple);font-size:.82rem;"><i class="bi bi-download"></i> PDF</a></td></tr>
+          <tr><td class="ps-3">Jun 11, 2026</td><td>AI Developer Day</td><td><strong>$149.00</strong></td><td>•••• 4821</td><td><span class="status-badge status-confirmed">Paid</span></td><td class="pe-3"><a href="#" style="color:var(--purple);font-size:.82rem;"><i class="bi bi-download"></i> PDF</a></td></tr>
+          <tr><td class="ps-3">May 20, 2026</td><td>Electric Daisy Carnival</td><td><strong>$162.00</strong></td><td>•••• 4821</td><td><span class="status-badge status-confirmed">Paid</span></td><td class="pe-3"><a href="#" style="color:var(--purple);font-size:.82rem;"><i class="bi bi-download"></i> PDF</a></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Chart -->
+    <div class="chart-container mt-4">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <div>
+          <h6 style="font-family:var(--font-head);font-weight:700;color:var(--text);margin-bottom:.2rem;">Monthly Spending</h6>
+          <div style="font-size:.8rem;color:var(--text-muted);">Last 6 months overview</div>
+        </div>
+        <select class="sort-select" style="max-width:160px;">
+          <option>Last 6 Months</option>
+          <option>Last 12 Months</option>
+          <option>This Year</option>
+        </select>
+      </div>
+      <canvas id="spendingChart" height="90"></canvas>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════
+       PANEL 5 — NOTIFICATIONS
+  ══════════════════════════════════════ -->
+  <section class="panel-section" id="notifications">
+    <div class="panel-title"><i class="bi bi-bell-fill text-purple me-2"></i>Notifications Center</div>
+    <p class="panel-subtitle">Stay updated on your bookings, reminders, and exclusive offers.</p>
+    <div class="panel-divider"></div>
+
+    <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+      <div class="d-flex gap-2 flex-wrap">
+        <button class="filter-pill active" onclick="filterNotifs(this,'all')">All</button>
+        <button class="filter-pill" onclick="filterNotifs(this,'booking')">Bookings</button>
+        <button class="filter-pill" onclick="filterNotifs(this,'reminder')">Reminders</button>
+        <button class="filter-pill" onclick="filterNotifs(this,'promo')">Promotions</button>
+      </div>
+      <div class="d-flex gap-2">
+        <button class="btn-outline-ev btn-sm-ev" onclick="markAllRead()"><i class="bi bi-check2-all"></i> Mark All Read</button>
+        <button class="btn-outline-ev btn-sm-ev" style="color:var(--coral);border-color:var(--coral);" onclick="clearAllNotifs()"><i class="bi bi-trash3"></i> Clear All</button>
+      </div>
+    </div>
+
+    <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:16px;overflow:hidden;" id="notifList">
+      <!-- Unread -->
+      <div class="notif-item unread" data-type="booking">
+        <div class="notif-icon" style="background:rgba(118,87,232,0.12);color:var(--purple);"><i class="bi bi-check-circle-fill"></i></div>
+        <div class="flex-grow-1">
+          <div class="notif-title">Booking Confirmed! <i class="bi bi-check-circle-fill text-success ms-1"></i></div>
+          <div class="notif-desc">Your booking for <strong>Coldplay World Tour 2026</strong> (VIP Floor A3-14) has been confirmed. Check your email for the e-ticket.</div>
+          <div class="notif-time"><i class="bi bi-clock me-1"></i>2 hours ago</div>
+        </div>
+        <div class="notif-dot"></div>
+      </div>
+      <!-- Unread -->
+      <div class="notif-item unread" data-type="reminder">
+        <div class="notif-icon" style="background:rgba(251,191,36,0.12);color:#f59e0b;"><i class="bi bi-alarm-fill"></i></div>
+        <div class="flex-grow-1">
+          <div class="notif-title">Event Reminder <i class="bi bi-clock-history text-warning ms-1"></i></div>
+          <div class="notif-desc"><strong>Coldplay World Tour</strong> is in 3 days! Don't forget to check the venue info and parking options. Gates open at 5:30 PM.</div>
+          <div class="notif-time"><i class="bi bi-clock me-1"></i>5 hours ago</div>
+        </div>
+        <div class="notif-dot"></div>
+      </div>
+      <!-- Unread -->
+      <div class="notif-item unread" data-type="promo">
+        <div class="notif-icon" style="background:rgba(255,118,107,0.12);color:var(--coral);"><i class="bi bi-tag-fill"></i></div>
+        <div class="flex-grow-1">
+          <div class="notif-title">Exclusive Offer for You <i class="bi bi-tag-fill text-coral ms-1"></i></div>
+          <div class="notif-desc">Use code <strong>ALEX20</strong> for 20% off your next ticket purchase. Valid until November 30, 2026. Limited slots available!</div>
+          <div class="notif-time"><i class="bi bi-clock me-1"></i>1 day ago</div>
+        </div>
+        <div class="notif-dot"></div>
+      </div>
+      <!-- Read -->
+      <div class="notif-item" data-type="booking">
+        <div class="notif-icon" style="background:rgba(74,222,128,0.12);color:#22c55e;"><i class="bi bi-check2-circle"></i></div>
+        <div class="flex-grow-1">
+          <div class="notif-title">Payment Successful</div>
+          <div class="notif-desc">$199.00 charged for <strong>Global Tech Summit 2026</strong>. Transaction ID: TXN-9271-XKA.</div>
+          <div class="notif-time"><i class="bi bi-clock me-1"></i>3 days ago</div>
+        </div>
+      </div>
+      <!-- Read -->
+      <div class="notif-item" data-type="reminder">
+        <div class="notif-icon" style="background:rgba(99,102,241,0.12);color:#6366f1;"><i class="bi bi-calendar-event-fill"></i></div>
+        <div class="flex-grow-1">
+          <div class="notif-title">New Event in Your City</div>
+          <div class="notif-desc"><strong>London Jazz &amp; Blues Night</strong> is coming to Barbican Centre on Dec 12. Early bird tickets from just $45!</div>
+          <div class="notif-time"><i class="bi bi-clock me-1"></i>4 days ago</div>
+        </div>
+      </div>
+      <div class="notif-item" data-type="booking">
+        <div class="notif-icon" style="background:rgba(239,68,68,0.12);color:#ef4444;"><i class="bi bi-arrow-counterclockwise"></i></div>
+        <div class="flex-grow-1">
+          <div class="notif-title">Refund Processed</div>
+          <div class="notif-desc">Your refund of <strong>$60.00</strong> for London Marathon 2025 has been processed. It will reflect in 3–5 business days.</div>
+          <div class="notif-time"><i class="bi bi-clock me-1"></i>5 days ago</div>
+        </div>
+      </div>
+      <div class="notif-item" data-type="promo">
+        <div class="notif-icon" style="background:rgba(118,87,232,0.12);color:var(--purple);"><i class="bi bi-star-fill"></i></div>
+        <div class="flex-grow-1">
+          <div class="notif-title">Review Your Experience</div>
+          <div class="notif-desc">How was <strong>Electric Daisy Carnival 2025</strong>? Leave a review and earn 50 Eventora points!</div>
+          <div class="notif-time"><i class="bi bi-clock me-1"></i>1 week ago</div>
+        </div>
+      </div>
+      <div class="notif-item" data-type="reminder">
+        <div class="notif-icon" style="background:rgba(74,222,128,0.12);color:#22c55e;"><i class="bi bi-ticket-perforated-fill"></i></div>
+        <div class="flex-grow-1">
+          <div class="notif-title">Ticket Transfer Available</div>
+          <div class="notif-desc">You can now transfer your <strong>Tech Summit</strong> ticket to a friend. Use the Share button on your digital ticket.</div>
+          <div class="notif-time"><i class="bi bi-clock me-1"></i>1 week ago</div>
+        </div>
+      </div>
+      <div class="notif-item" data-type="promo">
+        <div class="notif-icon" style="background:rgba(251,191,36,0.12);color:#f59e0b;"><i class="bi bi-lightning-charge-fill"></i></div>
+        <div class="flex-grow-1">
+          <div class="notif-title">Flash Sale: 24 Hours Only!</div>
+          <div class="notif-desc">Grab tickets to <strong>Ibiza Closing Party 2026</strong> at 40% off. Only 12 tickets remaining. Don't miss out!</div>
+          <div class="notif-time"><i class="bi bi-clock me-1"></i>2 weeks ago</div>
+        </div>
+      </div>
+      <div class="notif-item" data-type="booking">
+        <div class="notif-icon" style="background:rgba(99,102,241,0.12);color:#6366f1;"><i class="bi bi-person-check-fill"></i></div>
+        <div class="flex-grow-1">
+          <div class="notif-title">Friend Joined Eventora!</div>
+          <div class="notif-desc"><strong>Jamie Roberts</strong> accepted your invite and joined Eventora. You've earned 100 bonus points!</div>
+          <div class="notif-time"><i class="bi bi-clock me-1"></i>3 weeks ago</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════
+       PANEL 6 — PROFILE SETTINGS
+  ══════════════════════════════════════ -->
+  <section class="panel-section" id="profile-settings">
+    <div class="panel-title"><i class="bi bi-gear-fill text-purple me-2"></i>Profile Settings</div>
+    <p class="panel-subtitle">Manage your personal information, security, and preferences.</p>
+    <div class="panel-divider"></div>
+
+    <div class="row g-4">
+      <!-- LEFT COLUMN -->
+      <div class="col-12 col-lg-6">
+        <!-- Avatar Upload -->
+        <div class="avatar-upload mb-4" onclick="document.getElementById('avatarInput').click()">
+          <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop&crop=face" alt="Avatar" />
+          <div style="font-weight:600;font-size:.875rem;color:var(--text);">Click or drag &amp; drop to change photo</div>
+          <p>JPG, PNG, GIF up to 5MB</p>
+          <input type="file" id="avatarInput" style="display:none;" accept="image/*" />
+        </div>
+
+        <!-- Personal Info Form -->
+        <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:16px;padding:1.5rem;">
+          <h6 style="font-family:var(--font-head);font-weight:700;margin-bottom:1.25rem;color:var(--text);">Personal Information</h6>
+          <div class="row g-3">
+            <div class="col-6">
+              <label class="form-label">First Name</label>
+              <input type="text" class="form-control" value="Alex" />
+            </div>
+            <div class="col-6">
+              <label class="form-label">Last Name</label>
+              <input type="text" class="form-control" value="Johnson" />
+            </div>
+            <div class="col-12">
+              <label class="form-label">Email Address</label>
+              <div style="position:relative;">
+                <input type="email" class="form-control" value="alex.johnson@email.com" style="padding-right:3rem;" />
+                <span style="position:absolute;right:.75rem;top:50%;transform:translateY(-50%);color:#22c55e;font-size:.9rem;"><i class="bi bi-patch-check-fill"></i></span>
+              </div>
+            </div>
+            <div class="col-12">
+              <label class="form-label">Phone Number</label>
+              <input type="tel" class="form-control" value="+44 7700 900142" />
+            </div>
+            <div class="col-6">
+              <label class="form-label">Date of Birth</label>
+              <input type="date" class="form-control" value="1992-03-15" />
+            </div>
+            <div class="col-6">
+              <label class="form-label">Location</label>
+              <input type="text" class="form-control" value="London, UK" />
+            </div>
+            <div class="col-6">
+              <label class="form-label">Language</label>
+              <select class="form-select">
+                <option selected>English (UK)</option>
+                <option>English (US)</option>
+                <option>French</option>
+                <option>Spanish</option>
+                <option>German</option>
+              </select>
+            </div>
+            <div class="col-6">
+              <label class="form-label">Timezone</label>
+              <select class="form-select">
+                <option selected>GMT+00:00 London</option>
+                <option>GMT+01:00 Paris</option>
+                <option>GMT-05:00 New York</option>
+                <option>GMT+05:30 Mumbai</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT COLUMN -->
+      <div class="col-12 col-lg-6">
+        <!-- Password Section -->
+        <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:16px;padding:1.5rem;margin-bottom:1.25rem;">
+          <h6 style="font-family:var(--font-head);font-weight:700;margin-bottom:1.25rem;color:var(--text);">Change Password</h6>
+          <div class="d-flex flex-column gap-3">
+            <div>
+              <label class="form-label">Current Password</label>
+              <input type="password" class="form-control" placeholder="••••••••" />
+            </div>
+            <div>
+              <label class="form-label">New Password</label>
+              <input type="password" class="form-control" placeholder="••••••••" id="newPassInput" oninput="updateStrength(this.value)" />
+              <div class="password-strength mt-2">
+                <div class="password-strength-fill" id="strengthBar" style="width:0%;background:#ef4444;"></div>
+              </div>
+              <div style="font-size:.72rem;color:var(--text-muted);margin-top:.25rem;" id="strengthLabel">Enter a password</div>
+            </div>
+            <div>
+              <label class="form-label">Confirm New Password</label>
+              <input type="password" class="form-control" placeholder="••••••••" />
+            </div>
+            <button class="btn-outline-ev align-self-start"><i class="bi bi-lock"></i> Update Password</button>
+          </div>
+        </div>
+
+        <!-- Notification Preferences -->
+        <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:16px;padding:1.5rem;margin-bottom:1.25rem;">
+          <h6 style="font-family:var(--font-head);font-weight:700;margin-bottom:1.25rem;color:var(--text);">Notification Preferences</h6>
+          <div class="d-flex flex-column gap-3">
+            <div class="d-flex justify-content-between align-items-center">
+              <div>
+                <div style="font-size:.875rem;font-weight:500;color:var(--text);">Email Notifications</div>
+                <div style="font-size:.78rem;color:var(--text-muted);">Booking confirmations, receipts</div>
+              </div>
+              <label class="toggle-switch"><input type="checkbox" checked /><span class="toggle-slider"></span></label>
+            </div>
+            <div class="d-flex justify-content-between align-items-center">
+              <div>
+                <div style="font-size:.875rem;font-weight:500;color:var(--text);">SMS Notifications</div>
+                <div style="font-size:.78rem;color:var(--text-muted);">Event reminders via text</div>
+              </div>
+              <label class="toggle-switch"><input type="checkbox" checked /><span class="toggle-slider"></span></label>
+            </div>
+            <div class="d-flex justify-content-between align-items-center">
+              <div>
+                <div style="font-size:.875rem;font-weight:500;color:var(--text);">Push Notifications</div>
+                <div style="font-size:.78rem;color:var(--text-muted);">In-app alerts and updates</div>
+              </div>
+              <label class="toggle-switch"><input type="checkbox" /><span class="toggle-slider"></span></label>
+            </div>
+            <div class="d-flex justify-content-between align-items-center">
+              <div>
+                <div style="font-size:.875rem;font-weight:500;color:var(--text);">Promotional Emails</div>
+                <div style="font-size:.78rem;color:var(--text-muted);">Deals and exclusive offers</div>
+              </div>
+              <label class="toggle-switch"><input type="checkbox" checked /><span class="toggle-slider"></span></label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Privacy & Connected Accounts -->
+        <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:16px;padding:1.5rem;margin-bottom:1.25rem;">
+          <h6 style="font-family:var(--font-head);font-weight:700;margin-bottom:1rem;color:var(--text);">Privacy Settings</h6>
+          <div class="d-flex flex-column gap-3 mb-4">
+            <div class="d-flex justify-content-between align-items-center">
+              <div style="font-size:.875rem;font-weight:500;color:var(--text);">Profile Visibility</div>
+              <label class="toggle-switch"><input type="checkbox" checked /><span class="toggle-slider"></span></label>
+            </div>
+            <div class="d-flex justify-content-between align-items-center">
+              <div style="font-size:.875rem;font-weight:500;color:var(--text);">Share Activity with Friends</div>
+              <label class="toggle-switch"><input type="checkbox" /><span class="toggle-slider"></span></label>
+            </div>
+            <div class="d-flex justify-content-between align-items-center">
+              <div style="font-size:.875rem;font-weight:500;color:var(--text);">Two-Factor Authentication</div>
+              <label class="toggle-switch"><input type="checkbox" checked /><span class="toggle-slider"></span></label>
+            </div>
+          </div>
+          <h6 style="font-family:var(--font-head);font-weight:700;margin-bottom:1rem;color:var(--text);">Connected Accounts</h6>
+          <div class="d-flex flex-column gap-2">
+            <div class="d-flex justify-content-between align-items-center p-3" style="background:var(--input-bg);border-radius:10px;">
+              <div class="d-flex align-items-center gap-2">
+                <i class="bi bi-google text-danger fs-5"></i>
+                <div>
+                  <div style="font-size:.85rem;font-weight:600;color:var(--text);">Google</div>
+                  <div style="font-size:.75rem;color:var(--text-muted);">alex.johnson@gmail.com</div>
+                </div>
+              </div>
+              <span style="font-size:.75rem;color:#22c55e;font-weight:600;"><i class="bi bi-check-circle-fill"></i> Connected</span>
+            </div>
+            <div class="d-flex justify-content-between align-items-center p-3" style="background:var(--input-bg);border-radius:10px;">
+              <div class="d-flex align-items-center gap-2">
+                <i class="bi bi-facebook text-primary fs-5"></i>
+                <div>
+                  <div style="font-size:.85rem;font-weight:600;color:var(--text);">Facebook</div>
+                  <div style="font-size:.75rem;color:var(--text-muted);">Not connected</div>
+                </div>
+              </div>
+              <button class="btn-outline-ev btn-sm-ev">Connect</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Save Button -->
+    <div class="mt-3 d-flex gap-3 flex-wrap">
+      <button class="btn-primary-ev" onclick="showSaveToast()">
+        <i class="bi bi-check-lg"></i> Save Changes
+      </button>
+      <button class="btn-outline-ev">
+        <i class="bi bi-arrow-counterclockwise"></i> Reset
+      </button>
+    </div>
+
+    <!-- Danger Zone -->
+    <div class="danger-zone-card mt-4">
+      <h6 style="color:#ef4444;font-family:var(--font-head);font-weight:700;margin-bottom:.5rem;"><i class="bi bi-exclamation-triangle-fill text-danger me-2"></i>Danger Zone</h6>
+      <p style="font-size:.875rem;color:var(--text-muted);margin-bottom:1rem;">Once you delete your account, all data, bookings, and tickets will be permanently removed. This action cannot be undone.</p>
+      <button style="background:transparent;border:1.5px solid #ef4444;color:#ef4444;border-radius:10px;padding:.6rem 1.5rem;font-weight:600;font-size:.875rem;cursor:pointer;transition:all .2s;" onmouseover="this.style.background='rgba(239,68,68,0.1)'" onmouseout="this.style.background='transparent'">
+        <i class="bi bi-trash3-fill me-1"></i> Delete My Account
+      </button>
+    </div>
+  </section>
+
+</main>
+
+<!-- ===== TOAST ===== -->
+<div class="toast-container">
+  <div class="toast-ev" id="saveToast" style="display:none;">
+    <span style="font-size:1.3rem;"><i class="bi bi-check-circle-fill text-success"></i></span>
+    <div>
+      <div style="font-weight:600;color:#151B35;">Changes Saved!</div>
+      <div style="font-size:.8rem;color:#475569;">Your profile has been updated successfully.</div>
+    </div>
+    <button onclick="document.getElementById('saveToast').style.display='none'" style="margin-left:auto;background:none;border:none;cursor:pointer;color:#475569;font-size:1.1rem;">×</button>
+  </div>
+</div>
+
+<!-- Mobile sidebar overlay -->
+<div id="sidebarOverlay" onclick="closeSidebar()" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:1039;"></div>
+
+<!-- Bootstrap 5 JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+
+<script>
+  // ── SIDEBAR TOGGLE ──
+  const sidebar = document.getElementById('sidebar');
+  const sidebarToggle = document.getElementById('sidebarToggle');
+  const mainWrapper = document.getElementById('mainWrapper');
+  const overlay = document.getElementById('sidebarOverlay');
+  let isMobile = window.innerWidth < 992;
+
+  sidebarToggle.addEventListener('click', () => {
+    if (isMobile) {
+      sidebar.classList.toggle('mobile-open');
+      overlay.style.display = sidebar.classList.contains('mobile-open') ? 'block' : 'none';
+    } else {
+      sidebar.classList.toggle('collapsed');
+    }
+  });
+
+  function closeSidebar() {
+    sidebar.classList.remove('mobile-open');
+    overlay.style.display = 'none';
+  }
+
+  window.addEventListener('resize', () => {
+    isMobile = window.innerWidth < 992;
+    if (!isMobile) { overlay.style.display = 'none'; sidebar.classList.remove('mobile-open'); }
+  });
+
+  // Sidebar nav active state
+  document.querySelectorAll('.sidebar-nav-item').forEach(item => {
+    item.addEventListener('click', () => {
+      document.querySelectorAll('.sidebar-nav-item').forEach(i => i.classList.remove('active'));
+      item.classList.add('active');
+      if (isMobile) closeSidebar();
+    });
+  });
+
+  // ── DARK MODE ──
+  const darkToggle = document.getElementById('darkToggle');
+  const darkIcon = document.getElementById('darkIcon');
+  darkToggle.addEventListener('click', () => {
+    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+    const next = isDark ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', next);
+    localStorage.setItem('eventora-theme', next);
+    darkIcon.className = isDark ? 'bi bi-moon-stars' : 'bi bi-sun-fill';
+    updateChart();
+  });
+
+  // ── USER DROPDOWN ──
+  const userAvatarBtn = document.getElementById('userAvatarBtn');
+  const userDropdown = document.getElementById('userDropdown');
+  userAvatarBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    userDropdown.classList.toggle('show');
+  });
+  document.addEventListener('click', () => userDropdown.classList.remove('show'));
+
+  // ── COUNTDOWN TIMER ──
+  const targetDate = new Date();
+  targetDate.setDate(targetDate.getDate() + 3);
+  targetDate.setHours(targetDate.getHours() + 14);
+  targetDate.setMinutes(targetDate.getMinutes() + 22);
+
+  function pad(n) { return String(n).padStart(2, '0'); }
+  function updateCountdown() {
+    const diff = targetDate - new Date();
+    if (diff <= 0) return;
+    const d = Math.floor(diff / 86400000);
+    const h = Math.floor((diff % 86400000) / 3600000);
+    const m = Math.floor((diff % 3600000) / 60000);
+    const s = Math.floor((diff % 60000) / 1000);
+    document.getElementById('cdDays').textContent = pad(d);
+    document.getElementById('cdHours').textContent = pad(h);
+    document.getElementById('cdMins').textContent = pad(m);
+    document.getElementById('cdSecs').textContent = pad(s);
+  }
+  setInterval(updateCountdown, 1000);
+  updateCountdown();
+
+  // ── BARCODES ──
+  function generateBarcode(id) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const widths = [2,1,3,1,2,1,1,2,3,1,2,2,1,1,3,2,1,2,1,3,1,1,2,1,2,3,1,2,1,2];
+    widths.forEach((w, i) => {
+      const bar = document.createElement('span');
+      bar.style.width = w + 'px';
+      bar.style.height = (i % 4 === 0) ? '48px' : (i % 3 === 0) ? '36px' : '42px';
+      bar.style.background = i % 5 === 0 ? 'var(--border)' : 'var(--text)';
+      el.appendChild(bar);
+    });
+  }
+  generateBarcode('bc1');
+  generateBarcode('bc2');
+  generateBarcode('bc3');
+
+  // ── CHART ──
+  let chart;
+  function getChartColors() {
+    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+    return { grid: isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)', text: isDark ? '#CBD5E1' : '#475569' };
+  }
+
+  function buildChart() {
+    const ctx = document.getElementById('spendingChart').getContext('2d');
+    const c = getChartColors();
+    chart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: ['Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov'],
+        datasets: [{
+          label: 'Spending ($)',
+          data: [162, 60, 220, 75, 299, 280],
+          borderColor: '#7657E8',
+          backgroundColor: 'rgba(118,87,232,0.1)',
+          borderWidth: 2.5,
+          pointBackgroundColor: '#7657E8',
+          pointRadius: 5,
+          pointHoverRadius: 7,
+          tension: 0.4,
+          fill: true,
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            backgroundColor: '#151B35',
+            titleColor: '#fff',
+            bodyColor: 'rgba(255,255,255,0.7)',
+            borderColor: '#7657E8',
+            borderWidth: 1,
+            padding: 10,
+            callbacks: { label: ctx => ' $' + ctx.parsed.y }
+          }
+        },
+        scales: {
+          x: { grid: { color: c.grid }, ticks: { color: c.text } },
+          y: {
+            grid: { color: c.grid }, ticks: { color: c.text, callback: v => '$' + v },
+            beginAtZero: true
+          }
+        }
+      }
+    });
+  }
+
+  function updateChart() {
+    if (chart) { chart.destroy(); }
+    buildChart();
+  }
+
+  buildChart();
+
+  // ── NOTIFICATION FILTERS ──
+  function filterNotifs(btn, type) {
+    document.querySelectorAll('#notifications .filter-pill').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.notif-item').forEach(item => {
+      item.style.display = (type === 'all' || item.dataset.type === type) ? 'flex' : 'none';
+    });
+  }
+
+  function markAllRead() {
+    document.querySelectorAll('.notif-item.unread').forEach(item => {
+      item.classList.remove('unread');
+      const dot = item.querySelector('.notif-dot');
+      if (dot) dot.remove();
+    });
+  }
+
+  function clearAllNotifs() {
+    document.getElementById('notifList').innerHTML = `
+      <div style="padding:3rem;text-align:center;color:var(--text-muted);">
+        <i class="bi bi-bell-slash" style="font-size:2.5rem;opacity:.4;display:block;margin-bottom:.75rem;"></i>
+        No notifications to show.
+      </div>`;
+  }
+
+  // ── BOOKING FILTER ──
+  function filterBookings(btn, type) {
+    document.querySelectorAll('#my-bookings .filter-pill').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+  }
+
+  // ── PASSWORD STRENGTH ──
+  function updateStrength(val) {
+    const bar = document.getElementById('strengthBar');
+    const label = document.getElementById('strengthLabel');
+    let score = 0;
+    if (val.length >= 8) score++;
+    if (/[A-Z]/.test(val)) score++;
+    if (/[0-9]/.test(val)) score++;
+    if (/[^A-Za-z0-9]/.test(val)) score++;
+    const levels = [
+      { w: '25%', c: '#ef4444', t: 'Weak' },
+      { w: '50%', c: '#f59e0b', t: 'Fair' },
+      { w: '75%', c: '#3b82f6', t: 'Good' },
+      { w: '100%', c: '#22c55e', t: 'Strong' },
+    ];
+    if (!val) { bar.style.width = '0'; label.textContent = 'Enter a password'; return; }
+    const l = levels[score - 1] || levels[0];
+    bar.style.width = l.w;
+    bar.style.background = l.c;
+    label.textContent = l.t + ' password';
+    label.style.color = l.c;
+  }
+
+  // ── SAVE TOAST ──
+  function showSaveToast() {
+    const t = document.getElementById('saveToast');
+    t.style.display = 'flex';
+    setTimeout(() => { t.style.display = 'none'; }, 4000);
+  }
+
+  // ── TOGGLE VIEW BUTTONS (bookings) ──
+  document.querySelectorAll('.toggle-view-btn button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      btn.parentElement.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    });
+  });
+
+  // ── SCROLL SPY for sidebar active state ──
+  const sections = document.querySelectorAll('.panel-section');
+  const navItems = document.querySelectorAll('.sidebar-nav-item');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        navItems.forEach(n => n.classList.remove('active'));
+        const target = document.querySelector(`.sidebar-nav-item[href="#${entry.target.id}"]`);
+        if (target) target.classList.add('active');
+      }
+    });
+  }, { threshold: 0.4 });
+  sections.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>

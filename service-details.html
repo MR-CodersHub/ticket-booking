@@ -1,0 +1,1217 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ticket Booking Assistance – Eventora</title>
+  <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/style.css" />
+  <style>
+    :root {
+      --navy: #151B35;
+      --purple: #7657E8;
+      --coral: #FF766B;
+      --lavender: #F1EDFF;
+      --white: #FFFFFF;
+      --purple-light: #9b7ff0;
+      --navy-soft: #1e2648;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', sans-serif; color: #333; background: #fff; }
+    h1, h2, h3, h4, h5, h6 { font-family: 'Plus Jakarta Sans', sans-serif; }
+
+    /* ── NAVBAR ── */
+    .navbar-eventora {
+      background: rgba(21, 27, 53, 0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(118, 87, 232, 0.2);
+      transition: all .3s;
+    }
+    .navbar-brand span { color: var(--purple); }
+    .nav-link { color: rgba(255,255,255,.85) !important; font-weight: 500; transition: color .2s; }
+    .nav-link:hover, .nav-link.active { color: var(--coral) !important; }
+    .btn-nav-cta {
+      background: linear-gradient(135deg, var(--purple), var(--coral));
+      color: #fff !important;
+      border-radius: 50px;
+      padding: 7px 22px !important;
+      font-weight: 600;
+      transition: transform .2s, box-shadow .2s;
+    }
+    .btn-nav-cta:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(118,87,232,.4); }
+
+    /* ── SECTION 1: SERVICE HERO ── */
+    .service-hero {
+      position: relative;
+      min-height: 500px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      overflow: hidden;
+      padding-top: 80px;
+    }
+    .service-hero-bg {
+      position: absolute; inset: 0;
+      background-image: url('https://images.unsplash.com/photo-1560439514-4e9645039924?w=1200&q=80');
+      background-size: cover;
+      background-position: center;
+      filter: brightness(.35);
+    }
+    .service-hero-content { position: relative; z-index: 2; }
+    .breadcrumb-item a { color: var(--purple-light); text-decoration: none; }
+    .breadcrumb-item.active { color: rgba(255,255,255,.7); }
+    .breadcrumb-divider { color: rgba(255,255,255,.5); }
+    .service-badge {
+      display: inline-block;
+      background: linear-gradient(135deg, var(--purple), var(--coral));
+      color: #fff;
+      border-radius: 50px;
+      padding: 6px 18px;
+      font-size: .8rem;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+    .service-hero h1 { font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 800; color: #fff; line-height: 1.1; }
+    .service-hero p.lead { color: rgba(255,255,255,.75); max-width: 580px; }
+    .service-hero { text-align: center; }
+    .service-hero .breadcrumb { justify-content: center; }
+    .service-hero p.lead { margin-left: auto; margin-right: auto; }
+    .hero-cta-group { justify-content: center; }
+    .hero-cta-group .btn-primary-custom {
+      background: linear-gradient(135deg, var(--purple), var(--coral));
+      color: #fff;
+      border: none;
+      border-radius: 50px;
+      padding: 12px 32px;
+      font-weight: 700;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      transition: transform .2s, box-shadow .2s;
+    }
+    .hero-cta-group .btn-primary-custom:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(118,87,232,.5); }
+    .hero-cta-group .btn-outline-custom {
+      background: transparent;
+      color: #fff;
+      border: 2px solid rgba(255,255,255,.5);
+      border-radius: 50px;
+      padding: 11px 30px;
+      font-weight: 600;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      transition: all .2s;
+    }
+    .hero-cta-group .btn-outline-custom:hover { background: rgba(255,255,255,.1); border-color: #fff; }
+
+    /* Stats strip */
+    .stats-strip {
+      background: var(--navy);
+      border-top: 2px solid rgba(118,87,232,.4);
+    }
+    .stat-item { text-align: center; padding: 24px 10px; border-right: 1px solid rgba(255,255,255,.08); }
+    .stat-item:last-child { border-right: none; }
+    .stat-number { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 2rem; font-weight: 800; background: linear-gradient(135deg, var(--purple), var(--coral)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; display: block; }
+    .stat-label { color: rgba(255,255,255,.65); font-size: .85rem; margin-top: 4px; }
+
+    /* ── SECTION 2: OVERVIEW + SIDEBAR ── */
+    .section-overview { padding: 80px 0; }
+    .section-heading {
+      font-size: clamp(1.6rem, 3vw, 2.3rem);
+      font-weight: 800;
+      color: var(--navy);
+      position: relative;
+      padding-bottom: 14px;
+      margin-bottom: 1.5rem;
+    }
+    .section-heading::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0;
+      width: 60px; height: 4px;
+      background: linear-gradient(135deg, var(--purple), var(--coral));
+      border-radius: 4px;
+    }
+    .overview-text p { color: #555; line-height: 1.8; margin-bottom: 1.2rem; }
+    .feature-img { border-radius: 16px; overflow: hidden; box-shadow: 0 20px 60px rgba(118,87,232,.15); }
+    .feature-img img { width: 100%; height: 240px; object-fit: cover; }
+
+    /* Process steps */
+    .process-step { display: flex; gap: 16px; align-items: flex-start; margin-bottom: 24px; }
+    .step-num {
+      width: 46px; height: 46px; border-radius: 12px; flex-shrink: 0;
+      background: linear-gradient(135deg, var(--purple), var(--coral));
+      display: flex; align-items: center; justify-content: center;
+      color: #fff; font-weight: 800; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 1.1rem;
+    }
+    .step-info h5 { font-size: 1rem; font-weight: 700; color: var(--navy); margin-bottom: 4px; }
+    .step-info p { font-size: .88rem; color: #666; margin: 0; }
+
+    /* Sidebar cards */
+    .sidebar-card {
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 4px 30px rgba(118,87,232,.12);
+      padding: 24px;
+      margin-bottom: 24px;
+      border: 1px solid rgba(118,87,232,.08);
+    }
+    /* FIX 3: Sticky sidebar */
+    .sidebar-sticky { position: sticky; top: 90px; }
+    .sidebar-card-title { font-size: 1.1rem; font-weight: 700; color: var(--navy); margin-bottom: 16px; padding-bottom: 12px; border-bottom: 2px solid var(--lavender); }
+    .sidebar-card .form-control, .sidebar-card .form-select {
+      border: 1.5px solid #e0daf8;
+      border-radius: 10px;
+      padding: 10px 14px;
+      font-size: .9rem;
+      transition: border-color .2s;
+      margin-bottom: 12px;
+    }
+    .sidebar-card .form-control:focus, .sidebar-card .form-select:focus { border-color: var(--purple); box-shadow: 0 0 0 3px rgba(118,87,232,.12); }
+    .btn-sidebar-book {
+      width: 100%;
+      background: linear-gradient(135deg, var(--purple), var(--coral));
+      color: #fff;
+      border: none;
+      border-radius: 50px;
+      padding: 12px;
+      font-weight: 700;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      transition: transform .2s, box-shadow .2s;
+    }
+    .btn-sidebar-book:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(118,87,232,.4); color:#fff; }
+    .contact-info-item { display: flex; align-items: center; gap: 10px; color: #555; font-size: .9rem; margin-bottom: 10px; }
+    .contact-info-item i { color: var(--purple); font-size: 1.1rem; }
+    .related-service-item { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid #f0f0f0; color: #444; font-size: .9rem; text-decoration: none; transition: color .2s; }
+    .related-service-item:hover { color: var(--purple); }
+    .related-service-item i { color: var(--purple); }
+    .btn-brochure {
+      display: block; width: 100%; text-align: center;
+      background: var(--navy); color: #fff; border: none; border-radius: 10px; padding: 12px;
+      font-weight: 600; font-family: 'Plus Jakarta Sans', sans-serif; text-decoration: none;
+      transition: background .2s;
+    }
+    .btn-brochure:hover { background: var(--navy-soft); color: #fff; }
+
+    /* ── SECTION 3: KEY FEATURES ── */
+    .section-features { padding: 80px 0; background: var(--lavender); }
+    .feature-card {
+      background: #fff;
+      border-radius: 16px;
+      padding: 32px 24px;
+      text-align: center;
+      box-shadow: 0 4px 24px rgba(118,87,232,.1);
+      transition: transform .3s, box-shadow .3s;
+      height: 100%;
+      border: 1px solid rgba(118,87,232,.06);
+    }
+    .feature-card:hover { transform: translateY(-8px); box-shadow: 0 20px 50px rgba(118,87,232,.2); }
+    .feature-icon-wrap {
+      width: 72px; height: 72px; border-radius: 20px; margin: 0 auto 20px;
+      background: linear-gradient(135deg, rgba(118,87,232,.12), rgba(255,118,107,.12));
+      display: flex; align-items: center; justify-content: center;
+    }
+    .feature-icon-wrap i { font-size: 2rem; color: var(--purple); }
+    .feature-card h5 { font-weight: 700; color: var(--navy); font-size: 1.05rem; margin-bottom: 10px; }
+    .feature-card p { color: #666; font-size: .88rem; line-height: 1.6; }
+
+    /* ── SECTION 4: HOW IT WORKS ── */
+    .section-how { padding: 80px 0; background: var(--navy); }
+    .section-how .section-heading { color: #fff; }
+    .section-how .section-heading::after { background: linear-gradient(135deg, var(--purple), var(--coral)); }
+    .how-subtitle { color: rgba(255,255,255,.65); max-width: 540px; }
+    .timeline-wrapper { position: relative; display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; margin-top: 50px; }
+    .timeline-line {
+      position: absolute;
+      top: 36px; left: 60px; right: 60px; height: 2px;
+      background: linear-gradient(90deg, var(--purple), var(--coral));
+      z-index: 0;
+    }
+    .timeline-step { flex: 1; text-align: center; position: relative; z-index: 1; }
+    .timeline-icon {
+      width: 72px; height: 72px; border-radius: 50%; margin: 0 auto 16px;
+      background: linear-gradient(135deg, var(--purple), var(--coral));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.6rem; color: #fff;
+      box-shadow: 0 0 0 6px rgba(118,87,232,.2);
+    }
+    .timeline-step-num {
+      position: absolute; top: -10px; right: calc(50% - 46px);
+      width: 22px; height: 22px; border-radius: 50%;
+      background: var(--coral); color: #fff; font-size: .7rem; font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+    .timeline-step h6 { color: #fff; font-weight: 700; font-size: .95rem; margin-bottom: 8px; }
+    .timeline-step p { color: rgba(255,255,255,.6); font-size: .8rem; line-height: 1.5; }
+    
+
+    /* Mobile timeline */
+    @media (max-width: 767px) {
+      .timeline-wrapper { flex-direction: column; align-items: center; gap: 24px; }
+      .timeline-line { display: none; }
+      .timeline-step { width: 100%; max-width: 300px; }
+    }
+
+    /* ── SECTION 5: TESTIMONIALS ── */
+    .section-testimonials { padding: 80px 0; background: var(--lavender); }
+    .testimonial-card {
+      background: #fff;
+      border-radius: 20px;
+      padding: 32px;
+      box-shadow: 0 4px 24px rgba(118,87,232,.1);
+      position: relative;
+      height: 100%;
+      border: 1px solid rgba(118,87,232,.08);
+    }
+    .quote-mark {
+      font-size: 5rem;
+      line-height: 1;
+      color: var(--purple);
+      opacity: .15;
+      font-family: Georgia, serif;
+      position: absolute;
+      top: 10px; left: 20px;
+    }
+    .stars { color: #f5a623; font-size: .95rem; margin-bottom: 12px; }
+    .testimonial-text { color: #555; font-size: .92rem; line-height: 1.7; margin-bottom: 20px; font-style: italic; }
+    .testimonial-author { display: flex; align-items: center; gap: 12px; }
+    .author-avatar { width: 50px; height: 50px; border-radius: 50%; object-fit: cover; border: 2px solid var(--purple); }
+    .author-name { font-weight: 700; color: var(--navy); font-size: .95rem; font-family: 'Plus Jakarta Sans', sans-serif; }
+    .author-event { font-size: .8rem; color: var(--purple); }
+
+    /* ── SECTION 6: FAQ + CTA ── */
+    .section-faq { padding: 80px 0; }
+    .accordion-button { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 600; color: var(--navy); background: #fff; }
+    .accordion-button:not(.collapsed) { color: var(--purple); background: var(--lavender); box-shadow: none; }
+    .accordion-button::after { filter: none; }
+    .accordion-button:not(.collapsed)::after { filter: none; }
+    /* FIX 3: Proper accordion-item structure */
+    .accordion-item { border: 1px solid rgba(118,87,232,.15); border-radius: 12px !important; margin-bottom: 10px; overflow: hidden; }
+    .accordion-item + .accordion-item { margin-top: 0; }
+    .accordion-body { color: #555; font-size: .92rem; line-height: 1.7; }
+    .cta-booking {
+      background: var(--navy);
+      border-radius: 24px;
+      padding: 48px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .cta-booking::before {
+      content: '';
+      position: absolute;
+      top: -60px; right: -60px;
+      width: 200px; height: 200px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(118,87,232,.3), transparent 70%);
+    }
+    .cta-booking h3 { color: #fff; font-size: 2rem; font-weight: 800; margin-bottom: .8rem; }
+    .cta-booking p { color: rgba(255,255,255,.7); margin-bottom: 2rem; }
+    .cta-contact-row { display: flex; justify-content: center; gap: 32px; flex-wrap: wrap; margin-bottom: 2rem; }
+    .cta-contact-item { color: rgba(255,255,255,.8); font-size: .95rem; display: flex; align-items: center; gap: 8px; }
+    .cta-contact-item i { color: var(--coral); font-size: 1.1rem; }
+    .btn-cta-primary {
+      background: linear-gradient(135deg, var(--purple), var(--coral));
+      color: #fff; border: none; border-radius: 50px; padding: 14px 36px;
+      font-weight: 700; font-family: 'Plus Jakarta Sans', sans-serif;
+      transition: transform .2s, box-shadow .2s; display: inline-block; text-decoration: none;
+    }
+    .btn-cta-primary:hover { transform: translateY(-3px); box-shadow: 0 12px 30px rgba(118,87,232,.5); color: #fff; }
+    .btn-cta-outline {
+      background: transparent; color: #fff; border: 2px solid rgba(255,255,255,.4);
+      border-radius: 50px; padding: 13px 32px;
+      font-weight: 600; font-family: 'Plus Jakarta Sans', sans-serif;
+      transition: all .2s; display: inline-block; text-decoration: none;
+    }
+    .btn-cta-outline:hover { background: rgba(255,255,255,.1); border-color: #fff; color: #fff; }
+
+    /* ── FOOTER ── */
+    .footer { background: var(--navy); padding: 60px 0 30px; }
+    .footer-brand { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 1.5rem; font-weight: 800; color: #fff; }
+    .footer-brand span { color: var(--purple); }
+    .footer-desc { color: rgba(255,255,255,.55); font-size: .88rem; margin-top: 10px; line-height: 1.6; }
+    .footer-title { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; color: #fff; margin-bottom: 18px; font-size: 1rem; }
+    .footer-link { display: block; color: rgba(255,255,255,.55); text-decoration: none; font-size: .88rem; margin-bottom: 8px; transition: color .2s; }
+    .footer-link:hover { color: var(--coral); }
+    .footer-divider { border-color: rgba(255,255,255,.08); margin: 30px 0; }
+    .footer-bottom { color: rgba(255,255,255,.4); font-size: .82rem; }
+    .social-btn {
+      width: 38px; height: 38px; border-radius: 10px; background: rgba(255,255,255,.07);
+      display: inline-flex; align-items: center; justify-content: center; color: rgba(255,255,255,.7);
+      text-decoration: none; transition: all .2s; margin-right: 6px;
+    }
+    .social-btn:hover { background: var(--purple); color: #fff; transform: translateY(-2px); }
+
+    /* Animate on scroll */
+    .fade-in-up { opacity: 0; transform: translateY(30px); transition: opacity .6s, transform .6s; }
+    .fade-in-up.visible { opacity: 1; transform: translateY(0); }
+      /* ─── LIGHT MODE HIGH CONTRAST RULES ─── */
+    [data-theme="light"] body { background: #FFFFFF !important; color: #151B35 !important; }
+    [data-theme="light"] .navbar-eventora { background: rgba(255,255,255,0.95) !important; border-bottom: 1px solid #E2E8F0 !important; }
+    [data-theme="light"] .navbar-eventora .navbar-brand { color: #151B35 !important; }
+    [data-theme="light"] .navbar-eventora .nav-link { color: #151B35 !important; font-weight: 600 !important; }
+    [data-theme="light"] .navbar-eventora .nav-link:hover,
+    [data-theme="light"] .navbar-eventora .nav-link.active { color: #7657E8 !important; }
+    [data-theme="light"] .section-overview { background: #FFFFFF !important; }
+    [data-theme="light"] .section-features { background: #F8F9FD !important; }
+    [data-theme="light"] .section-testimonials { background: #FFFFFF !important; }
+    [data-theme="light"] .overview-text { color: #334155 !important; }
+    [data-theme="light"] .section-heading { color: #151B35 !important; }
+    [data-theme="light"] .sidebar-card, [data-theme="light"] .feature-card, [data-theme="light"] .testimonial-card {
+      background: #FFFFFF !important;
+      border: 1px solid #E2E8F0 !important;
+      color: #151B35 !important;
+      box-shadow: 0 4px 20px rgba(21,27,53,0.06) !important;
+    }
+    [data-theme="light"] .sidebar-card-title, [data-theme="light"] .feature-card h5, [data-theme="light"] .author-name { color: #151B35 !important; }
+    [data-theme="light"] .contact-info-item, [data-theme="light"] .feature-card p, [data-theme="light"] .testimonial-text { color: #475569 !important; }
+    [data-theme="light"] .related-service-item { color: #151B35 !important; border-color: #E2E8F0 !important; }
+    [data-theme="light"] .related-service-item:hover { color: #7657E8 !important; background: #F1EDFF !important; }
+    [data-theme="light"] .sidebar-card input, [data-theme="light"] .sidebar-card select {
+      background: #FFFFFF !important;
+      color: #0F172A !important;
+      border: 1.5px solid #CBD5E1 !important;
+    }
+    [data-theme="light"] .accordion-button { background-color: #F8F9FD !important; color: #151B35 !important; font-weight: 700 !important; }
+    [data-theme="light"] .accordion-button:not(.collapsed) { background-color: #F1EDFF !important; color: #5B21B6 !important; }
+    [data-theme="light"] .accordion-body { background-color: #FFFFFF !important; color: #334155 !important; }
+    [data-theme="light"] .accordion-item { border: 1px solid #E2E8F0 !important; }
+    /* ─── DUAL MODE HIGH CONTRAST ─── */
+    [data-theme="dark"] .section-overview { background: #0B0F1E !important; }
+    [data-theme="dark"] .section-features { background: #131933 !important; }
+    [data-theme="dark"] .section-testimonials { background: #0B0F1E !important; }
+    [data-theme="dark"] .overview-text { color: #CBD5E1 !important; }
+    [data-theme="dark"] .section-heading { color: #FFFFFF !important; }
+    [data-theme="dark"] .sidebar-card, [data-theme="dark"] .feature-card, [data-theme="dark"] .testimonial-card {
+      background: #151B35 !important;
+      border-color: rgba(255,255,255,0.14) !important;
+      color: #F8FAFC !important;
+    }
+    [data-theme="dark"] .sidebar-card-title, [data-theme="dark"] .feature-card h5, [data-theme="dark"] .author-name { color: #FFFFFF !important; }
+    [data-theme="dark"] .contact-info-item, [data-theme="dark"] .feature-card p, [data-theme="dark"] .testimonial-text { color: #CBD5E1 !important; }
+    [data-theme="dark"] .related-service-item { color: #CBD5E1 !important; border-color: rgba(255,255,255,0.08) !important; }
+    [data-theme="dark"] .related-service-item:hover { color: #A78BFA !important; }
+    [data-theme="dark"] .sidebar-card input, [data-theme="dark"] .sidebar-card select {
+      background: #1E2748 !important;
+      color: #FFFFFF !important;
+      border-color: rgba(255,255,255,0.2) !important;
+    }
+    [data-theme="dark"] .accordion-button { background-color: #1E2748 !important; color: #FFFFFF !important; }
+    [data-theme="dark"] .accordion-button:not(.collapsed) { background-color: #242E5E !important; color: #A78BFA !important; }
+    [data-theme="dark"] .accordion-body { background-color: #151B35 !important; color: #CBD5E1 !important; }
+    [data-theme="dark"] .accordion-item { border-color: rgba(255,255,255,0.12) !important; }
+</style>
+<script src="assets/js/theme.js"></script>
+ 
+<style id="responsive-fixes">
+  /* Tablet: 1024px and below */
+  @media (max-width: 1024px) {
+    html, body { overflow-x: hidden; }
+    img, iframe, video, svg { max-width: 100%; }
+    h1, h2, h3, h4, h5, h6, p, a, li, span { overflow-wrap: break-word; }
+
+    .navbar-eventora .container { gap: .5rem; }
+    .navbar-eventora .navbar-collapse { max-height: calc(100vh - 64px); overflow-y: auto; flex-wrap: wrap; }
+    .navbar-eventora .navbar-collapse > .d-flex { flex-wrap: wrap; gap: .4rem; }
+    .navbar-eventora .nav-link { padding: .5rem .65rem !important; }
+    .navbar-eventora a[href="user-dashboard.html"],
+    .navbar-eventora a[href="admin-dashboard.html"] { display: inline-block; }
+
+    .service-hero { min-height: auto; padding-top: 100px; }
+    .service-hero h1 { font-size: clamp(1.9rem, 5vw, 2.8rem); }
+    .service-hero p.lead { max-width: 100%; }
+
+    .stats-strip .row > [class*="col-"] { flex: 0 0 50%; max-width: 50%; }
+    .stats-strip .stat-item { border-right: 1px solid rgba(255,255,255,.08); border-bottom: 1px solid rgba(255,255,255,.08); }
+    .stats-strip .row > [class*="col-"]:nth-child(even) { border-right: none; }
+    .stats-strip .row > [class*="col-"]:nth-child(3),
+    .stats-strip .row > [class*="col-"]:nth-child(4) { border-bottom: none; }
+
+    .section-overview, .section-features, .section-how, .section-testimonials, .section-faq { padding: 64px 0; }
+    .sidebar-sticky { position: static; top: auto; }
+    .feature-img img { height: 220px; }
+
+    .section-features .row > [class*="col-"] { flex: 0 0 50%; max-width: 50%; }
+    .section-testimonials .row > [class*="col-"] { flex: 0 0 50%; max-width: 50%; }
+
+    .timeline-wrapper { flex-wrap: wrap; gap: 30px 20px; }
+    .timeline-line { display: none; }
+    .timeline-step { flex: 1 1 calc(50% - 20px); min-width: 0; }
+
+    .cta-booking { padding: 40px 28px; }
+    footer.footer-home { padding: 56px 0 26px; }
+  }
+
+  /* Small tablet / large phone: 768px and below */
+  @media (max-width: 768px) {
+    .row.g-5 { --bs-gutter-x: 1.5rem; --bs-gutter-y: 1.5rem; }
+    .service-hero { padding: 92px 0 56px; }
+    .service-hero h1 { font-size: clamp(1.75rem, 7vw, 2.35rem); }
+    .service-hero .breadcrumb { font-size: .85rem; }
+
+    .section-overview, .section-features, .section-how, .section-testimonials, .section-faq { padding: 52px 0; }
+    .section-overview .row > [class*="col-"],
+    .section-features .row > [class*="col-"],
+    .section-testimonials .row > [class*="col-"] { flex: 0 0 100%; max-width: 100%; }
+
+    .overview-text p { font-size: .95rem; }
+    .feature-img img { height: 200px; }
+    .feature-card, .testimonial-card { padding: 26px 20px; }
+    .sidebar-card { padding: 20px; }
+
+    .timeline-wrapper { flex-direction: column; align-items: center; gap: 24px; }
+    .timeline-step { flex: 1 1 100%; width: 100%; max-width: 320px; }
+
+    .cta-booking { padding: 34px 22px; border-radius: 18px; }
+    .cta-booking h3 { font-size: 1.6rem; }
+    .cta-contact-row { gap: 14px 20px; }
+
+    .navbar-eventora .navbar-nav .nav-link { text-align: center; }
+    .navbar-eventora .navbar-collapse > .d-flex { flex-direction: column; align-items: center !important; gap: 10px; margin-top: 12px; }
+    .navbar-eventora .navbar-collapse > .d-flex > .btn { width: 100%; }
+    .navbar-eventora a[href="user-dashboard.html"],
+    .navbar-eventora a[href="admin-dashboard.html"] { display: inline-block; }
+
+    footer .row > [class*="col-"] { flex: 0 0 100%; max-width: 100%; }
+    footer.footer-home .footer-desc { max-width: none; }
+    .footer-bottom { text-align: center; }
+  }
+
+  /* Phone: 480px and below */
+  @media (max-width: 480px) {
+    .service-hero { padding: 82px 0 46px; }
+    .service-hero h1 { font-size: clamp(1.55rem, 9vw, 2rem); }
+    .service-badge { font-size: .68rem; padding: 5px 13px; }
+    .hero-cta-group { gap: .6rem !important; }
+    .hero-cta-group .btn { width: 100%; max-width: 280px; }
+
+    .stat-item { padding: 16px 8px; }
+    .stat-number { font-size: 1.55rem; }
+    .stat-label { font-size: .74rem; }
+
+    .section-overview, .section-features, .section-how, .section-testimonials, .section-faq { padding: 42px 0; }
+    .section-heading { font-size: clamp(1.4rem, 6vw, 1.75rem); }
+    .feature-img img { height: 180px; }
+    .process-step { gap: 12px; margin-bottom: 18px; }
+    .step-num { width: 40px; height: 40px; font-size: .95rem; }
+    .step-info h5 { font-size: .95rem; }
+    .step-info p { font-size: .84rem; }
+
+    .sidebar-card { padding: 18px 15px; border-radius: 14px; }
+    .sidebar-card-title { font-size: 1rem; }
+    .sidebar-card .form-control, .sidebar-card .form-select { padding: 9px 11px; font-size: .84rem; }
+    .sidebar-card .d-flex.gap-2 { flex-wrap: wrap; }
+    .sidebar-card .d-flex.gap-2 > .form-select { flex: 1 1 100%; min-width: 0; }
+    .related-service-item { font-size: .85rem; }
+
+    .feature-card { padding: 22px 16px; }
+    .feature-icon-wrap { width: 58px; height: 58px; border-radius: 16px; margin-bottom: 14px; }
+    .feature-icon-wrap i { font-size: 1.6rem; }
+
+    .testimonial-card { padding: 22px 17px; }
+    .testimonial-text { font-size: .88rem; }
+    .quote-mark { font-size: 3.6rem; left: 14px; }
+
+    .cta-booking { padding: 26px 15px; }
+    .cta-booking h3 { font-size: 1.35rem; }
+    .cta-booking p { font-size: .88rem; margin-bottom: 1.4rem; }
+    .cta-contact-item { font-size: .85rem; }
+    .btn-cta-primary, .btn-cta-outline { width: 100%; max-width: 280px; padding: 11px 18px; font-size: .9rem; }
+
+    .accordion-button { font-size: .9rem; padding: .8rem .9rem; }
+    .accordion-body { font-size: .86rem; padding: .85rem .9rem; }
+
+    footer.footer-home .input-group { flex-wrap: wrap; gap: 8px; }
+    footer.footer-home .input-group .form-control,
+    footer.footer-home .input-group .btn { width: 100%; border-radius: 10px !important; }
+    footer.footer-home .footer-bottom > .d-flex { flex-wrap: wrap; justify-content: center; row-gap: .4rem; }
+  }
+
+  /* Small phone: 360px and below */
+  @media (max-width: 360px) {
+    .service-hero { padding: 76px 0 40px; }
+    .service-hero h1 { font-size: 1.45rem; }
+    .navbar-eventora .navbar-brand { font-size: 1.12rem; }
+    .navbar-eventora .navbar-brand .brand-mark { width: 26px; height: 26px; }
+    .section-heading { font-size: 1.3rem; }
+    .stat-number { font-size: 1.35rem; }
+    .stat-item { padding: 13px 5px; }
+    .feature-card { padding: 20px 13px; }
+    .sidebar-card { padding: 16px 13px; }
+    .cta-booking { padding: 22px 12px; }
+    .cta-booking h3 { font-size: 1.2rem; }
+  }
+
+  /* Extra small phone: 320px and below */
+  @media (max-width: 320px) {
+    .service-hero { padding: 72px 0 36px; }
+    .service-hero h1 { font-size: 1.32rem; }
+    .navbar-eventora .navbar-brand { font-size: 1rem; }
+    .navbar-eventora .navbar-brand .brand-mark { width: 24px; height: 24px; }
+    .section-heading { font-size: 1.2rem; }
+    .stat-number { font-size: 1.2rem; }
+    .stat-label { font-size: .66rem; }
+    .feature-card, .testimonial-card { padding: 18px 12px; }
+    .sidebar-card { padding: 14px 11px; }
+    .cta-booking { padding: 20px 10px; }
+    .cta-booking h3 { font-size: 1.1rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ══ NAVBAR ══ -->
+<nav class="navbar navbar-expand-lg navbar-eventora fixed-top py-2">
+  <div class="container">
+    <a class="navbar-brand navbar-brand-logo" href="home.html"><img src="assets/images/logo-mark.svg" alt="" class="brand-mark" width="32" height="32" />Eventora</a>
+    <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+      <span class="navbar-toggler-icon" style="filter:invert(1);"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navMenu">
+      <ul class="navbar-nav mx-auto gap-1">
+        <li class="nav-item"><a class="nav-link" href="home.html">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="home2.html">Home 2</a></li>
+        <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+        <li class="nav-item"><a class="nav-link active" href="services.html">Services</a></li>
+        <li class="nav-item"><a class="nav-link" href="blog.html">Blog</a></li>
+        <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+      </ul>
+      <div class="d-flex align-items-center gap-2">
+        <span class="nav-icon-btn" id="themeToggle" title="Toggle Theme"><i class="bi bi-moon-stars"></i></span>
+        <span class="nav-icon-btn" id="rtlToggle" title="RTL Mode" style="font-size:.68rem;font-weight:700;letter-spacing:.5px;">RTL</span>
+        <a href="user-dashboard.html" class="btn-ev-outline btn btn-sm ms-2" style="padding:.4rem 1rem;font-size:.8rem;">User Dashboard</a>
+        <a href="admin-dashboard.html" class="btn-ev-primary btn btn-sm" style="padding:.4rem 1rem;font-size:.8rem;">Admin Dashboard</a>
+        <a href="login.html" class="btn-ev-primary btn btn-sm">Sign In</a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- ══════════════════════════════════════
+     SECTION 1 — SERVICE HERO
+══════════════════════════════════════ -->
+<section class="service-hero">
+  <div class="service-hero-bg"></div>
+  <div class="container service-hero-content py-5 mt-4">
+    <nav aria-label="breadcrumb" class="mb-3">
+      <ol class="breadcrumb justify-content-center" style="background:none;padding:0;">
+        <li class="breadcrumb-item"><a href="home.html">Home</a></li>
+        <li class="breadcrumb-item"><a href="services.html">Services</a></li>
+        <li class="breadcrumb-item active">Ticket Booking</li>
+      </ol>
+    </nav>
+    <div class="service-badge"><i class="bi bi-ticket-perforated me-1"></i>Premium Service</div>
+    <h1 class="mb-3">Ticket Booking<br><span style="background:linear-gradient(135deg,#7657E8,#FF766B);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">Assistance</span></h1>
+    <p class="lead mb-4">Your end-to-end partner for seamless event ticket booking. From discovery to download, we handle every step so you can focus on the experience.</p>
+    <div class="hero-cta-group d-flex gap-3 flex-wrap justify-content-center">
+      <button class="btn-primary-custom btn">Book Now <i class="bi bi-arrow-right ms-1"></i></button>
+      <button class="btn-outline-custom btn"><i class="bi bi-play-circle me-1"></i>Watch Demo</button>
+    </div>
+  </div>
+</section>
+
+<!-- Stats Strip -->
+<div class="stats-strip">
+  <div class="container">
+    <div class="row g-0">
+      <div class="col-6 col-md-3 stat-item">
+        <span class="stat-number">50K+</span>
+        <span class="stat-label">Bookings Completed</span>
+      </div>
+      <div class="col-6 col-md-3 stat-item">
+        <span class="stat-number">99.9%</span>
+        <span class="stat-label">Platform Uptime</span>
+      </div>
+      <div class="col-6 col-md-3 stat-item">
+        <span class="stat-number">24/7</span>
+        <span class="stat-label">Customer Support</span>
+      </div>
+      <div class="col-6 col-md-3 stat-item">
+        <span class="stat-number">4.9 <i class="bi bi-star-fill text-warning" style="font-size:1.2rem;"></i></span>
+        <span class="stat-label">Average Rating</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SECTION 2 — SERVICE OVERVIEW + SIDEBAR
+══════════════════════════════════════ -->
+<section class="section-overview">
+  <div class="container">
+    <div class="row g-5">
+      <!-- Main Content (70%) -->
+      <div class="col-lg-8">
+        <div class="overview-text fade-in-up">
+          <h2 class="section-heading">Your Trusted Booking Partner</h2>
+          <p>Eventora's Ticket Booking Assistance service revolutionizes how you secure your spot at the world's most exciting events. Whether it's a sold-out concert, a championship sports match, a business conference, or a cultural festival — our platform ensures you never miss out on the moments that matter.</p>
+          <p>Our intelligent booking engine scans thousands of event listings in real-time, offering you the best available seats at competitive prices. With our secure payment gateway and instant digital ticket delivery, the entire process from discovery to entry-ready takes under 3 minutes.</p>
+          <p>We go beyond simple transactions. Our concierge-level support team is on call around the clock to assist with seat selection, group bookings, accessibility needs, and any last-minute changes. Your experience is our priority — before, during, and after the event.</p>
+        </div>
+
+        <div class="feature-img mb-5 fade-in-up">
+          <img src="https://images.unsplash.com/photo-1519167758481-83f550bb49b3?w=800&q=80" alt="Event venue experience" />
+        </div>
+
+        <!-- Process Steps -->
+        <h4 class="fw-700 mb-4" style="font-family:'Plus Jakarta Sans',sans-serif;color:var(--navy);">Our Booking Process</h4>
+        <div class="process-step fade-in-up">
+          <div class="step-num">1</div>
+          <div class="step-info">
+            <h5>Discover Your Event</h5>
+            <p>Search across 10,000+ events using intelligent filters for location, date, genre, price range and more. Our recommendation engine surfaces events you'll love.</p>
+          </div>
+        </div>
+        <div class="process-step fade-in-up">
+          <div class="step-num">2</div>
+          <div class="step-info">
+            <h5>Select the Best Seats</h5>
+            <p>Interactive seating maps with real-time availability. Compare zones, view stage perspectives, and choose your ideal vantage point with confidence.</p>
+          </div>
+        </div>
+        <div class="process-step fade-in-up">
+          <div class="step-num">3</div>
+          <div class="step-info">
+            <h5>Secure Payment &amp; Confirmation</h5>
+            <p>PCI-DSS compliant checkout with 256-bit encryption. Pay via credit card, UPI, net banking, or digital wallets. Instant confirmation email and SMS.</p>
+          </div>
+        </div>
+        <div class="process-step fade-in-up">
+          <div class="step-num">4</div>
+          <div class="step-info">
+            <h5>Download &amp; Attend</h5>
+            <p>Receive your digital ticket instantly. Add to Apple Wallet or Google Pay. QR code entry makes venue access fast and contactless.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sidebar (30%) — FIX 3: col-lg-4 with sticky -->
+      <div class="col-lg-4">
+        <div class="sidebar-sticky">
+          <!-- Quick Book Card -->
+          <div class="sidebar-card">
+            <div class="sidebar-card-title"><i class="bi bi-lightning-fill text-warning me-2"></i>Quick Book</div>
+            <input type="text" class="form-control" placeholder="Search event name or artist…" />
+            <input type="date" class="form-control" />
+            <select class="form-select">
+              <option value="">Select Category</option>
+              <option><i class="bi bi-music-note-beamed"></i> Music &amp; Concerts</option>
+              <option>Sports</option>
+              <option><i class="bi bi-credit-card-fill"></i> Business &amp; Conferences</option>
+              <option>Arts &amp; Culture</option>
+              <option>Food &amp; Lifestyle</option>
+            </select>
+            <div class="d-flex gap-2 mb-3">
+              <input type="number" class="form-control" placeholder="Qty" min="1" max="20" value="1" style="max-width:80px;" />
+              <select class="form-select">
+                <option>General</option>
+                <option>VIP</option>
+                <option>Premium</option>
+              </select>
+            </div>
+            <button class="btn-sidebar-book btn">Search Available Tickets <i class="bi bi-arrow-right ms-1"></i></button>
+          </div>
+
+          <!-- Contact Support Card -->
+          <div class="sidebar-card">
+            <div class="sidebar-card-title"><i class="bi bi-headset me-2" style="color:var(--purple);"></i>Contact Support</div>
+            <div class="contact-info-item"><i class="bi bi-telephone-fill"></i> +1 (800) 555-0199</div>
+            <div class="contact-info-item"><i class="bi bi-envelope-fill"></i> support@eventora.com</div>
+            <div class="contact-info-item"><i class="bi bi-chat-dots-fill"></i> Live Chat Available Now</div>
+            <div class="contact-info-item"><i class="bi bi-clock-fill"></i> 24 / 7 · 365 days</div>
+            <button class="btn btn-outline-primary w-100 mt-2 rounded-pill" style="border-color:var(--purple);color:var(--purple);font-weight:600;">
+              <i class="bi bi-chat-left-dots me-1"></i>Start Live Chat
+            </button>
+          </div>
+
+          <!-- Related Services -->
+          <div class="sidebar-card">
+            <div class="sidebar-card-title">Related Services</div>
+            <a href="service-details.html" class="related-service-item"><i class="bi bi-chevron-right"></i>Group &amp; Corporate Booking</a>
+            <a href="service-details.html" class="related-service-item"><i class="bi bi-chevron-right"></i>VIP Hospitality Packages</a>
+            <a href="service-details.html" class="related-service-item"><i class="bi bi-chevron-right"></i>Event Travel Planning</a>
+            <a href="service-details.html" class="related-service-item"><i class="bi bi-chevron-right"></i>Ticket Resale &amp; Exchange</a>
+            <a href="service-details.html" class="related-service-item" style="border:none;"><i class="bi bi-chevron-right"></i>Accessibility Services</a>
+          </div>
+
+          <!-- Download Brochure -->
+          <div class="sidebar-card" style="background:linear-gradient(135deg,var(--navy),var(--navy-soft));border:none;text-align:center;">
+            <div style="font-size:2.5rem;margin-bottom:12px;"><i class="bi bi-file-earmark-pdf-fill text-danger"></i></div>
+            <h6 style="color:#fff;font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;margin-bottom:8px;">Service Brochure</h6>
+            <p style="color:rgba(255,255,255,.65);font-size:.82rem;margin-bottom:16px;">Download our complete service guide &amp; pricing details.</p>
+            <a href="#" class="btn-brochure"><i class="bi bi-download me-1"></i>Download PDF Brochure</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     SECTION 3 — KEY FEATURES
+══════════════════════════════════════ -->
+<section class="section-features">
+  <div class="container">
+    <div class="text-center mb-5">
+      <h2 class="section-heading d-inline-block text-center" style="padding-bottom:14px;">Key Features</h2>
+      <p class="text-muted mt-3 mx-auto" style="max-width:520px;">Everything you need to book tickets with absolute confidence and zero friction.</p>
+    </div>
+    <div class="row g-4">
+      <!-- Feature 1 -->
+      <div class="col-md-6 col-lg-4 fade-in-up">
+        <div class="feature-card">
+          <div class="feature-icon-wrap">
+            <i class="bi bi-lightning-charge-fill"></i>
+          </div>
+          <h5>Instant Confirmation</h5>
+          <p>Receive booking confirmation in real-time — no waiting, no uncertainty. Your ticket is secured the moment you complete payment with an immediate confirmation code.</p>
+        </div>
+      </div>
+      <!-- Feature 2 -->
+      <div class="col-md-6 col-lg-4 fade-in-up" style="transition-delay:.1s;">
+        <div class="feature-card">
+          <div class="feature-icon-wrap">
+            <i class="bi bi-shield-lock-fill"></i>
+          </div>
+          <h5>Secure Payment Gateway</h5>
+          <p>Bank-level 256-bit SSL encryption and PCI-DSS Level 1 compliance. Support for 15+ payment methods including cards, UPI, wallets, and net banking.</p>
+        </div>
+      </div>
+      <!-- Feature 3 -->
+      <div class="col-md-6 col-lg-4 fade-in-up" style="transition-delay:.2s;">
+        <div class="feature-card">
+          <div class="feature-icon-wrap">
+            <i class="bi bi-qr-code-scan"></i>
+          </div>
+          <h5>Digital Ticket Delivery</h5>
+          <p>Paperless, eco-friendly digital tickets with dynamic QR codes. Compatible with Apple Wallet, Google Pay, and all major digital ticket readers.</p>
+        </div>
+      </div>
+      <!-- Feature 4 -->
+      <div class="col-md-6 col-lg-4 fade-in-up" style="transition-delay:.3s;">
+        <div class="feature-card">
+          <div class="feature-icon-wrap">
+            <i class="bi bi-people-fill"></i>
+          </div>
+          <h5>Group Booking Discounts</h5>
+          <p>Special rates for groups of 10 or more. Dedicated group booking manager, bulk seat allocation, and exclusive negotiated pricing for corporate events.</p>
+        </div>
+      </div>
+      <!-- Feature 5 -->
+      <div class="col-md-6 col-lg-4 fade-in-up" style="transition-delay:.4s;">
+        <div class="feature-card">
+          <div class="feature-icon-wrap">
+            <i class="bi bi-arrow-counterclockwise"></i>
+          </div>
+          <h5>Flexible Cancellation</h5>
+          <p>Hassle-free refund policy with cancellations up to 24 hours before the event. Transparent refund timelines with no hidden fees or fine print surprises.</p>
+        </div>
+      </div>
+      <!-- Feature 6 -->
+      <div class="col-md-6 col-lg-4 fade-in-up" style="transition-delay:.5s;">
+        <div class="feature-card">
+          <div class="feature-icon-wrap">
+            <i class="bi bi-headset"></i>
+          </div>
+          <h5>24/7 Booking Support</h5>
+          <p>Round-the-clock customer assistance via live chat, phone, and email. Average response time under 90 seconds for urgent booking queries.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     SECTION 4 — HOW IT WORKS
+══════════════════════════════════════ -->
+<section class="section-how">
+  <div class="container">
+    <div class="text-center mb-2">
+      <h2 class="section-heading d-inline-block">How It Works</h2>
+      <p class="how-subtitle mx-auto mt-3">Our 5-step booking flow gets you from browsing to attending in minutes.</p>
+    </div>
+
+    <div class="timeline-wrapper">
+      <div class="timeline-line d-none d-md-block"></div>
+
+      <!-- Step 1 -->
+      <div class="timeline-step">
+        <div class="timeline-icon" style="position:relative;">
+          <span class="timeline-step-num">1</span>
+          <i class="bi bi-search"></i>
+        </div>
+        <h6>Search Event</h6>
+        <p>Browse 10,000+ events by location, date, or category</p>
+        <div class="rounded-3 overflow-hidden mt-3 shadow-sm" style="border:1px solid rgba(118,87,232,0.3);background:rgba(21,27,53,0.6);">
+            <img src="https://images.unsplash.com/photo-1501386761578-eac5c94b800a?w=300&q=80" alt="Search Event" style="width:100%;height:85px;object-fit:cover;" />
+            <div class="p-2 text-start" style="font-size:11px;">
+              <span class="badge bg-primary text-white" style="font-size:9px;">Concerts</span>
+              <span class="text-white-50 ms-1">500+ Results</span>
+            </div>
+          </div>
+      </div>
+
+      <!-- Step 2 -->
+      <div class="timeline-step">
+        <div class="timeline-icon" style="position:relative;">
+          <span class="timeline-step-num">2</span>
+          <i class="bi bi-ticket-perforated-fill"></i>
+        </div>
+        <h6>Select Tickets</h6>
+        <p>Pick seats via interactive map — VIP, General, Accessible</p>
+        <div class="rounded-3 overflow-hidden mt-3 shadow-sm" style="border:1px solid rgba(118,87,232,0.3);background:rgba(21,27,53,0.6);">
+            <img src="https://images.unsplash.com/photo-1540039155733-5bb30b53aa14?w=300&q=80" alt="Seat Selection" style="width:100%;height:85px;object-fit:cover;" />
+            <div class="p-2 text-start d-flex justify-content-between" style="font-size:10px;">
+              <span class="badge bg-warning text-dark">Section A · Row 4</span>
+              <span class="text-success fw-bold">$85.00</span>
+            </div>
+          </div>
+      </div>
+
+      <!-- Step 3 -->
+      <div class="timeline-step">
+        <div class="timeline-icon" style="position:relative;">
+          <span class="timeline-step-num">3</span>
+          <i class="bi bi-person-fill-check"></i>
+        </div>
+        <h6>Enter Details</h6>
+        <p>Fill in attendee info. Quick autofill for returning users</p>
+        <div class="rounded-3 p-2 mt-3 shadow-sm text-start" style="border:1px solid rgba(118,87,232,0.3);background:rgba(21,27,53,0.6);min-height:120px;">
+            <div class="d-flex align-items-center gap-2 mb-2">
+              <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=80&q=80" class="rounded-circle object-fit-cover" style="width:28px;height:28px;" alt="User" />
+              <div>
+                <div style="font-size:11px;font-weight:700;color:#fff;">Alex Johnson</div>
+                <div style="font-size:9px;color:rgba(255,255,255,0.6);">alex@eventora.com</div>
+              </div>
+            </div>
+            <div class="badge bg-success w-100" style="font-size:9px;"><i class="bi bi-shield-check me-1"></i>Verified Attendee</div>
+          </div>
+      </div>
+
+      <!-- Step 4 -->
+      <div class="timeline-step">
+        <div class="timeline-icon" style="position:relative;">
+          <span class="timeline-step-num">4</span>
+          <i class="bi bi-credit-card-fill"></i>
+        </div>
+        <h6>Secure Payment</h6>
+        <p>Encrypted checkout with 15+ payment options</p>
+        <div class="rounded-3 p-2 mt-3 shadow-sm text-center" style="border:1px solid rgba(118,87,232,0.3);background:rgba(21,27,53,0.6);min-height:120px;">
+            <div class="d-flex justify-content-center gap-1 mb-2">
+              <span class="badge bg-dark border border-secondary" style="font-size:10px;"><i class="bi bi-credit-card-2-front text-primary me-1"></i>Visa</span>
+              <span class="badge bg-dark border border-secondary" style="font-size:10px;"><i class="bi bi-apple text-white me-1"></i>Pay</span>
+            </div>
+            <div class="text-success fw-bold" style="font-size:12px;"><i class="bi bi-check-circle-fill me-1"></i>Paid $85.00</div>
+            <div class="text-white-50 mt-1" style="font-size:9px;">256-bit SSL Encrypted</div>
+          </div>
+      </div>
+
+      <!-- Step 5 -->
+      <div class="timeline-step">
+        <div class="timeline-icon" style="position:relative;">
+          <span class="timeline-step-num">5</span>
+          <i class="bi bi-download"></i>
+        </div>
+        <h6>Download Ticket</h6>
+        <p>Get your digital ticket instantly. Add to your wallet</p>
+        <div class="rounded-3 p-2 mt-3 shadow-sm text-center" style="border:1px solid rgba(118,87,232,0.3);background:rgba(21,27,53,0.6);min-height:120px;">
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=70x70&data=EVENTORA-TICKET-SUCCESS" class="rounded bg-white p-1" style="width:60px;height:60px;" alt="QR" />
+            <div class="text-white fw-bold mt-1" style="font-size:9px;">#EV-98214</div>
+            <span class="badge bg-primary" style="font-size:8px;">Ready to Scan</span>
+          </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     SECTION 5 — TESTIMONIALS
+══════════════════════════════════════ -->
+<section class="section-testimonials">
+  <div class="container">
+    <div class="text-center mb-5">
+      <h2 class="section-heading d-inline-block">What Our Customers Say</h2>
+      <p class="text-muted mt-3">Real stories from real event-goers who trusted Eventora.</p>
+    </div>
+    <div class="row g-4">
+      <!-- Testimonial 1 -->
+      <div class="col-md-6 col-lg-3 fade-in-up">
+        <div class="testimonial-card">
+          <div class="quote-mark">"</div>
+          <div class="stars">
+            <i class="bi bi-star-fill text-warning"></i><i class="bi bi-star-fill text-warning"></i><i class="bi bi-star-fill text-warning"></i><i class="bi bi-star-fill text-warning"></i><i class="bi bi-star-fill text-warning"></i>
+          </div>
+          <p class="testimonial-text">"Booked 8 tickets for Coldplay in under 4 minutes. The seat map was crystal clear and the QR codes worked perfectly at the gate. Absolutely flawless experience!"</p>
+          <div class="testimonial-author">
+            <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80&q=80" alt="Sarah M." class="author-avatar" />
+            <div>
+              <div class="author-name">Sarah Mitchell</div>
+              <div class="author-event">Coldplay World Tour</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Testimonial 2 -->
+      <div class="col-md-6 col-lg-3 fade-in-up" style="transition-delay:.1s;">
+        <div class="testimonial-card">
+          <div class="quote-mark">"</div>
+          <div class="stars">
+            <i class="bi bi-star-fill text-warning"></i><i class="bi bi-star-fill text-warning"></i><i class="bi bi-star-fill text-warning"></i><i class="bi bi-star-fill text-warning"></i><i class="bi bi-star-fill text-warning"></i>
+          </div>
+          <p class="testimonial-text">"Organized tickets for 45 colleagues for a tech summit. The group booking team was incredible — custom invoice, reserved block seating, everything sorted in one call."</p>
+          <div class="testimonial-author">
+            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&q=80" alt="James K." class="author-avatar" />
+            <div>
+              <div class="author-name">James Kowalski</div>
+              <div class="author-event">TechWorld Summit 2025</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Testimonial 3 -->
+      <div class="col-md-6 col-lg-3 fade-in-up" style="transition-delay:.2s;">
+        <div class="testimonial-card">
+          <div class="quote-mark">"</div>
+          <div class="stars">
+            <i class="bi bi-star-fill text-warning"></i><i class="bi bi-star-fill text-warning"></i><i class="bi bi-star-fill text-warning"></i><i class="bi bi-star-fill text-warning"></i><i class="bi bi-star-fill text-warning"></i>
+          </div>
+          <p class="testimonial-text">"Had to cancel due to illness 36 hours before the event. The refund process was painless — full amount back in 2 business days. Genuinely impressed by their policies."</p>
+          <div class="testimonial-author">
+            <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=80&q=80" alt="Priya R." class="author-avatar" />
+            <div>
+              <div class="author-name">Priya Ramesh</div>
+              <div class="author-event">Jazz Fest New Orleans</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Testimonial 4 -->
+      <div class="col-md-6 col-lg-3 fade-in-up" style="transition-delay:.3s;">
+        <div class="testimonial-card">
+          <div class="quote-mark">"</div>
+          <div class="stars">
+            <i class="bi bi-star-fill text-warning"></i><i class="bi bi-star-fill text-warning"></i><i class="bi bi-star-fill text-warning"></i><i class="bi bi-star-fill text-warning"></i><i class="bi bi-star-fill text-warning"></i>
+          </div>
+          <p class="testimonial-text">"Used Eventora for the UEFA Champions League final. VIP hospitality package was phenomenal — premium seating, lounge access, and a gift bag. Worth every penny!"</p>
+          <div class="testimonial-author">
+            <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=80&q=80" alt="Marco D." class="author-avatar" />
+            <div>
+              <div class="author-name">Marco Di Luca</div>
+              <div class="author-event">UEFA Champions League</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     SECTION 6 — FAQ + CTA
+══════════════════════════════════════ -->
+<section class="section-faq">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <div class="text-center mb-5">
+          <h2 class="section-heading d-inline-block">Frequently Asked Questions</h2>
+          <p class="text-muted mt-3">Everything you need to know about our ticket booking service.</p>
+        </div>
+
+        <div class="accordion" id="faqAccordion">
+          <!-- FAQ 1 -->
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="heading1">
+              <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1" aria-expanded="true" aria-controls="faq1">
+                How quickly will I receive my ticket after booking?
+              </button>
+            </h2>
+            <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion" aria-labelledby="heading1">
+              <div class="accordion-body">Your digital ticket is delivered instantly upon successful payment confirmation. You'll receive it via email, SMS, and within your Eventora account dashboard — typically within 30 seconds of completing the transaction.</div>
+            </div>
+          </div>
+          <!-- FAQ 2 -->
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="heading2">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2" aria-expanded="false" aria-controls="faq2">
+                What payment methods are accepted?
+              </button>
+            </h2>
+            <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion" aria-labelledby="heading2">
+              <div class="accordion-body">We accept all major credit and debit cards (Visa, Mastercard, Amex), digital wallets (Apple Pay, Google Pay, PayPal), UPI, net banking from 50+ banks, and EMI options for bookings above $200. All transactions are fully secured.</div>
+            </div>
+          </div>
+          <!-- FAQ 3 -->
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="heading3">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3" aria-expanded="false" aria-controls="faq3">
+                Can I cancel or exchange my ticket?
+              </button>
+            </h2>
+            <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion" aria-labelledby="heading3">
+              <div class="accordion-body">Yes! Cancellations are accepted up to 24 hours before the event for a full refund. Exchanges are available up to 48 hours before the event (subject to availability). Some events may have different policies — these are clearly displayed before checkout.</div>
+            </div>
+          </div>
+          <!-- FAQ 4 -->
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="heading4">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq4" aria-expanded="false" aria-controls="faq4">
+                How do group bookings work?
+              </button>
+            </h2>
+            <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion" aria-labelledby="heading4">
+              <div class="accordion-body">Groups of 10 or more qualify for special discounts of 10–25%. Contact our group sales team directly, and they'll provide a dedicated booking manager, reserved block seating, and a custom invoice for corporate billing. We've managed groups of up to 2,000 attendees.</div>
+            </div>
+          </div>
+          <!-- FAQ 5 -->
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="heading5">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq5" aria-expanded="false" aria-controls="faq5">
+                What if the event is cancelled or postponed?
+              </button>
+            </h2>
+            <div id="faq5" class="accordion-collapse collapse" data-bs-parent="#faqAccordion" aria-labelledby="heading5">
+              <div class="accordion-body">If an event is cancelled, you'll receive a 100% automatic refund within 5–7 business days. If postponed, we'll offer you the choice to keep your tickets for the new date or receive a full refund. We monitor event statuses 24/7 and notify you immediately via email and SMS.</div>
+            </div>
+          </div>
+          <!-- FAQ 6 -->
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="heading6">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq6" aria-expanded="false" aria-controls="faq6">
+                Are there any booking fees?
+              </button>
+            </h2>
+            <div id="faq6" class="accordion-collapse collapse" data-bs-parent="#faqAccordion" aria-labelledby="heading6">
+              <div class="accordion-body">Eventora charges a transparent service fee of 2–5% per booking (varies by event type). This fee covers platform maintenance, payment processing, and 24/7 support. The exact fee is always displayed on the checkout page before you confirm payment — no hidden charges ever.</div>
+            </div>
+          </div>
+          <!-- FAQ 7 -->
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="heading7">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq7" aria-expanded="false" aria-controls="faq7">
+                Can I transfer tickets to someone else?
+              </button>
+            </h2>
+            <div id="faq7" class="accordion-collapse collapse" data-bs-parent="#faqAccordion" aria-labelledby="heading7">
+              <div class="accordion-body">Yes, ticket transfers are supported for most events. Log into your Eventora account, navigate to "My Tickets," and use the "Transfer Ticket" option. The recipient will receive a new QR code immediately. Some events disable transfers for security reasons.</div>
+            </div>
+          </div>
+          <!-- FAQ 8 -->
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="heading8">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq8" aria-expanded="false" aria-controls="faq8">
+                What accessibility options are available?
+              </button>
+            </h2>
+            <div id="faq8" class="accordion-collapse collapse" data-bs-parent="#faqAccordion" aria-labelledby="heading8">
+              <div class="accordion-body">We offer wheelchair-accessible seating, companion seat allocation, hearing loop sections, and large-print ticket options. Our accessibility team can be reached 24/7 to arrange any special requirements. Simply select "Accessibility Needs" during checkout and we'll handle the rest.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CTA Block -->
+    <div class="row justify-content-center mt-5">
+      <div class="col-lg-10">
+        <div class="cta-booking">
+          <h3>Need Help Booking?</h3>
+          <p>Our dedicated booking specialists are standing by 24/7 to assist you.</p>
+          <div class="cta-contact-row">
+            <div class="cta-contact-item"><i class="bi bi-telephone-fill"></i> +1 (800) 555-0199</div>
+            <div class="cta-contact-item"><i class="bi bi-envelope-fill"></i> support@eventora.com</div>
+            <div class="cta-contact-item"><i class="bi bi-chat-dots-fill"></i> Live Chat Online</div>
+          </div>
+          <div class="d-flex justify-content-center gap-3 flex-wrap">
+            <a href="tel:+18005550199" class="btn-cta-primary"><i class="bi bi-telephone me-1"></i>Call Now</a>
+            <a href="mailto:support@eventora.com" class="btn-cta-outline"><i class="bi bi-chat-left-dots me-1"></i>Start Live Chat</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ FOOTER ══ -->
+<footer class="footer-home">
+  <div class="container">
+    <div class="row g-5 mb-4">
+      <div class="col-lg-4">
+        <div class="footer-logo mb-3">Eventora</div>
+        <p class="footer-desc mb-4">Your premier destination for discovering, booking, and creating unforgettable event experiences worldwide.</p>
+        <div class="d-flex gap-2">
+          <a href="#" class="social-btn"><i class="bi bi-facebook"></i></a>
+          <a href="#" class="social-btn"><i class="bi bi-twitter-x"></i></a>
+          <a href="#" class="social-btn"><i class="bi bi-instagram"></i></a>
+          <a href="#" class="social-btn"><i class="bi bi-linkedin"></i></a>
+          <a href="#" class="social-btn"><i class="bi bi-youtube"></i></a>
+        </div>
+      </div>
+      <div class="col-6 col-lg-2">
+        <div class="footer-heading">Quick Links</div>
+        <ul class="footer-links">
+          <li><a href="home.html">Home</a></li>
+          <li><a href="home2.html">Home 2</a></li>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="services.html">Services</a></li>
+          <li><a href="blog.html">Blog</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div class="col-6 col-lg-2">
+        <div class="footer-heading">Categories</div>
+        <ul class="footer-links">
+          <li><a href="#">Music Events</a></li>
+          <li><a href="#">Sports Events</a></li>
+          <li><a href="#">Tech Conferences</a></li>
+          <li><a href="#">Cultural Shows</a></li>
+          <li><a href="#">Food Festivals</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-4">
+        <div class="footer-heading">Newsletter</div>
+        <p style="color:#8a94b8;font-size:.9rem;margin-bottom:1rem;">Get the latest events delivered to your inbox every week.</p>
+        <div class="input-group mb-3">
+          <input type="email" class="form-control newsletter-input" placeholder="Enter your email" />
+          <button class="btn-ev-primary btn">Subscribe</button>
+        </div>
+        <p style="color:#6b7591;font-size:.8rem;"><i class="bi bi-geo-alt me-1"></i>123 Event Avenue, New York, NY 10001</p>
+        <p style="color:#6b7591;font-size:.8rem;"><i class="bi bi-envelope me-1"></i>hello@eventora.com</p>
+        <p style="color:#6b7591;font-size:.8rem;"><i class="bi bi-telephone me-1"></i>+1 (800) 123-4567</p>
+      </div>
+    </div>
+    <div class="footer-bottom d-flex flex-column flex-md-row justify-content-between align-items-center">
+      <span>© 2025 Eventora. All rights reserved.</span>
+      <div class="d-flex gap-3 mt-2 mt-md-0">
+        <a href="#" style="color:#6b7591;text-decoration:none;font-size:.85rem;">Privacy Policy</a>
+        <a href="#" style="color:#6b7591;text-decoration:none;font-size:.85rem;">Terms of Service</a>
+        <a href="#" style="color:#6b7591;text-decoration:none;font-size:.85rem;">Cookie Policy</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  // Animate on scroll
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.fade-in-up').forEach(el => observer.observe(el));
+
+  // Navbar scroll effect
+  window.addEventListener('scroll', () => {
+    const nav = document.querySelector('.navbar-eventora');
+    nav.style.background = window.scrollY > 60
+      ? 'rgba(21,27,53,0.98)'
+      : 'rgba(21,27,53,0.92)';
+  });
+</script>
+</body>
+</html>

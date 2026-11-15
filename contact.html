@@ -1,0 +1,1265 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact Us | Eventora — Premium Event Ticketing</title>
+  <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/style.css" />
+  <style>
+    :root {
+      --navy: #151B35;
+      --purple: #7657E8;
+      --coral: #FF766B;
+      --lavender: #F1EDFF;
+      --white: #FFFFFF;
+      --purple-light: #9B84F0;
+      --navy-light: #1E2748;
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family:'Inter',sans-serif; color:#333; background:#fff; }
+    h1,h2,h3,h4,h5,h6 { font-family:'Plus Jakarta Sans',sans-serif; }
+
+    /* ── NAVBAR ── */
+    .navbar-eventora {
+      background:rgba(21,27,53,0.96);
+      backdrop-filter:blur(10px);
+      padding:14px 0;
+      border-bottom:1px solid rgba(118,87,232,.2);
+    }
+    .navbar-eventora .navbar-brand { font-family:'Plus Jakarta Sans',sans-serif; font-weight:800; font-size:1.5rem; }
+    .navbar-eventora .nav-link { color:rgba(255,255,255,.85)!important; font-weight:500; transition:.2s; padding:8px 14px!important; }
+    .navbar-eventora .nav-link:hover, .navbar-eventora .nav-link.active { color:#fff!important; }
+    .brand-gradient { background:linear-gradient(135deg,#7657E8,#FF766B); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+    .btn-nav-cta { background:linear-gradient(135deg,#7657E8,#FF766B); color:#fff!important; border-radius:25px; padding:9px 22px!important; font-weight:600; transition:.3s; }
+    .btn-nav-cta:hover { transform:translateY(-2px); box-shadow:0 6px 20px rgba(118,87,232,.4); }
+
+    /* ══ SECTION 1: CONTACT HERO ══ */
+    .contact-hero {
+      background:linear-gradient(135deg, rgba(21,27,53,.93) 0%, rgba(42,31,94,.9) 50%, rgba(21,27,53,.94) 100%),
+                 url('https://images.unsplash.com/photo-1423666639041-f56000c27a9a?w=1600&q=80') center/cover no-repeat;
+      padding:80px 0 60px;
+      position:relative;
+      overflow:hidden;
+    }
+    .contact-hero::before {
+      content:'';
+      position:absolute; inset:0;
+      background:radial-gradient(ellipse at 30% 50%, rgba(118,87,232,.2) 0%, transparent 60%),
+                 radial-gradient(ellipse at 70% 30%, rgba(255,118,107,.12) 0%, transparent 50%);
+    }
+    .contact-hero .container { position:relative; z-index:2; }
+    .breadcrumb-nav { margin-bottom:20px; text-align:center; }
+    .breadcrumb-nav a { color:rgba(255,255,255,.55); text-decoration:none; font-size:.85rem; }
+    .breadcrumb-nav span { color:rgba(255,255,255,.3); margin:0 8px; }
+    .breadcrumb-nav .current { color:rgba(255,255,255,.85); }
+    .contact-hero h1 { font-size:clamp(2.2rem,5vw,3.5rem); font-weight:800; color:#fff; margin-bottom:14px; }
+    .contact-hero p { color:rgba(255,255,255,.7); font-size:1.1rem; max-width:500px; margin-left:auto; margin-right:auto; }
+    .gradient-text { background:linear-gradient(135deg,#7657E8,#FF766B); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+
+    /* Quick Contact Cards */
+    .quick-contact-cards { margin-top:50px; }
+    .quick-card {
+      background:rgba(255,255,255,.07);
+      border:1px solid rgba(255,255,255,.12);
+      border-radius:16px; padding:28px 24px;
+      text-align:center; transition:.3s;
+      height:100%;
+    }
+    .quick-card:hover {
+      background:rgba(118,87,232,.15);
+      border-color:rgba(118,87,232,.4);
+      transform:translateY(-6px);
+    }
+    .quick-card-icon {
+      width:60px; height:60px;
+      background:linear-gradient(135deg,#7657E8,#FF766B);
+      border-radius:16px; display:flex;
+      align-items:center; justify-content:center;
+      font-size:1.5rem; color:#fff;
+      margin:0 auto 16px;
+    }
+    .quick-card h5 { color:#fff; font-weight:700; margin-bottom:10px; font-size:1rem; }
+    .quick-card p { color:rgba(255,255,255,.65); font-size:.88rem; margin:0; line-height:1.6; }
+    .quick-card a { color:var(--purple-light); text-decoration:none; font-size:.85rem; }
+    .quick-card a:hover { color:var(--coral); }
+
+    /* ══ SECTION 2: CONTACT FORM ══ */
+    .contact-form-section { padding:80px 0; background:#F9FAFB; }
+    .form-wrapper {
+      background:#fff; border-radius:20px;
+      padding:40px; box-shadow:0 8px 40px rgba(0,0,0,.08);
+    }
+    .form-wrapper h2 { font-weight:800; color:var(--navy); margin-bottom:8px; }
+    .form-wrapper .subtitle { color:#475569; font-size:.93rem; margin-bottom:28px; }
+    .form-control-custom {
+      border:1.5px solid #E5E7EB; border-radius:10px;
+      padding:12px 16px; font-size:.93rem;
+      width:100%; transition:.25s;
+      font-family:'Inter',sans-serif;
+      background:#fff;
+    }
+    .form-control-custom:focus { outline:none; border-color:var(--purple); box-shadow:0 0 0 3px rgba(118,87,232,.1); }
+    .form-label-custom { font-weight:600; font-size:.85rem; color:var(--navy); margin-bottom:6px; display:block; }
+    .form-group { margin-bottom:20px; }
+    .btn-send {
+      background:linear-gradient(135deg,#7657E8,#FF766B);
+      color:#fff; border:none; border-radius:12px;
+      padding:14px 36px; font-weight:700; font-size:1rem;
+      cursor:pointer; transition:.3s; width:100%;
+      font-family:'Plus Jakarta Sans',sans-serif;
+    }
+    .btn-send:hover { transform:translateY(-2px); box-shadow:0 8px 25px rgba(118,87,232,.4); }
+    .btn-send:disabled { opacity:.7; cursor:not-allowed; transform:none; }
+    .gdpr-check { display:flex; align-items:flex-start; gap:10px; }
+    .gdpr-check input[type=checkbox] { margin-top:3px; accent-color:var(--purple); }
+    .gdpr-check label { font-size:.83rem; color:#475569; line-height:1.5; }
+    .gdpr-check a { color:var(--purple); }
+
+    /* World Map SVG Area */
+    .map-side { padding:0 10px; }
+    .map-svg-container {
+      background:linear-gradient(135deg,var(--navy),var(--navy-light));
+      border-radius:16px; padding:30px;
+      margin-bottom:20px;
+    }
+    .map-svg-container svg { width:100%; height:auto; }
+    .map-svg-container .map-embed {
+      width:100%; height:320px; border:0; border-radius:12px;
+      display:block; filter:saturate(1.05);
+    }
+    .office-mini-card {
+      background:#fff; border:1px solid #E5E7EB; border-radius:12px;
+      padding:16px; margin-bottom:12px; display:flex; gap:12px; align-items:flex-start;
+    }
+    .office-mini-flag { font-size:1.6rem; flex-shrink:0; }
+    .office-mini-city { font-weight:700; color:var(--navy); font-size:.93rem; }
+    .office-mini-addr { font-size:.8rem; color:#475569; line-height:1.5; }
+
+    /* ══ SECTION 3: OFFICE MAP ══ */
+    .office-map-section { padding:60px 0 80px; }
+    .map-iframe-wrapper { position:relative; border-radius:20px; overflow:hidden; box-shadow:0 8px 40px rgba(0,0,0,.12); }
+    .map-iframe-wrapper iframe { width:100%; height:420px; border:none; display:block; }
+    .office-location-cards { margin-top:40px; }
+    .office-card {
+      background:#fff; border:1px solid #E5E7EB; border-radius:18px;
+      padding:24px; transition:.3s; height:100%;
+      box-shadow:0 2px 12px rgba(0,0,0,.06);
+      display:flex; flex-direction:column;
+    }
+    .office-card:hover { transform:translateY(-6px); box-shadow:0 12px 35px rgba(118,87,232,.12); border-color:rgba(118,87,232,.3); }
+    .office-photo { height:150px; border-radius:12px; overflow:hidden; margin-bottom:18px; }
+    .office-photo img { width:100%; height:100%; object-fit:cover; display:block; }
+    .office-card-header { margin-bottom:18px; }
+    .office-card .btn-get-directions { margin-top:auto; align-self:flex-start; }
+    .office-card h4 { font-weight:700; color:var(--navy); font-size:1.05rem; margin:0; }
+    .office-card-country { font-size:.8rem; color:var(--purple); font-weight:600; }
+    .office-detail { display:flex; gap:12px; margin-bottom:12px; align-items:flex-start; }
+    .office-detail-icon { color:var(--purple); font-size:.9rem; margin-top:2px; flex-shrink:0; width:16px; }
+    .office-detail-text { font-size:.85rem; color:#4B5563; line-height:1.5; }
+    .btn-get-directions {
+      display:inline-flex; align-items:center; gap:7px;
+      background:linear-gradient(135deg,#7657E8,#FF766B);
+      color:#fff; text-decoration:none; border-radius:25px;
+      padding:9px 20px; font-size:.85rem; font-weight:600;
+      transition:.3s; margin-top:8px;
+    }
+    .btn-get-directions:hover { color:#fff; transform:translateY(-2px); box-shadow:0 5px 15px rgba(118,87,232,.35); }
+
+    /* ══ SECTION 4: FAQ ══ */
+    .faq-section { padding:80px 0; background:var(--lavender); }
+    .faq-tabs { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:36px; }
+    .faq-tab {
+      padding:9px 22px; border-radius:25px; font-weight:600; font-size:.88rem;
+      cursor:pointer; border:2px solid transparent; transition:.25s;
+      background:#fff; color:#475569;
+    }
+    .faq-tab.active { background:linear-gradient(135deg,#7657E8,#FF766B); color:#fff; border-color:transparent; }
+    .faq-tab:hover:not(.active) { border-color:var(--purple); color:var(--purple); }
+    .accordion-eventora .accordion-item {
+      background:#fff; border:1px solid rgba(118,87,232,.15);
+      border-radius:12px!important; margin-bottom:10px;
+      overflow:hidden; box-shadow:0 2px 8px rgba(0,0,0,.04);
+    }
+    .accordion-eventora .accordion-button {
+      background:#fff; color:var(--navy); font-weight:600; font-size:.95rem;
+      font-family:'Plus Jakarta Sans',sans-serif; border-radius:12px!important;
+      padding:18px 22px;
+    }
+    .accordion-eventora .accordion-button:not(.collapsed) {
+      background:linear-gradient(135deg,rgba(118,87,232,.08),rgba(255,118,107,.05));
+      color:var(--purple); box-shadow:none;
+    }
+    .accordion-eventora .accordion-button::after {
+      filter:hue-rotate(220deg);
+    }
+    .accordion-eventora .accordion-body { font-size:.9rem; color:#4B5563; line-height:1.7; padding:0 22px 20px; }
+    .faq-section h2 { font-weight:800; color:var(--navy); margin-bottom:10px; }
+
+    /* ══ SECTION 5: SUPPORT CHANNELS ══ */
+    .support-section { padding:80px 0; background:var(--navy); }
+    .support-card {
+      background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.1);
+      border-radius:20px; padding:36px 28px; text-align:center;
+      transition:.3s; height:100%;
+    }
+    .support-card:hover { transform:translateY(-6px); background:rgba(255,255,255,.1); border-color:rgba(118,87,232,.4); }
+    .support-icon {
+      width:70px; height:70px; border-radius:20px;
+      display:flex; align-items:center; justify-content:center;
+      font-size:1.8rem; color:#fff; margin:0 auto 20px;
+    }
+    .support-icon.chat { background:linear-gradient(135deg,#7657E8,#9B84F0); }
+    .support-icon.email { background:linear-gradient(135deg,#FF766B,#f9a26f); }
+    .support-icon.phone { background:linear-gradient(135deg,#10B981,#059669); }
+    .support-icon.help { background:linear-gradient(135deg,#F59E0B,#D97706); }
+    .support-card h4 { color:#fff; font-weight:700; margin-bottom:12px; font-size:1.05rem; }
+    .support-card p { color:rgba(255,255,255,.85) !important; font-size:.88rem; line-height:1.6; margin-bottom:16px; }
+    .response-badge {
+      display:inline-block; border-radius:20px; padding:4px 12px;
+      font-size:.75rem; font-weight:600; margin-bottom:16px;
+    }
+    .response-badge.instant { background:rgba(16,185,129,.15); color:#34D399; border:1px solid rgba(16,185,129,.3); }
+    .response-badge.fast { background:rgba(118,87,232,.15); color:var(--purple-light); border:1px solid rgba(118,87,232,.3); }
+    .response-badge.hours { background:rgba(245,158,11,.15); color:#FCD34D; border:1px solid rgba(245,158,11,.3); }
+    .response-badge.docs { background:rgba(255,118,107,.15); color:#FCA5A5; border:1px solid rgba(255,118,107,.3); }
+    .availability { font-size:.8rem; color:rgba(255,255,255,.7); margin-bottom:18px; }
+    .btn-support-action {
+      display:inline-block; border-radius:25px; padding:10px 24px;
+      font-weight:600; font-size:.88rem; text-decoration:none; cursor:pointer;
+      border:none; transition:.3s;
+    }
+    .btn-support-action.primary { background:linear-gradient(135deg,#7657E8,#FF766B); color:#fff; }
+    .btn-support-action.outline { background:transparent; color:rgba(255,255,255,.9); border:1.5px solid rgba(255,255,255,.4); }
+    .btn-support-action:hover { transform:translateY(-2px); color:#fff; }
+    .btn-support-action.outline:hover { background:rgba(255,255,255,.1); }
+
+    /* ══ SECTION 6: NEWSLETTER + SOCIAL ══ */
+    .newsletter-social-section { padding:80px 0; background:#F9FAFB; }
+    .newsletter-box {
+      background:linear-gradient(135deg,var(--navy) 0%,var(--navy-light) 100%);
+      border-radius:20px; padding:50px 40px;
+    }
+    .newsletter-box h2 { color:#fff; font-weight:800; font-size:2rem; margin-bottom:10px; }
+    .newsletter-box p { color:rgba(255,255,255,.88) !important; margin-bottom:28px; font-size:.95rem; line-height:1.65; }
+    .nl-features { display:flex; flex-direction:column; gap:10px; margin-bottom:28px; }
+    .nl-feature { display:flex; align-items:center; gap:10px; color:rgba(255,255,255,.8); font-size:.88rem; }
+    .nl-feature i { color:#34D399; font-size:.9rem; }
+    .nl-input-row { display:flex; gap:10px; flex-wrap:wrap; }
+    .nl-input-row input {
+      flex:1; min-width:200px; border:none; border-radius:10px;
+      padding:12px 18px; font-size:.93rem;
+    }
+    .nl-input-row input:focus { outline:2px solid var(--purple); }
+    .btn-nl-subscribe {
+      background:linear-gradient(135deg,#7657E8,#FF766B); color:#fff;
+      border:none; border-radius:10px; padding:12px 26px;
+      font-weight:700; font-size:.93rem; cursor:pointer; transition:.3s;
+      white-space:nowrap;
+    }
+    .btn-nl-subscribe:hover { transform:translateY(-2px); box-shadow:0 6px 18px rgba(118,87,232,.4); }
+    .nl-privacy { color:rgba(255,255,255,.62) !important; font-size:.78rem; margin-top:12px; }
+
+    /* Social Follow Cards */
+    .social-follow-cards { display:flex; flex-direction:column; gap:14px; }
+    .social-follow-card {
+      background:#fff; border-radius:14px; padding:18px 20px;
+      display:flex; align-items:center; gap:16px;
+      border:1px solid #E5E7EB; transition:.3s;
+      text-decoration:none; box-shadow:0 2px 8px rgba(0,0,0,.05);
+    }
+    .social-follow-card:hover { transform:translateX(6px); box-shadow:0 6px 20px rgba(0,0,0,.1); }
+    .social-follow-icon { width:46px; height:46px; border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:1.2rem; color:#fff; flex-shrink:0; }
+    .social-follow-icon.ig { background:linear-gradient(135deg,#E1306C,#F77737); }
+    .social-follow-icon.tw { background:#1DA1F2; }
+    .social-follow-icon.li { background:#0A66C2; }
+    .social-follow-icon.yt { background:#FF0000; }
+    .social-follow-info .platform { font-weight:700; color:var(--navy); font-size:.93rem; }
+    .social-follow-info .followers { font-size:.8rem; color:#64748B; }
+    .social-follow-btn {
+      margin-left:auto; background:var(--lavender); color:var(--purple);
+      border:none; border-radius:20px; padding:7px 16px; font-size:.8rem;
+      font-weight:600; cursor:pointer; transition:.2s; white-space:nowrap;
+    }
+    .social-follow-btn:hover { background:var(--purple); color:#fff; }
+
+    /* ── FOOTER ── */
+    footer { background:var(--navy); border-top:1px solid rgba(255,255,255,.08); padding:50px 0 24px; }
+    .footer-brand { font-family:'Plus Jakarta Sans',sans-serif; font-weight:800; font-size:1.4rem; }
+    .footer-desc { color:rgba(255,255,255,.6); font-size:.88rem; line-height:1.6; margin-top:10px; }
+    .footer-heading { color:#fff; font-weight:700; margin-bottom:16px; font-size:.95rem; }
+    .footer-links a { display:block; color:rgba(255,255,255,.6); text-decoration:none; font-size:.88rem; margin-bottom:8px; transition:.2s; }
+    .footer-links a:hover { color:var(--purple-light); padding-left:5px; }
+    .footer-bottom { border-top:1px solid rgba(255,255,255,.08); margin-top:36px; padding-top:20px; color:rgba(255,255,255,.45); font-size:.82rem; display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px; }
+    .social-icons a { width:36px; height:36px; background:rgba(255,255,255,.08); border-radius:50%; display:inline-flex; align-items:center; justify-content:center; color:rgba(255,255,255,.65); margin-right:8px; text-decoration:none; transition:.2s; }
+    .social-icons a:hover { background:var(--purple); color:#fff; }
+
+    /* Toast */
+    .toast-msg { position:fixed; bottom:30px; right:30px; background:linear-gradient(135deg,#10B981,#059669); color:#fff; padding:14px 24px; border-radius:12px; font-size:.9rem; font-weight:600; z-index:9999; transform:translateY(80px); opacity:0; transition:.35s; box-shadow:0 6px 24px rgba(0,0,0,.25); }
+    .toast-msg.show { transform:translateY(0); opacity:1; }
+
+    @media(max-width:768px) {
+      .contact-hero { padding:60px 0 40px; }
+      .newsletter-box { padding:30px 20px; }
+      .office-card { margin-bottom:16px; }
+    }
+      /* ─── DUAL MODE HIGH CONTRAST ─── */
+        /* ─── LIGHT MODE HIGH CONTRAST RULES ─── */
+    [data-theme="light"] body { background: #FFFFFF !important; color: #151B35 !important; }
+    [data-theme="light"] .navbar-eventora { background: rgba(255,255,255,0.95) !important; border-bottom: 1px solid #E2E8F0 !important; }
+    [data-theme="light"] .navbar-eventora .navbar-brand { color: #151B35 !important; }
+    [data-theme="light"] .navbar-eventora .nav-link { color: #151B35 !important; font-weight: 600 !important; }
+    [data-theme="light"] .navbar-eventora .nav-link:hover,
+    [data-theme="light"] .navbar-eventora .nav-link.active { color: #7657E8 !important; }
+    [data-theme="light"] .contact-form-section { background: #F8F9FD !important; }
+    [data-theme="light"] .office-locations-section { background: #FFFFFF !important; }
+    [data-theme="light"] .faq-section { background: #F8F9FD !important; }
+    [data-theme="light"] .contact-form-card, 
+    [data-theme="light"] .office-card, 
+    [data-theme="light"] .support-channel-card,
+    [data-theme="light"] .social-follow-card,
+    [data-theme="light"] .form-wrapper {
+      background: #FFFFFF !important;
+      border: 1px solid #E2E8F0 !important;
+      color: #151B35 !important;
+      box-shadow: 0 4px 20px rgba(21,27,53,0.06) !important;
+    }
+    [data-theme="light"] .form-wrapper h2, [data-theme="light"] .office-card h4, [data-theme="light"] .office-city { color: #151B35 !important; }
+    [data-theme="light"] .form-label-custom { color: #151B35 !important; font-weight: 600 !important; }
+    [data-theme="light"] .form-control-custom {
+      background: #FFFFFF !important;
+      color: #0F172A !important;
+      border: 1.5px solid #CBD5E1 !important;
+    }
+    [data-theme="light"] .form-control-custom::placeholder { color: #64748B !important; }
+    [data-theme="light"] .form-wrapper .subtitle, [data-theme="light"] .office-detail-text, [data-theme="light"] .form-text { color: #475569 !important; }
+    [data-theme="light"] .social-follow-info .platform { color: #151B35 !important; }
+    [data-theme="light"] .social-follow-info .followers { color: #64748B !important; }
+    [data-theme="light"] .accordion-button { background-color: #F8F9FD !important; color: #151B35 !important; font-weight: 700 !important; }
+    [data-theme="light"] .accordion-button:not(.collapsed) { background-color: #F1EDFF !important; color: #5B21B6 !important; }
+    [data-theme="light"] .accordion-body { background-color: #FFFFFF !important; color: #334155 !important; }
+    [data-theme="light"] .accordion-item { border: 1px solid #E2E8F0 !important; }
+    [data-theme="dark"] .contact-form-section { background: #0B0F1E !important; }
+    [data-theme="dark"] .office-locations-section { background: #131933 !important; }
+    [data-theme="dark"] .faq-section { background: #0B0F1E !important; }
+    [data-theme="dark"] .contact-form-card, 
+    [data-theme="dark"] .office-card, 
+    [data-theme="dark"] .support-channel-card,
+    [data-theme="dark"] .social-follow-card {
+      background: #151B35 !important;
+      border-color: rgba(255,255,255,0.14) !important;
+      color: #F8FAFC !important;
+    }
+    [data-theme="dark"] .contact-form-card h3, [data-theme="dark"] .office-card h4 { color: #FFFFFF !important; }
+    [data-theme="dark"] .form-label { color: #E2E8F0 !important; }
+    [data-theme="dark"] .form-control, [data-theme="dark"] .form-select {
+      background-color: #1E2748 !important;
+      color: #FFFFFF !important;
+      border-color: rgba(255,255,255,0.2) !important;
+    }
+    [data-theme="dark"] .office-detail-text, [data-theme="dark"] .form-text { color: #CBD5E1 !important; }
+    [data-theme="dark"] .social-follow-info .platform { color: #FFFFFF !important; }
+    [data-theme="dark"] .accordion-button { background-color: #1E2748 !important; color: #FFFFFF !important; }
+    [data-theme="dark"] .accordion-button:not(.collapsed) { background-color: #242E5E !important; color: #A78BFA !important; }
+    [data-theme="dark"] .accordion-body { background-color: #151B35 !important; color: #CBD5E1 !important; }
+    [data-theme="dark"] .accordion-item { border-color: rgba(255,255,255,0.12) !important; }
+</style>
+<script src="assets/js/theme.js"></script>
+<style id="responsive-fixes">
+  html, body { overflow-x: hidden; }
+  img, iframe, video, svg { max-width: 100%; }
+
+  @media (max-width:1024px) {
+    .contact-hero { padding: 64px 0 48px; }
+    .contact-hero h1 { font-size: clamp(1.9rem, 6vw, 2.8rem); }
+    .contact-hero p { font-size: 1rem; }
+    .quick-contact-cards { margin-top: 36px; }
+    .quick-card { padding: 22px 18px; }
+
+    .contact-form-section { padding: 56px 0; }
+    .contact-form-section .row > .col-lg-6 { flex: 0 0 100%; max-width: 100%; }
+    .form-wrapper { padding: 28px 24px; }
+    .map-svg-container { padding: 20px; }
+    .map-svg-container .map-embed { height: 260px; }
+    .map-iframe-wrapper iframe { height: 340px; }
+
+    .office-map-section { padding: 48px 0 56px; }
+    .office-map-section h2 { font-size: 1.7rem !important; }
+    .office-location-cards .col-md-4 { flex: 0 0 50%; max-width: 50%; }
+    .office-card { padding: 20px; }
+    .office-photo { height: 130px; }
+
+    .faq-section { padding: 56px 0; }
+    .faq-tabs { gap: 6px; margin-bottom: 26px; flex-wrap: wrap; }
+    .faq-tab { padding: 8px 16px; font-size: .82rem; }
+    .accordion-eventora .accordion-button { padding: 15px 16px; font-size: .9rem; }
+    .accordion-eventora .accordion-body { padding: 0 16px 16px; }
+
+    .support-section { padding: 56px 0; }
+    .support-section h2 { font-size: 1.7rem !important; }
+    .support-section .col-sm-6.col-lg-3 { flex: 0 0 50%; max-width: 50%; }
+    .support-card { padding: 26px 20px; }
+
+    .newsletter-social-section { padding: 56px 0; }
+    .newsletter-social-section .col-lg-7,
+    .newsletter-social-section .col-lg-5 { flex: 0 0 100%; max-width: 100%; }
+    .newsletter-box { padding: 36px 28px; }
+
+    footer .col-lg-4 { flex: 0 0 100%; max-width: 100%; }
+    footer .col-6 { flex: 0 0 50%; max-width: 50%; }
+  }
+
+  @media (max-width:768px) {
+    .contact-hero { padding: 52px 0 40px; }
+    .contact-hero p { font-size: .95rem; }
+    .quick-card { padding: 20px 16px; }
+    .form-wrapper { padding: 24px 18px; }
+    .form-wrapper h2 { font-size: 1.4rem; }
+    .form-control-custom { padding: 11px 14px; font-size: .9rem; }
+    .btn-send { padding: 13px 24px; font-size: .95rem; }
+    .map-svg-container { padding: 14px; }
+    .map-svg-container .map-embed { height: 220px; }
+    .map-iframe-wrapper iframe { height: 280px; }
+    .office-map-section { padding: 40px 0 48px; }
+    .office-map-section h2 { font-size: 1.5rem !important; }
+    .faq-section { padding: 44px 0; }
+    .faq-section h2 { font-size: 1.5rem; }
+    .faq-tabs { justify-content: center; }
+    .support-section { padding: 44px 0; }
+    .support-section h2 { font-size: 1.5rem !important; }
+    .newsletter-social-section { padding: 44px 0; }
+    .newsletter-box { padding: 30px 22px; }
+    .newsletter-box h2 { font-size: 1.5rem; }
+    .newsletter-box p { font-size: .9rem; margin-bottom: 22px; }
+    .nl-input-row { flex-direction: column; }
+    .nl-input-row input { min-width: 0; width: 100%; }
+    .btn-nl-subscribe { width: 100%; }
+    .social-follow-card { flex-wrap: wrap; gap: 12px; }
+    .footer-bottom { text-align: center; }
+  }
+
+  @media (max-width:480px) {
+    .contact-hero { padding: 44px 0 34px; }
+    .contact-hero h1 { font-size: 1.65rem; }
+    .quick-card { padding: 18px 14px; }
+    .form-wrapper { padding: 20px 14px; border-radius: 16px; }
+    .form-wrapper h2 { font-size: 1.25rem; }
+    .form-wrapper .subtitle { font-size: .86rem; margin-bottom: 20px; }
+    .form-group { margin-bottom: 16px; }
+    .map-svg-container { padding: 10px; border-radius: 12px; }
+    .map-svg-container .map-embed { height: 190px; }
+    .map-iframe-wrapper { border-radius: 14px; }
+    .map-iframe-wrapper iframe { height: 230px; }
+    .office-location-cards .col-md-4 { flex: 0 0 100%; max-width: 100%; }
+    .office-card { padding: 18px 16px; }
+    .office-photo { height: 160px; }
+    .faq-tab { padding: 7px 13px; font-size: .78rem; }
+    .accordion-eventora .accordion-button { padding: 13px 14px; font-size: .85rem; }
+    .accordion-eventora .accordion-body { padding: 0 14px 14px; font-size: .85rem; }
+    .support-section .col-sm-6.col-lg-3 { flex: 0 0 100%; max-width: 100%; }
+    .support-card { padding: 22px 18px; }
+    .support-card p { font-size: .85rem; }
+    .newsletter-box { padding: 24px 16px; border-radius: 16px; }
+    .newsletter-box h2 { font-size: 1.3rem; }
+    .nl-feature { font-size: .82rem; }
+    .social-follow-card { padding: 14px 16px; }
+    .social-follow-info .platform { font-size: .88rem; }
+    .social-follow-btn { margin-left: 0; width: 100%; text-align: center; }
+    footer .col-lg-4, footer .col-6 { flex: 0 0 100%; max-width: 100%; }
+    .footer-bottom { flex-direction: column; gap: 12px; }
+    .toast-msg { left: 14px; right: 14px; bottom: 16px; }
+  }
+
+  @media (max-width:360px) {
+    .contact-hero h1 { font-size: 1.5rem; }
+    .contact-hero p { font-size: .88rem; }
+    .form-wrapper { padding: 18px 12px; }
+    .form-control-custom { font-size: .85rem; padding: 10px 12px; }
+    .btn-send { font-size: .88rem; padding: 12px 18px; }
+    .quick-card h5 { font-size: .95rem; }
+    .quick-card p { font-size: .82rem; }
+    .faq-tab { padding: 6px 11px; font-size: .74rem; }
+    .newsletter-box { padding: 20px 14px; }
+    .social-follow-info .followers { font-size: .74rem; }
+    .support-icon { width: 58px; height: 58px; font-size: 1.5rem; }
+  }
+
+  @media (max-width:320px) {
+    .contact-hero h1 { font-size: 1.35rem; }
+    .form-wrapper { padding: 16px 10px; }
+    .form-wrapper h2 { font-size: 1.15rem; }
+    .newsletter-box { padding: 18px 12px; }
+    .office-card { padding: 16px 12px; }
+    .support-card { padding: 20px 14px; }
+    .faq-tab { padding: 6px 10px; font-size: .7rem; }
+    .social-follow-card { padding: 12px; }
+    .social-follow-icon { width: 38px; height: 38px; font-size: 1rem; }
+    .footer-desc { font-size: .82rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════════════════ NAVBAR ══════════════════ -->
+<nav class="navbar navbar-expand-lg navbar-eventora fixed-top py-2">
+  <div class="container">
+    <a class="navbar-brand navbar-brand-logo" href="home.html"><img src="assets/images/logo-mark.svg" alt="" class="brand-mark" width="32" height="32" />Eventora</a>
+    <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+      <span class="navbar-toggler-icon" style="filter:invert(1);"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navMenu">
+      <ul class="navbar-nav mx-auto gap-1">
+        <li class="nav-item"><a class="nav-link" href="home.html">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="home2.html">Home 2</a></li>
+        <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+        <li class="nav-item"><a class="nav-link" href="services.html">Services</a></li>
+        <li class="nav-item"><a class="nav-link" href="blog.html">Blog</a></li>
+        <li class="nav-item"><a class="nav-link active" href="contact.html">Contact</a></li>
+      </ul>
+      <div class="d-flex align-items-center gap-2">
+        <span class="nav-icon-btn" id="themeToggle" title="Toggle Theme"><i class="bi bi-moon-stars"></i></span>
+        <span class="nav-icon-btn" id="rtlToggle" title="RTL Mode" style="font-size:.68rem;font-weight:700;letter-spacing:.5px;">RTL</span>
+        <a href="user-dashboard.html" class="btn-ev-outline btn btn-sm ms-2" style="padding:.4rem 1rem;font-size:.8rem;">User Dashboard</a>
+        <a href="admin-dashboard.html" class="btn-ev-primary btn btn-sm" style="padding:.4rem 1rem;font-size:.8rem;">Admin Dashboard</a>
+        <a href="login.html" class="btn-ev-primary btn btn-sm">Sign In</a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- ══════════════════ SECTION 1: CONTACT HERO ══════════════════ -->
+<section class="contact-hero">
+  <div class="container">
+    <div class="breadcrumb-nav">
+      <a href="home.html">Home</a>
+      <span>›</span>
+      <span class="current">Contact Us</span>
+    </div>
+    <div class="row justify-content-center text-center">
+      <div class="col-lg-9 col-xl-8">
+        <h1>Get <span class="gradient-text">In Touch</span></h1>
+        <p>Have questions about our platform, partnerships, or events? We're here to help. Our team typically responds within 24 hours.</p>
+      </div>
+    </div>
+
+    <!-- Quick Contact Cards -->
+    <div class="quick-contact-cards">
+      <div class="row g-4">
+        <div class="col-md-4">
+          <div class="quick-card">
+            <div class="quick-card-icon"><i class="fas fa-phone-alt"></i></div>
+            <h5>Call Us</h5>
+            <p>
+              <strong style="color:#fff;font-size:1rem;">+1 (800) 876-5432</strong><br/>
+              Mon–Fri: 9AM – 8PM EST<br/>
+              Sat: 10AM – 5PM EST
+            </p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="quick-card">
+            <div class="quick-card-icon"><i class="fas fa-envelope"></i></div>
+            <h5>Email Us</h5>
+            <p>
+              <a href="mailto:support@eventora.com">support@eventora.com</a><br/>
+              <a href="mailto:sales@eventora.com">sales@eventora.com</a><br/>
+              <a href="mailto:media@eventora.com">media@eventora.com</a>
+            </p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="quick-card">
+            <div class="quick-card-icon"><i class="fas fa-map-marker-alt"></i></div>
+            <h5>Visit Us</h5>
+            <p>
+              350 Fifth Avenue, Suite 7000<br/>
+              New York, NY 10118<br/>
+              <a href="https://maps.google.com/?q=350+5th+Ave+New+York" target="_blank">Get Directions <i class="bi bi-arrow-right ms-1"></i></a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════ SECTION 2: CONTACT FORM ══════════════════ -->
+<section class="contact-form-section">
+  <div class="container">
+    <div class="row g-5 align-items-start">
+      <!-- Left: Form -->
+      <div class="col-lg-6">
+        <div class="form-wrapper">
+          <h2>Send Us a Message</h2>
+          <p class="subtitle">Fill out the form and our team will get back to you within 24 hours.</p>
+          <form id="contactForm" novalidate>
+            <div class="row g-3">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="form-label-custom">Full Name <span style="color:var(--coral)">*</span></label>
+                  <input type="text" class="form-control-custom" placeholder="Jane Smith" required minlength="2" id="cf-name" />
+                  <div class="invalid-msg" style="display:none;color:#EF4444;font-size:.78rem;margin-top:4px;">Please enter your full name.</div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="form-label-custom">Email Address <span style="color:var(--coral)">*</span></label>
+                  <input type="email" class="form-control-custom" placeholder="jane@example.com" required id="cf-email" />
+                  <div class="invalid-msg" style="display:none;color:#EF4444;font-size:.78rem;margin-top:4px;">Please enter a valid email.</div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="form-label-custom">Phone Number</label>
+                  <input type="tel" class="form-control-custom" placeholder="+1 (555) 000-0000" id="cf-phone" />
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="form-label-custom">Subject <span style="color:var(--coral)">*</span></label>
+                  <select class="form-control-custom" required id="cf-subject">
+                    <option value="" disabled selected>Select a subject</option>
+                    <option value="general">General Inquiry</option>
+                    <option value="support">Technical Support</option>
+                    <option value="partnerships">Partnerships</option>
+                    <option value="media">Media & Press</option>
+                  </select>
+                  <div class="invalid-msg" style="display:none;color:#EF4444;font-size:.78rem;margin-top:4px;">Please select a subject.</div>
+                </div>
+              </div>
+              <div class="col-12">
+                <div class="form-group">
+                  <label class="form-label-custom">Message <span style="color:var(--coral)">*</span></label>
+                  <textarea class="form-control-custom" rows="5" placeholder="Tell us how we can help you..." required minlength="20" id="cf-message"></textarea>
+                  <div class="invalid-msg" style="display:none;color:#EF4444;font-size:.78rem;margin-top:4px;">Message must be at least 20 characters.</div>
+                </div>
+              </div>
+              <div class="col-12">
+                <div class="form-group">
+                  <label class="form-label-custom">Attach File <small style="font-weight:400; color:#64748B;">(optional, max 10MB)</small></label>
+                  <input type="file" class="form-control-custom" style="padding:8px 14px; cursor:pointer;" accept=".pdf,.doc,.docx,.png,.jpg" />
+                </div>
+              </div>
+              <div class="col-12">
+                <div class="gdpr-check">
+                  <input type="checkbox" id="gdprCheck" required />
+                  <label for="gdprCheck">I agree to Eventora's <a href="#">Privacy Policy</a> and consent to being contacted regarding my inquiry. You can withdraw consent at any time. <span style="color:var(--coral)">*</span></label>
+                </div>
+                <div class="invalid-msg" id="gdpr-msg" style="display:none;color:#EF4444;font-size:.78rem;margin-top:4px;">Please accept our privacy policy to continue.</div>
+              </div>
+              <div class="col-12 mt-2">
+                <button type="submit" class="btn-send" id="sendBtn">
+                  <i class="fas fa-paper-plane me-2"></i> Send Message
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- Right: World Map + Office Cards -->
+      <div class="col-lg-6">
+        <div class="map-side">
+          <!-- Animated World Map SVG -->
+          <div class="map-svg-container mb-4">
+<div style="color:rgba(255,255,255,.65); font-size:.82rem; margin-bottom:14px; text-transform:uppercase; letter-spacing:.8px; font-weight:600;"><i class="bi bi-geo-alt-fill text-coral me-1"></i>Our Global Offices</div>
+            <iframe
+              class="map-embed"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d193595.15830869428!2d-74.11976397304903!3d40.69766374874431!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c24fa5d33f083b%3A0xc80b8f06e177fe62!2sNew%20York%2C%20NY%2C%20USA!5e0!3m2!1sen!2s!4v1699900000000!5m2!1sen!2s"
+              allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+              title="Eventora Global Offices Map">
+            </iframe>
+          </div>
+          </div>
+
+          <!-- Office Mini Cards -->
+          <div class="office-mini-card">
+            <div class="office-mini-flag"><i class="bi bi-building text-primary"></i></div>
+            <div>
+              <div class="office-mini-city">New York — HQ</div>
+              <div class="office-mini-addr">350 Fifth Avenue, Suite 7000, New York, NY 10118<br/>+1 (800) 876-5432</div>
+            </div>
+          </div>
+          <div class="office-mini-card">
+            <div class="office-mini-flag"><i class="bi bi-building text-purple"></i></div>
+            <div>
+              <div class="office-mini-city">London — EMEA Hub</div>
+              <div class="office-mini-addr">1 Canada Square, Canary Wharf, London E14 5AB<br/>+44 20 7946 0958</div>
+            </div>
+          </div>
+          <div class="office-mini-card">
+            <div class="office-mini-flag"><i class="bi bi-building text-coral"></i></div>
+            <div>
+              <div class="office-mini-city">Mumbai — Asia-Pacific</div>
+              <div class="office-mini-addr">Bandra Kurla Complex, BKC, Mumbai, MH 400051<br/>+91 22 6180 7000</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════ SECTION 3: OFFICE LOCATIONS MAP ══════════════════ -->
+<section class="office-map-section">
+  <div class="container">
+    <div class="text-center mb-5">
+      <span style="display:inline-block; background:var(--lavender); color:var(--purple); font-size:.8rem; font-weight:700; padding:5px 16px; border-radius:20px; margin-bottom:12px; text-transform:uppercase; letter-spacing:.8px;">Our Offices</span>
+      <h2 style="font-weight:800; color:var(--navy); font-size:2rem;">Find Us Around the World</h2>
+      <p style="color:#475569; font-size:.95rem;">Three continents, one mission — bringing extraordinary events to fans everywhere.</p>
+    </div>
+
+    <!-- Full-width Google Maps Embed -->
+    <div class="map-iframe-wrapper mb-5">
+      <iframe
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d193595.15830869428!2d-74.11976397304903!3d40.69766374874431!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c24fa5d33f083b%3A0xc80b8f06e177fe62!2sNew%20York%2C%20NY%2C%20USA!5e0!3m2!1sen!2s!4v1699900000000!5m2!1sen!2s"
+        allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+        title="Eventora New York Office Location">
+      </iframe>
+    </div>
+
+    <!-- 3 Office Location Cards -->
+    <div class="office-location-cards">
+      <div class="row g-4">
+        <!-- New York -->
+        <div class="col-md-4">
+          <div class="office-card">
+<div class="office-photo"><img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=500&q=80" alt="New York Office" /></div>
+            <div class="office-card-header">
+              <h4>New York</h4>
+              <div class="office-card-country"><span class="badge bg-primary me-1" style="font-size:10px;">USA</span> United States — Global HQ</div>
+            </div>
+            <div class="office-detail">
+              <i class="fas fa-map-marker-alt office-detail-icon"></i>
+              <div class="office-detail-text">350 Fifth Avenue, Suite 7000<br/>New York, NY 10118</div>
+            </div>
+            <div class="office-detail">
+              <i class="fas fa-phone office-detail-icon"></i>
+              <div class="office-detail-text">+1 (800) 876-5432</div>
+            </div>
+            <div class="office-detail">
+              <i class="fas fa-envelope office-detail-icon"></i>
+              <div class="office-detail-text">nyc@eventora.com</div>
+            </div>
+            <div class="office-detail">
+              <i class="fas fa-clock office-detail-icon"></i>
+              <div class="office-detail-text">Mon–Fri: 9AM – 8PM EST<br/>Sat: 10AM – 5PM EST</div>
+            </div>
+            <a href="https://maps.google.com/?q=350+Fifth+Avenue+New+York" target="_blank" class="btn-get-directions">
+              <i class="fas fa-directions"></i> Get Directions
+            </a>
+          </div>
+        </div>
+
+        <!-- London -->
+        <div class="col-md-4">
+          <div class="office-card">
+<div class="office-photo"><img src="https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?w=500&q=80" alt="London Office" /></div>
+            <div class="office-card-header">
+              <h4>London</h4>
+              <div class="office-card-country"><span class="badge bg-info text-dark me-1" style="font-size:10px;">UK</span> United Kingdom — EMEA Hub</div>
+            </div>
+            <div class="office-detail">
+              <i class="fas fa-map-marker-alt office-detail-icon"></i>
+              <div class="office-detail-text">1 Canada Square<br/>Canary Wharf, London E14 5AB</div>
+            </div>
+            <div class="office-detail">
+              <i class="fas fa-phone office-detail-icon"></i>
+              <div class="office-detail-text">+44 20 7946 0958</div>
+            </div>
+            <div class="office-detail">
+              <i class="fas fa-envelope office-detail-icon"></i>
+              <div class="office-detail-text">london@eventora.com</div>
+            </div>
+            <div class="office-detail">
+              <i class="fas fa-clock office-detail-icon"></i>
+              <div class="office-detail-text">Mon–Fri: 9AM – 6PM GMT<br/>Sat: Closed</div>
+            </div>
+            <a href="https://maps.google.com/?q=1+Canada+Square+London" target="_blank" class="btn-get-directions">
+              <i class="fas fa-directions"></i> Get Directions
+            </a>
+          </div>
+        </div>
+
+        <!-- Mumbai -->
+        <div class="col-md-4">
+          <div class="office-card">
+<div class="office-photo"><img src="https://images.unsplash.com/photo-1570168007204-dfb528c6958f?w=500&q=80" alt="Mumbai Office" /></div>
+            <div class="office-card-header">
+              <h4>Mumbai</h4>
+              <div class="office-card-country"><span class="badge bg-success me-1" style="font-size:10px;">IND</span> India — Asia-Pacific Hub</div>
+            </div>
+            <div class="office-detail">
+              <i class="fas fa-map-marker-alt office-detail-icon"></i>
+              <div class="office-detail-text">Bandra Kurla Complex, BKC<br/>Mumbai, Maharashtra 400051</div>
+            </div>
+            <div class="office-detail">
+              <i class="fas fa-phone office-detail-icon"></i>
+              <div class="office-detail-text">+91 22 6180 7000</div>
+            </div>
+            <div class="office-detail">
+              <i class="fas fa-envelope office-detail-icon"></i>
+              <div class="office-detail-text">mumbai@eventora.com</div>
+            </div>
+            <div class="office-detail">
+              <i class="fas fa-clock office-detail-icon"></i>
+              <div class="office-detail-text">Mon–Sat: 9AM – 7PM IST<br/>Sun: Closed</div>
+            </div>
+            <a href="https://maps.google.com/?q=Bandra+Kurla+Complex+Mumbai" target="_blank" class="btn-get-directions">
+              <i class="fas fa-directions"></i> Get Directions
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════ SECTION 4: FAQ ══════════════════ -->
+<section class="faq-section">
+  <div class="container">
+    <div class="text-center mb-5">
+      <span style="display:inline-block; background:rgba(118,87,232,.12); color:var(--purple); font-size:.8rem; font-weight:700; padding:5px 16px; border-radius:20px; margin-bottom:12px; text-transform:uppercase; letter-spacing:.8px;">FAQ</span>
+      <h2>Frequently Asked Questions</h2>
+      <p style="color:#475569; font-size:.95rem; max-width:520px; margin:0 auto;">Find quick answers to common questions about Eventora's platform, support, and policies.</p>
+    </div>
+
+    <!-- Category Tabs -->
+    <div class="faq-tabs justify-content-center d-flex flex-wrap gap-2 mb-4">
+      <button class="faq-tab active" onclick="filterFAQ('all', this)">All</button>
+      <button class="faq-tab" onclick="filterFAQ('general', this)">General</button>
+      <button class="faq-tab" onclick="filterFAQ('technical', this)">Technical</button>
+      <button class="faq-tab" onclick="filterFAQ('billing', this)">Billing</button>
+      <button class="faq-tab" onclick="filterFAQ('partnerships', this)">Partnerships</button>
+    </div>
+
+    <div class="accordion accordion-eventora" id="faqAccordion">
+      <!-- FAQ 1: General -->
+      <div class="accordion-item" data-category="general">
+        <h2 class="accordion-header">
+          <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+            <i class="fas fa-circle-question me-2" style="color:var(--purple);"></i>
+            How do I create an Eventora account?
+          </button>
+        </h2>
+        <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+          <div class="accordion-body">
+            Creating an account is free and takes less than 2 minutes. Click "Get Started" in the top navigation bar, enter your email address, choose a secure password, and verify your email. You can also sign up with Google or Apple ID for a faster experience. Once verified, your dashboard will be ready to explore immediately.
+          </div>
+        </div>
+      </div>
+
+      <!-- FAQ 2: General -->
+      <div class="accordion-item" data-category="general">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+            <i class="fas fa-circle-question me-2" style="color:var(--purple);"></i>
+            How long does it take to receive a response to my inquiry?
+          </button>
+        </h2>
+        <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+          <div class="accordion-body">
+            Our support team responds to all email inquiries within <strong>24 business hours</strong>. For urgent technical issues, we recommend using our Live Chat feature for near-instant responses (available Mon–Fri, 9AM–8PM EST). Partnership and media inquiries are typically handled within 48 hours by the relevant team.
+          </div>
+        </div>
+      </div>
+
+      <!-- FAQ 3: Technical -->
+      <div class="accordion-item" data-category="technical">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+            <i class="fas fa-wrench me-2" style="color:var(--coral);"></i>
+            I can't access my ticket — what should I do?
+          </button>
+        </h2>
+        <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+          <div class="accordion-body">
+            First, check your registered email inbox (including Spam/Promotions folders) for your ticket confirmation. Log into your account and visit <strong>My Tickets</strong> in the dashboard. If your ticket still doesn't appear, contact our support team via Live Chat or email with your order confirmation number and we'll resolve it immediately — often within minutes.
+          </div>
+        </div>
+      </div>
+
+      <!-- FAQ 4: Technical -->
+      <div class="accordion-item" data-category="technical">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq4">
+            <i class="fas fa-wrench me-2" style="color:var(--coral);"></i>
+            Is the Eventora app available on iOS and Android?
+          </button>
+        </h2>
+        <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+          <div class="accordion-body">
+            Yes! The Eventora mobile app is available on both the <strong>Apple App Store</strong> and <strong>Google Play Store</strong>. The app offers the full ticketing experience including digital wallets, event reminders, in-app navigation, and exclusive app-only deals. We recommend keeping the app updated for the best experience.
+          </div>
+        </div>
+      </div>
+
+      <!-- FAQ 5: Billing -->
+      <div class="accordion-item" data-category="billing">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq5">
+            <i class="fas fa-credit-card me-2" style="color:#10B981;"></i>
+            What payment methods does Eventora accept?
+          </button>
+        </h2>
+        <div id="faq5" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+          <div class="accordion-body">
+            We accept all major credit and debit cards (Visa, Mastercard, American Express, Discover), PayPal, Apple Pay, Google Pay, and cryptocurrency (Bitcoin, Ethereum) on select events. For corporate accounts, we also offer invoice-based billing. All transactions are secured with 256-bit SSL encryption.
+          </div>
+        </div>
+      </div>
+
+      <!-- FAQ 6: Billing -->
+      <div class="accordion-item" data-category="billing">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq6">
+            <i class="fas fa-credit-card me-2" style="color:#10B981;"></i>
+            What is Eventora's refund and cancellation policy?
+          </button>
+        </h2>
+        <div id="faq6" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+          <div class="accordion-body">
+            Refund policies vary by event and are set by individual organizers. Most events offer full refunds if cancelled more than <strong>72 hours in advance</strong>. If an event is cancelled by the organizer, all ticket holders receive automatic full refunds within 5–7 business days. Eventora's service fees are non-refundable unless the event is organizer-cancelled. See our <a href="#">Refund Policy</a> for complete details.
+          </div>
+        </div>
+      </div>
+
+      <!-- FAQ 7: Partnerships -->
+      <div class="accordion-item" data-category="partnerships">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq7">
+            <i class="fas fa-handshake me-2" style="color:var(--purple);"></i>
+            How can my venue or event become a partner?
+          </button>
+        </h2>
+        <div id="faq7" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+          <div class="accordion-body">
+            We love partnering with venues, promoters, and event organizers of all sizes. To apply, fill out our contact form selecting "Partnerships" as the subject, or email us directly at <a href="mailto:partnerships@eventora.com">partnerships@eventora.com</a>. Our partnerships team will review your application and schedule a discovery call within 3 business days. We offer tiered partnership plans from indie venues to major arenas.
+          </div>
+        </div>
+      </div>
+
+      <!-- FAQ 8: Partnerships -->
+      <div class="accordion-item" data-category="partnerships">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq8">
+            <i class="fas fa-handshake me-2" style="color:var(--purple);"></i>
+            Does Eventora offer an API for integration?
+          </button>
+        </h2>
+        <div id="faq8" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+          <div class="accordion-body">
+            Yes! Eventora provides a comprehensive REST API that allows partners to integrate ticketing, inventory management, and analytics directly into their own platforms. Our API supports webhooks, OAuth 2.0 authentication, and real-time event data. Access our <a href="#">Developer Documentation</a> or contact our partnerships team to request API credentials and sandbox access.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════ SECTION 5: SUPPORT CHANNELS ══════════════════ -->
+<section class="support-section">
+  <div class="container">
+    <div class="text-center mb-5">
+      <span style="display:inline-block; background:rgba(118,87,232,.15); color:var(--purple-light); font-size:.8rem; font-weight:700; padding:5px 16px; border-radius:20px; margin-bottom:12px; text-transform:uppercase; letter-spacing:.8px;">Support</span>
+      <h2 style="color:#fff; font-weight:800; font-size:2rem;">We're Here to Help</h2>
+      <p style="color:rgba(255,255,255,.85); font-size:.95rem;">Choose the support channel that works best for you.</p>
+    </div>
+
+    <div class="row g-4">
+      <!-- Live Chat -->
+      <div class="col-sm-6 col-lg-3">
+        <div class="support-card">
+          <div class="support-icon chat"><i class="fas fa-comments"></i></div>
+          <h4>Live Chat</h4>
+          <span class="response-badge instant"><i class="fas fa-bolt me-1"></i> Instant Response</span>
+          <p>Chat with a real support agent in real time. No bots — just helpful humans ready to solve your problem.</p>
+          <div class="availability">Mon–Fri · 9AM–10PM EST<br/>Sat–Sun · 10AM–6PM EST</div>
+          <button class="btn-support-action primary" onclick="openChat()">
+            <i class="fas fa-comment-dots me-1"></i> Start Chat Now
+          </button>
+        </div>
+      </div>
+
+      <!-- Email Support -->
+      <div class="col-sm-6 col-lg-3">
+        <div class="support-card">
+          <div class="support-icon email"><i class="fas fa-envelope-open-text"></i></div>
+          <h4>Email Support</h4>
+          <span class="response-badge fast"><i class="fas fa-clock me-1"></i> Within 24 Hours</span>
+          <p>Send us a detailed message and our support specialists will respond with a personalized solution.</p>
+          <div class="availability">Available 24/7<br/>Response within 24 hrs</div>
+          <a href="mailto:support@eventora.com" class="btn-support-action outline">
+            <i class="fas fa-envelope me-1"></i> Email Us
+          </a>
+        </div>
+      </div>
+
+      <!-- Phone Support -->
+      <div class="col-sm-6 col-lg-3">
+        <div class="support-card">
+          <div class="support-icon phone"><i class="fas fa-phone-volume"></i></div>
+          <h4>Phone Support</h4>
+          <span class="response-badge hours"><i class="fas fa-headset me-1"></i> Same Day</span>
+          <p>Speak directly with a support specialist for complex issues that need a personal touch.</p>
+          <div class="availability">Mon–Fri · 9AM–8PM EST<br/>Sat · 10AM–5PM EST</div>
+          <a href="tel:+18008765432" class="btn-support-action primary">
+            <i class="fas fa-phone me-1"></i> +1 (800) 876-5432
+          </a>
+        </div>
+      </div>
+
+      <!-- Help Center -->
+      <div class="col-sm-6 col-lg-3">
+        <div class="support-card">
+          <div class="support-icon help"><i class="fas fa-book-open"></i></div>
+          <h4>Help Center</h4>
+          <span class="response-badge docs"><i class="fas fa-search me-1"></i> Self-Service</span>
+          <p>Browse 500+ articles, video tutorials, and step-by-step guides to find answers instantly.</p>
+          <div class="availability">Available 24/7<br/>500+ articles</div>
+          <a href="#" class="btn-support-action outline">
+            <i class="fas fa-external-link-alt me-1"></i> Visit Help Center
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════ SECTION 6: NEWSLETTER + SOCIAL ══════════════════ -->
+<section class="newsletter-social-section">
+  <div class="container">
+    <div class="row g-5 align-items-start">
+      <!-- Newsletter -->
+      <div class="col-lg-7">
+        <div class="newsletter-box">
+          <span style="background:rgba(118,87,232,.2); color:var(--purple-light); font-size:.78rem; font-weight:700; padding:5px 14px; border-radius:20px; text-transform:uppercase; letter-spacing:.8px;">Newsletter</span>
+          <h2 class="mt-3">Stay in the Loop</h2>
+          <p>Join 48,000+ event professionals and fans who receive our weekly roundup of the best events, industry news, and exclusive early-access deals.</p>
+          <div class="nl-features">
+            <div class="nl-feature"><i class="fas fa-check-circle"></i> Curated event picks every Friday morning</div>
+            <div class="nl-feature"><i class="fas fa-check-circle"></i> Exclusive pre-sale access for subscribers</div>
+            <div class="nl-feature"><i class="fas fa-check-circle"></i> Industry trends and event tech insights</div>
+            <div class="nl-feature"><i class="fas fa-check-circle"></i> No spam — unsubscribe anytime, instantly</div>
+          </div>
+          <div class="nl-input-row">
+            <input type="email" placeholder="Enter your email address..." id="nlEmail" />
+            <button class="btn-nl-subscribe" onclick="subscribeNL()">
+              <i class="fas fa-paper-plane me-2"></i> Subscribe Free
+            </button>
+          </div>
+          <p class="nl-privacy"><i class="fas fa-lock me-1"></i> Your privacy is protected. We never share your email. Read our <a href="#" style="color:rgba(255,255,255,.5); text-decoration:underline;">Privacy Policy</a>.</p>
+        </div>
+      </div>
+
+      <!-- Social Follow Cards -->
+      <div class="col-lg-5">
+        <h3 style="font-weight:800; color:var(--navy); margin-bottom:8px;">Follow Eventora</h3>
+        <p style="color:#475569; font-size:.9rem; margin-bottom:24px;">Stay connected with event updates, behind-the-scenes content, and community highlights.</p>
+        <div class="social-follow-cards">
+          <a href="#" class="social-follow-card">
+            <div class="social-follow-icon ig"><i class="fab fa-instagram"></i></div>
+            <div class="social-follow-info">
+              <div class="platform">Instagram</div>
+              <div class="followers">328,000 followers · @eventora</div>
+            </div>
+            <button class="social-follow-btn">Follow</button>
+          </a>
+          <a href="#" class="social-follow-card">
+            <div class="social-follow-icon tw"><i class="fab fa-twitter"></i></div>
+            <div class="social-follow-info">
+              <div class="platform">Twitter / X</div>
+              <div class="followers">194,500 followers · @eventora</div>
+            </div>
+            <button class="social-follow-btn">Follow</button>
+          </a>
+          <a href="#" class="social-follow-card">
+            <div class="social-follow-icon li"><i class="fab fa-linkedin-in"></i></div>
+            <div class="social-follow-info">
+              <div class="platform">LinkedIn</div>
+              <div class="followers">85,200 followers · Eventora</div>
+            </div>
+            <button class="social-follow-btn">Follow</button>
+          </a>
+          <a href="#" class="social-follow-card">
+            <div class="social-follow-icon yt"><i class="fab fa-youtube"></i></div>
+            <div class="social-follow-info">
+              <div class="platform">YouTube</div>
+              <div class="followers">52,800 subscribers · Eventora TV</div>
+            </div>
+            <button class="social-follow-btn">Subscribe</button>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════ FOOTER ══════════════════ -->
+<footer class="footer-home">
+  <div class="container">
+    <div class="row g-5 mb-4">
+      <div class="col-lg-4">
+        <div class="footer-logo mb-3">Eventora</div>
+        <p class="footer-desc mb-4">Your premier destination for discovering, booking, and creating unforgettable event experiences worldwide.</p>
+        <div class="d-flex gap-2">
+          <a href="#" class="social-btn"><i class="bi bi-facebook"></i></a>
+          <a href="#" class="social-btn"><i class="bi bi-twitter-x"></i></a>
+          <a href="#" class="social-btn"><i class="bi bi-instagram"></i></a>
+          <a href="#" class="social-btn"><i class="bi bi-linkedin"></i></a>
+          <a href="#" class="social-btn"><i class="bi bi-youtube"></i></a>
+        </div>
+      </div>
+      <div class="col-6 col-lg-2">
+        <div class="footer-heading">Quick Links</div>
+        <ul class="footer-links">
+          <li><a href="home.html">Home</a></li>
+          <li><a href="home2.html">Home 2</a></li>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="services.html">Services</a></li>
+          <li><a href="blog.html">Blog</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div class="col-6 col-lg-2">
+        <div class="footer-heading">Categories</div>
+        <ul class="footer-links">
+          <li><a href="#">Music Events</a></li>
+          <li><a href="#">Sports Events</a></li>
+          <li><a href="#">Tech Conferences</a></li>
+          <li><a href="#">Cultural Shows</a></li>
+          <li><a href="#">Food Festivals</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-4">
+        <div class="footer-heading">Newsletter</div>
+        <p style="color:#8a94b8;font-size:.9rem;margin-bottom:1rem;">Get the latest events delivered to your inbox every week.</p>
+        <div class="input-group mb-3">
+          <input type="email" class="form-control newsletter-input" placeholder="Enter your email" />
+          <button class="btn-ev-primary btn">Subscribe</button>
+        </div>
+        <p style="color:#6b7591;font-size:.8rem;"><i class="bi bi-geo-alt me-1"></i>123 Event Avenue, New York, NY 10001</p>
+        <p style="color:#6b7591;font-size:.8rem;"><i class="bi bi-envelope me-1"></i>hello@eventora.com</p>
+        <p style="color:#6b7591;font-size:.8rem;"><i class="bi bi-telephone me-1"></i>+1 (800) 123-4567</p>
+      </div>
+    </div>
+    <div class="footer-bottom d-flex flex-column flex-md-row justify-content-between align-items-center">
+      <span>© 2025 Eventora. All rights reserved.</span>
+      <div class="d-flex gap-3 mt-2 mt-md-0">
+        <a href="#" style="color:#6b7591;text-decoration:none;font-size:.85rem;">Privacy Policy</a>
+        <a href="#" style="color:#6b7591;text-decoration:none;font-size:.85rem;">Terms of Service</a>
+        <a href="#" style="color:#6b7591;text-decoration:none;font-size:.85rem;">Cookie Policy</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- Toast -->
+<div class="toast-msg" id="toastMsg"><i class="fas fa-check-circle me-2"></i> <span id="toastText">Done!</span></div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  // ── Contact Form Validation ──
+  document.getElementById('contactForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    let valid = true;
+    const fields = [
+      { id: 'cf-name', msg: 'cf-name', check: v => v.trim().length >= 2 },
+      { id: 'cf-email', msg: 'cf-email', check: v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) },
+      { id: 'cf-subject', msg: 'cf-subject', check: v => v !== '' },
+      { id: 'cf-message', msg: 'cf-message', check: v => v.trim().length >= 20 }
+    ];
+    fields.forEach(f => {
+      const el = document.getElementById(f.id);
+      const msg = el.parentElement.querySelector('.invalid-msg');
+      if (!f.check(el.value)) {
+        el.style.borderColor = '#EF4444';
+        if (msg) msg.style.display = 'block';
+        valid = false;
+      } else {
+        el.style.borderColor = '#10B981';
+        if (msg) msg.style.display = 'none';
+      }
+    });
+    const gdpr = document.getElementById('gdprCheck');
+    const gdprMsg = document.getElementById('gdpr-msg');
+    if (!gdpr.checked) {
+      gdprMsg.style.display = 'block';
+      valid = false;
+    } else {
+      gdprMsg.style.display = 'none';
+    }
+    if (!valid) return;
+    const btn = document.getElementById('sendBtn');
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Sending...';
+    btn.disabled = true;
+    setTimeout(() => {
+      btn.innerHTML = '<i class="fas fa-check-circle me-2"></i> Message Sent!';
+      btn.style.background = 'linear-gradient(135deg,#10B981,#059669)';
+      showToast('Your message was sent successfully! We\'ll respond within 24 hours.');
+      this.reset();
+    }, 2000);
+  });
+
+  // ── FAQ Tab Filter ──
+  function filterFAQ(category, btn) {
+    document.querySelectorAll('.faq-tab').forEach(t => t.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('#faqAccordion .accordion-item').forEach(item => {
+      if (category === 'all' || item.dataset.category === category) {
+        item.style.display = '';
+      } else {
+        item.style.display = 'none';
+      }
+    });
+  }
+
+  // ── Newsletter Subscribe ──
+  function subscribeNL() {
+    const input = document.getElementById('nlEmail');
+    const email = input.value.trim();
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      input.style.outline = '2px solid #EF4444';
+      return;
+    }
+    input.style.outline = '2px solid #10B981';
+    showToast('Subscribed! Check your inbox for a welcome email.');
+    input.value = '';
+  }
+
+  // ── Chat ──
+  function openChat() {
+    showToast('Connecting you to a support agent...');
+  }
+
+  // ── Toast ──
+  function showToast(msg) {
+    const toast = document.getElementById('toastMsg');
+    document.getElementById('toastText').textContent = msg;
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 3500);
+  }
+
+  // ── Scroll animations ──
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.quick-card, .office-card, .support-card, .social-follow-card').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(24px)';
+    el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+    observer.observe(el);
+  });
+</script>
+</body>
+</html>

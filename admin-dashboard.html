@@ -1,0 +1,2333 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Dashboard � Eventora</title>
+  <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <style>
+    :root {
+      --navy: #151B35;
+      --navy-light: #1e2748;
+      --navy-hover: #252f56;
+      --purple: #7657E8;
+      --purple-light: #9178ee;
+      --coral: #FF766B;
+      --lavender: #F1EDFF;
+      --white: #FFFFFF;
+      --sidebar-w: 260px;
+      --navbar-h: 64px;
+      --font-head: 'Plus Jakarta Sans', sans-serif;
+      --font-body: 'Inter', sans-serif;
+      --text-muted-custom: #475569;
+      --border-color: rgba(255,255,255,0.08);
+      --card-bg: #ffffff;
+      --card-shadow: 0 2px 16px rgba(21,27,53,0.08);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: var(--font-body);
+      background: #f4f6fb;
+      color: #1a2340;
+      overflow-x: hidden;
+    }
+
+    
+    /* --- CONTRAST & THEME SYSTEM ------------------------- */
+    :root {
+      --bg-page: #f4f6fb;
+      --text-main: #151B35;
+      --text-muted-custom: #475569;
+      --table-header-bg: #F1F5F9;
+      --table-header-text: #1E293B;
+      --card-bg: #ffffff;
+      --card-border: #E2E8F0;
+      --input-bg: #ffffff;
+      --input-text: #151B35;
+      --input-border: #CBD5E1;
+      --navbar-bg: #ffffff;
+      --table-header-bg: #f8fafc;
+      --table-header-text: #334155;
+      --table-border: #E2E8F0;
+      --table-hover: #F1F5F9;
+    }
+
+    [data-theme="dark"] {
+      --bg-page: #0B0F1E;
+      --text-main: #F8FAFC;
+      --text-muted-custom: #CBD5E1;
+      --table-header-bg: #1E2647;
+      --table-header-text: #F8FAFC;
+      --card-bg: #151B35;
+      --card-border: rgba(255, 255, 255, 0.12);
+      --input-bg: #1E2748;
+      --input-text: #FFFFFF;
+      --input-border: rgba(255, 255, 255, 0.22);
+      --navbar-bg: #151B35;
+      --table-header-bg: #1E2647;
+      --table-header-text: #E2E8F0;
+      --table-border: rgba(255, 255, 255, 0.1);
+      --table-hover: rgba(118, 87, 232, 0.15);
+    }
+
+    body {
+      background: var(--bg-page) !important;
+      color: var(--text-main) !important;
+      transition: background .25s ease, color .25s ease;
+    }
+
+    .admin-navbar {
+      background: var(--navbar-bg) !important;
+      border-bottom: 1px solid var(--card-border) !important;
+    }
+
+    .admin-name {
+      color: var(--text-main) !important;
+      font-weight: 600;
+    }
+
+    .navbar-search {
+      background: var(--input-bg) !important;
+      border: 1px solid var(--input-border) !important;
+    }
+    .navbar-search input {
+      background: transparent !important;
+      color: var(--input-text) !important;
+    }
+    .navbar-search input::placeholder {
+      color: var(--text-muted-custom) !important;
+    }
+
+    .dash-card, .kpi-card, .rev-card, .ticket-cat-card, .setting-card, .activity-card {
+      background: var(--card-bg) !important;
+      border: 1px solid var(--card-border) !important;
+      color: var(--text-main) !important;
+    }
+
+    .dash-card-header h6, .panel-title, .kpi-num, .rev-val, .ticket-cat-name {
+      color: var(--text-main) !important;
+    }
+
+    .kpi-label, .rev-label, .ticket-cat-stat {
+      color: var(--text-muted-custom) !important;
+    }
+    .ticket-cat-stat span {
+      color: var(--text-main) !important;
+      font-weight: 600;
+    }
+
+    .data-table th {
+      background: var(--table-header-bg) !important;
+      color: var(--table-header-text) !important;
+      border-bottom: 2px solid var(--table-border) !important;
+    }
+    .data-table td {
+      color: var(--text-main) !important;
+      border-bottom: 1px solid var(--table-border) !important;
+    }
+    .data-table tr:hover td {
+      background: var(--table-hover) !important;
+    }
+
+    .filter-bar input, .filter-bar select, .data-filter, .admin-main input[type="text"], .admin-main input[type="email"], .admin-main select {
+      background: var(--input-bg) !important;
+      color: var(--input-text) !important;
+      border: 1px solid var(--input-border) !important;
+    }
+    .filter-bar input::placeholder {
+      color: var(--text-muted-custom) !important;
+    }
+
+    .funnel-label span {
+      color: var(--text-main) !important;
+      font-weight: 600;
+    }
+
+    .activity-feed-item strong {
+      color: var(--text-main) !important;
+    }
+    .activity-feed-item p {
+      color: var(--text-muted-custom) !important;
+    }
+
+        /* --- LIGHT MODE HIGH CONTRAST RULES --- */
+    [data-theme="light"] body { background: #F4F6FB !important; color: #151B35 !important; }
+    [data-theme="light"] .admin-navbar { background: #FFFFFF !important; border-bottom: 1px solid #E2E8F0 !important; }
+    [data-theme="light"] .dash-card,
+    [data-theme="light"] .kpi-card,
+    [data-theme="light"] .rev-card,
+    [data-theme="light"] .ticket-cat-card,
+    [data-theme="light"] .setting-card,
+    [data-theme="light"] .activity-card,
+    [data-theme="light"] .refund-card,
+    [data-theme="light"] .settings-card {
+      background: #FFFFFF !important;
+      border: 1px solid #E2E8F0 !important;
+      color: #151B35 !important;
+    }
+    [data-theme="light"] .panel-title,
+    [data-theme="light"] .kpi-value,
+    [data-theme="light"] .rev-val,
+    [data-theme="light"] .dash-card-header h6,
+    [data-theme="light"] .ticket-cat-name {
+      color: #151B35 !important;
+    }
+    [data-theme="light"] .kpi-label,
+    [data-theme="light"] .rev-label,
+    [data-theme="light"] .ticket-cat-stat,
+    [data-theme="light"] .activity-info span {
+      color: #475569 !important;
+    }
+    [data-theme="light"] .data-table thead th {
+      background: #F1F5F9 !important;
+      color: #1E293B !important;
+      font-weight: 700 !important;
+      border-bottom: 2px solid #CBD5E1 !important;
+    }
+    [data-theme="light"] .data-table tbody td {
+      color: #334155 !important;
+      border-bottom: 1px solid #E2E8F0 !important;
+    }
+    [data-theme="light"] .data-table tbody tr:hover td {
+      background: #F8FAFC !important;
+    }
+    [data-theme="light"] .filter-bar input,
+    [data-theme="light"] .filter-bar select,
+    [data-theme="light"] .data-filter,
+    [data-theme="light"] .admin-main input,
+    [data-theme="light"] .admin-main select {
+      background: #FFFFFF !important;
+      color: #0F172A !important;
+      border: 1.5px solid #CBD5E1 !important;
+    }
+    [data-theme="dark"] .dropdown-menu {
+      background: #151B35;
+      border-color: rgba(255,255,255,0.15);
+      color: #fff;
+    }
+    [data-theme="dark"] .dropdown-item {
+      color: #E2E8F0;
+    }
+    [data-theme="dark"] .dropdown-item:hover {
+      background: rgba(118,87,232,0.2);
+      color: #fff;
+    }
+
+    /* --- SIDEBAR ------------------------------------------- */
+    .admin-sidebar {
+      position: fixed;
+      top: 0; left: 0;
+      width: var(--sidebar-w);
+      height: 100vh;
+      background: #151B35 !important;
+      display: flex;
+      flex-direction: column;
+      z-index: 1050;
+      overflow-y: auto;
+      transition: transform .3s ease;
+      color: #CBD5E1 !important;
+    }
+    .admin-sidebar .sidebar-brand .brand-text h5,
+    .admin-sidebar .sidebar-link.active,
+    .admin-sidebar .sidebar-link:hover,
+    .admin-sidebar .sidebar-user .user-info strong {
+      color: #FFFFFF !important;
+    }
+    .admin-sidebar .sidebar-brand .brand-text span,
+    .admin-sidebar .nav-section-label,
+    .admin-sidebar .sidebar-link,
+    .admin-sidebar .sidebar-user .user-info span {
+      color: #CBD5E1 !important;
+    }
+    .admin-sidebar-original {
+      position: fixed;
+      top: 0; left: 0;
+      width: var(--sidebar-w);
+      height: 100vh;
+      background: var(--navy);
+      display: flex;
+      flex-direction: column;
+      z-index: 1050;
+      overflow-y: auto;
+      transition: transform .3s ease;
+    }
+    .admin-sidebar::-webkit-scrollbar { width: 4px; }
+    .admin-sidebar::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 4px; }
+
+    .sidebar-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 20px 20px 16px;
+      border-bottom: 1px solid var(--border-color);
+    }
+    .sidebar-brand .brand-icon {
+      width: 38px; height: 38px;
+      background: linear-gradient(135deg, var(--purple), var(--coral));
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px; color: #fff;
+      flex-shrink: 0;
+    }
+    .sidebar-brand .brand-text h5 {
+      font-family: var(--font-head);
+      font-size: 15px; font-weight: 700;
+      color: #fff; margin: 0; line-height: 1.2;
+    }
+    .sidebar-brand .brand-text span {
+      font-size: 10px; color: var(--text-muted-custom);
+      letter-spacing: .5px;
+    }
+
+    .sidebar-nav { flex: 1; padding: 12px 0; }
+    .nav-section-label {
+      font-size: 10px; font-weight: 600;
+      color: var(--text-muted-custom);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding: 10px 20px 4px;
+    }
+    .sidebar-link {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 20px;
+      color: rgba(255,255,255,0.65);
+      text-decoration: none;
+      font-size: 13.5px;
+      font-weight: 500;
+      border-radius: 0;
+      transition: all .2s;
+      position: relative;
+      cursor: pointer;
+      border: none; background: none; width: 100%; text-align: left;
+    }
+    .sidebar-link i { font-size: 16px; width: 20px; text-align: center; flex-shrink: 0; }
+    .sidebar-link:hover {
+      color: #fff;
+      background: rgba(118,87,232,0.15);
+    }
+    .sidebar-link.active {
+      color: #fff;
+      background: rgba(118,87,232,0.25);
+      border-right: 3px solid var(--purple);
+    }
+    .sidebar-link.active i { color: var(--purple-light); }
+    .sidebar-link .badge-nav {
+      margin-left: auto;
+      font-size: 10px; padding: 2px 7px;
+      background: var(--coral); color: #fff;
+      border-radius: 20px; font-weight: 600;
+    }
+
+    .sidebar-user {
+      padding: 14px 20px;
+      border-top: 1px solid var(--border-color);
+      display: flex; align-items: center; gap: 10px;
+    }
+    .sidebar-user .user-avatar {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--purple), var(--coral));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px; color: #fff; font-weight: 700;
+      flex-shrink: 0;
+    }
+    .sidebar-user .user-info { flex: 1; min-width: 0; }
+    .sidebar-user .user-info strong {
+      display: block;
+      font-size: 13px; color: #fff;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .sidebar-user .user-info .role-badge {
+      font-size: 10px;
+      background: rgba(118,87,232,0.3);
+      color: var(--purple-light);
+      border-radius: 20px;
+      padding: 1px 8px;
+      font-weight: 600;
+    }
+
+    /* --- TOP NAVBAR --------------------------------------- */
+    .admin-navbar {
+      position: fixed;
+      top: 0;
+      left: var(--sidebar-w);
+      right: 0;
+      height: var(--navbar-h);
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(21,27,53,0.08);
+      display: flex;
+      align-items: center;
+      padding: 0 24px;
+      gap: 16px;
+      z-index: 1040;
+      box-shadow: 0 2px 12px rgba(21,27,53,0.06);
+    }
+    .navbar-search {
+      flex: 1; max-width: 420px;
+      position: relative;
+    }
+    .navbar-search input {
+      width: 100%;
+      padding: 8px 16px 8px 40px;
+      border: 1.5px solid rgba(21,27,53,0.1);
+      border-radius: 24px;
+      background: #f4f6fb;
+      font-size: 13.5px;
+      font-family: var(--font-body);
+      outline: none;
+      transition: border-color .2s;
+      color: #1a2340;
+    }
+    .navbar-search input:focus { border-color: var(--purple); background: #fff; }
+    .navbar-search i {
+      position: absolute;
+      left: 13px; top: 50%;
+      transform: translateY(-50%);
+      color:var(--text-muted-custom); font-size: 14px;
+    }
+    .navbar-actions { display: flex; align-items: center; gap: 8px; margin-left: auto; }
+    .navbar-icon-btn {
+      width: 38px; height: 38px;
+      border-radius: 50%;
+      border: none;
+      background: #f4f6fb;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16px;
+      color: #4a5568;
+      cursor: pointer;
+      transition: all .2s;
+      position: relative;
+    }
+    .navbar-icon-btn:hover { background: var(--lavender); color: var(--purple); }
+    .navbar-icon-btn .notif-dot {
+      position: absolute;
+      top: 5px; right: 5px;
+      width: 16px; height: 16px;
+      background: var(--coral);
+      border-radius: 50%;
+      font-size: 9px; font-weight: 700; color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      border: 2px solid #fff;
+    }
+    .admin-dropdown .dropdown-toggle {
+      display: flex; align-items: center; gap: 8px;
+      background: none; border: none; cursor: pointer;
+      padding: 4px 8px; border-radius: 24px;
+      transition: background .2s;
+      text-decoration: none;
+      color: #1a2340;
+    }
+    .admin-dropdown .dropdown-toggle:hover { background: var(--lavender); }
+    .admin-dropdown .admin-av {
+      width: 34px; height: 34px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--purple), var(--coral));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 13px; color: #fff; font-weight: 700;
+    }
+    .admin-dropdown .admin-name { font-size: 13px; font-weight: 600; }
+    .hamburger-btn {
+      background: none; border: none;
+      font-size: 20px; color: #4a5568;
+      cursor: pointer; padding: 4px;
+      display: none;
+    }
+
+    /* --- MAIN CONTENT ------------------------------------- */
+    .admin-main {
+      margin-left: var(--sidebar-w);
+      margin-top: var(--navbar-h);
+      padding: 28px;
+      min-height: calc(100vh - var(--navbar-h));
+    }
+
+    /* --- PANELS ------------------------------------------- */
+    .admin-panel { margin-bottom: 40px; }
+    .panel-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 20px; flex-wrap: wrap; gap: 10px;
+    }
+    .panel-title {
+      font-family: var(--font-head);
+      font-size: 20px; font-weight: 700; color: var(--navy);
+      display: flex; align-items: center; gap: 10px;
+    }
+    .panel-title i { color: var(--purple); }
+    .panel-divider {
+      border: none;
+      border-top: 2px solid var(--lavender);
+      margin-bottom: 24px;
+    }
+
+    /* --- KPI CARDS --------------------------------------- */
+    .kpi-card {
+      background: var(--white);
+      border-radius: 14px;
+      padding: 18px 20px;
+      box-shadow: var(--card-shadow);
+      border: 1px solid rgba(21,27,53,0.05);
+      transition: transform .2s, box-shadow .2s;
+      position: relative;
+      overflow: hidden;
+    }
+    .kpi-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--purple), var(--coral));
+    }
+    .kpi-card:hover { transform: translateY(-3px); box-shadow: 0 8px 28px rgba(118,87,232,0.12); }
+    .kpi-icon {
+      width: 44px; height: 44px;
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px; margin-bottom: 12px;
+    }
+    .kpi-value {
+      font-family: var(--font-head);
+      font-size: 26px; font-weight: 800;
+      color: var(--navy); line-height: 1; margin-bottom: 4px;
+    }
+    .kpi-label { font-size: 12.5px; color:var(--text-muted-custom); font-weight: 500; margin-bottom: 10px; }
+    .kpi-trend { display: flex; align-items: center; gap: 5px; font-size: 12px; font-weight: 600; }
+    .kpi-trend.up { color: #22c55e; }
+    .kpi-trend.down { color: var(--coral); }
+    .kpi-sparkline { margin-top: 8px; }
+
+    /* --- GENERIC CARD ------------------------------------ */
+    .dash-card {
+      background: #fff;
+      border-radius: 14px;
+      box-shadow: var(--card-shadow);
+      border: 1px solid rgba(21,27,53,0.05);
+      overflow: hidden;
+    }
+    .dash-card-header {
+      padding: 16px 20px;
+      border-bottom: 1px solid rgba(21,27,53,0.06);
+      display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px;
+    }
+    .dash-card-header h6 {
+      font-family: var(--font-head);
+      font-size: 15px; font-weight: 700; color: var(--navy); margin: 0;
+    }
+    .dash-card-body { padding: 20px; }
+
+    /* --- ACTIVITY FEED ----------------------------------- */
+    .activity-item {
+      display: flex; align-items: flex-start; gap: 12px;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(21,27,53,0.05);
+    }
+    .activity-item:last-child { border-bottom: none; }
+    .activity-dot {
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 13px; flex-shrink: 0; margin-top: 2px;
+    }
+    .activity-info p { font-size: 13px; margin: 0; color: #374167; }
+    .activity-info span { font-size: 11.5px; color:var(--text-muted-custom); }
+
+    /* --- DATA TABLE -------------------------------------- */
+    .data-table { width: 100%; border-collapse: collapse; }
+    .data-table thead th {
+      font-size: 11.5px; font-weight: 600;
+      text-transform: uppercase; letter-spacing: .5px;
+      color:var(--text-muted-custom); padding: 10px 14px;
+      background: #f8f9fd;
+      border-bottom: 1px solid rgba(21,27,53,0.06);
+      white-space: nowrap;
+    }
+    .data-table tbody td {
+      font-size: 13.5px; padding: 12px 14px;
+      border-bottom: 1px solid rgba(21,27,53,0.05);
+      color: #374167; vertical-align: middle;
+    }
+    .data-table tbody tr:last-child td { border-bottom: none; }
+    .data-table tbody tr:hover td { background: #fafbff; }
+    .event-thumb {
+      width: 40px; height: 40px;
+      border-radius: 8px; object-fit: cover;
+      background: linear-gradient(135deg, var(--purple), var(--coral));
+      display: inline-flex; align-items: center; justify-content: center;
+      font-size: 16px; color: #fff; flex-shrink: 0;
+    }
+    .event-name-cell { display: flex; align-items: center; gap: 10px; }
+    .user-av-sm {
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--purple), var(--coral));
+      display: inline-flex; align-items: center; justify-content: center;
+      font-size: 12px; font-weight: 700; color: #fff; flex-shrink: 0;
+    }
+
+    /* --- BADGES ------------------------------------------ */
+    .badge-status {
+      font-size: 11px; font-weight: 600;
+      padding: 3px 10px; border-radius: 20px; white-space: nowrap;
+    }
+    .badge-active { background: #dcfce7; color: #16a34a; }
+    .badge-draft { background: #fef9c3; color: #ca8a04; }
+    .badge-cancelled { background: #fee2e2; color: #dc2626; }
+    .badge-published { background: #dbeafe; color: #2563eb; }
+    .badge-suspended { background: #fee2e2; color: #dc2626; }
+    .badge-completed { background: #dcfce7; color: #16a34a; }
+    .badge-pending { background: #fef9c3; color: #ca8a04; }
+    .badge-failed { background: #fee2e2; color: #dc2626; }
+    .badge-refunded { background: #f3e8ff; color: #9333ea; }
+    .cat-badge {
+      font-size: 11px; font-weight: 600;
+      padding: 3px 10px; border-radius: 20px;
+    }
+    .cat-music { background: #fce7f3; color: #be185d; }
+    .cat-sports { background: #dcfce7; color: #15803d; }
+    .cat-tech { background: #dbeafe; color: #1d4ed8; }
+    .cat-business { background: #fef9c3; color: #a16207; }
+    .cat-other { background: #f3f4f6; color: #374151; }
+
+    /* --- ACTION BUTTONS ---------------------------------- */
+    .btn-purple {
+      background: linear-gradient(135deg, var(--purple), #5B37D4);
+      color: #fff; border: none;
+      padding: 8px 18px; border-radius: 8px;
+      font-size: 13px; font-weight: 600;
+      cursor: pointer; font-family: var(--font-body);
+      transition: all .2s; white-space: nowrap;
+    }
+    .btn-purple:hover { opacity: .9; transform: translateY(-1px); box-shadow: 0 4px 14px rgba(118,87,232,0.35); }
+    .btn-outline-purple {
+      background: transparent;
+      border: 1.5px solid var(--purple);
+      color: var(--purple);
+      padding: 7px 16px; border-radius: 8px;
+      font-size: 13px; font-weight: 600;
+      cursor: pointer; font-family: var(--font-body);
+      transition: all .2s; white-space: nowrap;
+    }
+    .btn-outline-purple:hover { background: var(--lavender); }
+    .btn-icon {
+      width: 30px; height: 30px;
+      border-radius: 7px;
+      border: none; cursor: pointer;
+      display: inline-flex; align-items: center; justify-content: center;
+      font-size: 13px; transition: all .2s;
+    }
+    .btn-icon-edit { background: #dbeafe; color: #2563eb; }
+    .btn-icon-view { background: var(--lavender); color: var(--purple); }
+    .btn-icon-del { background: #fee2e2; color: #dc2626; }
+    .btn-icon:hover { transform: scale(1.1); }
+
+    /* --- FILTER BAR -------------------------------------- */
+    .filter-bar {
+      display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+    .filter-bar input, .filter-bar select {
+      padding: 8px 14px;
+      border: 1.5px solid rgba(21,27,53,0.1);
+      border-radius: 8px; font-size: 13px;
+      font-family: var(--font-body);
+      background: #fff; outline: none;
+      transition: border-color .2s; color: #374167;
+    }
+    .filter-bar input:focus, .filter-bar select:focus { border-color: var(--purple); }
+    .filter-bar input { min-width: 200px; }
+
+    /* --- QUICK STAT PILLS -------------------------------- */
+    .quick-stat-pill {
+      background: #fff;
+      border-radius: 10px;
+      padding: 12px 18px;
+      text-align: center;
+      box-shadow: var(--card-shadow);
+      border: 1px solid rgba(21,27,53,0.05);
+    }
+    .quick-stat-pill .pill-val {
+      font-family: var(--font-head);
+      font-size: 22px; font-weight: 800; color: var(--navy);
+    }
+    .quick-stat-pill .pill-label { font-size: 11.5px; color:var(--text-muted-custom); font-weight: 500; }
+
+    /* --- TICKET CATEGORY CARDS --------------------------- */
+    .ticket-cat-card {
+      background: #fff;
+      border-radius: 14px;
+      padding: 20px;
+      box-shadow: var(--card-shadow);
+      border: 1px solid rgba(21,27,53,0.05);
+      border-top: 4px solid var(--purple);
+      transition: transform .2s;
+    }
+    .ticket-cat-card:hover { transform: translateY(-3px); }
+    .ticket-cat-card.coral { border-top-color: var(--coral); }
+    .ticket-cat-card.green { border-top-color: #22c55e; }
+    .ticket-cat-card.blue { border-top-color: #3b82f6; }
+    .ticket-cat-card.orange { border-top-color: #f59e0b; }
+    .ticket-cat-card.pink { border-top-color: #ec4899; }
+    .ticket-cat-name { font-family: var(--font-head); font-size: 16px; font-weight: 700; color: var(--navy); margin-bottom: 6px; }
+    .ticket-cat-stat { font-size: 12.5px; color:var(--text-muted-custom); margin: 3px 0; }
+    .ticket-cat-stat span { font-weight: 700; color: var(--navy); }
+
+    /* --- REVENUE SUMMARY CARDS --------------------------- */
+    .rev-card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 16px 20px;
+      box-shadow: var(--card-shadow);
+      border: 1px solid rgba(21,27,53,0.05);
+    }
+    .rev-card .rev-icon { font-size: 22px; margin-bottom: 8px; }
+    .rev-card .rev-val { font-family: var(--font-head); font-size: 22px; font-weight: 800; color: var(--navy); }
+    .rev-card .rev-label { font-size: 12px; color:var(--text-muted-custom); font-weight: 500; }
+
+    /* --- REFUND CARDS ------------------------------------ */
+    .refund-card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 16px 20px;
+      border: 1px solid rgba(21,27,53,0.08);
+      display: flex; align-items: center; gap: 14px;
+      flex-wrap: wrap;
+      box-shadow: var(--card-shadow);
+    }
+    .refund-card .refund-info { flex: 1; min-width: 200px; }
+    .refund-card .refund-info strong { font-size: 14px; color: var(--navy); display: block; }
+    .refund-card .refund-info span { font-size: 12.5px; color:var(--text-muted-custom); }
+    .refund-card .refund-amount { font-family: var(--font-head); font-size: 18px; font-weight: 800; color: var(--coral); }
+    .refund-actions { display: flex; gap: 8px; }
+
+    /* --- FUNNEL BAR -------------------------------------- */
+    .funnel-step { margin-bottom: 14px; }
+    .funnel-label { display: flex; justify-content: space-between; font-size: 13px; font-weight: 500; color: #374167; margin-bottom: 5px; }
+    .funnel-bar-wrap { background: #f1edff; border-radius: 20px; height: 10px; overflow: hidden; }
+    .funnel-bar-fill { height: 100%; border-radius: 20px; background: linear-gradient(90deg, var(--purple), var(--coral)); transition: width 1s ease; }
+
+    /* --- SETTINGS ---------------------------------------- */
+    .settings-card {
+      background: #fff;
+      border-radius: 14px;
+      box-shadow: var(--card-shadow);
+      border: 1px solid rgba(21,27,53,0.05);
+      margin-bottom: 20px;
+      overflow: hidden;
+    }
+    .settings-card-header {
+      background: linear-gradient(135deg, var(--navy) 0%, #1e2748 100%);
+      padding: 14px 20px;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .settings-card-header h6 { font-family: var(--font-head); font-size: 15px; font-weight: 700; color: #fff; margin: 0; }
+    .settings-card-header i { color: var(--purple-light); font-size: 18px; }
+    .settings-card-body { padding: 20px 24px; }
+    .settings-row { display: flex; flex-wrap: wrap; gap: 16px; margin-bottom: 16px; }
+    .settings-field { flex: 1; min-width: 200px; }
+    .settings-field label { font-size: 12.5px; font-weight: 600; color: #374167; display: block; margin-bottom: 5px; }
+    .settings-field input, .settings-field select, .settings-field textarea {
+      width: 100%;
+      padding: 9px 14px;
+      border: 1.5px solid rgba(21,27,53,0.12);
+      border-radius: 8px;
+      font-size: 13.5px;
+      font-family: var(--font-body);
+      color: #374167;
+      outline: none;
+      transition: border-color .2s;
+    }
+    .settings-field input:focus, .settings-field select:focus { border-color: var(--purple); }
+    .settings-field input[type="password"] { letter-spacing: 2px; }
+    .toggle-row { display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid rgba(21,27,53,0.05); }
+    .toggle-row:last-child { border-bottom: none; }
+    .toggle-row-info strong { font-size: 13.5px; color: var(--navy); font-weight: 600; }
+    .toggle-row-info span { display: block; font-size: 12px; color:var(--text-muted-custom); }
+    .form-switch .form-check-input { width: 44px; height: 24px; cursor: pointer; }
+    .form-switch .form-check-input:checked { background-color: var(--purple); border-color: var(--purple); }
+    .danger-zone {
+      background: #fff1f2;
+      border: 1.5px solid #fecdd3;
+      border-radius: 12px;
+      padding: 20px;
+      margin-top: 10px;
+    }
+    .danger-zone h6 { color: #dc2626; font-weight: 700; margin-bottom: 14px; }
+    .btn-danger-custom {
+      background: #dc2626; color: #fff;
+      border: none; border-radius: 8px;
+      padding: 8px 18px; font-size: 13px; font-weight: 600;
+      cursor: pointer; font-family: var(--font-body);
+      transition: all .2s; margin-right: 8px; margin-bottom: 8px;
+    }
+    .btn-danger-custom:hover { background: #b91c1c; }
+    .btn-save {
+      background: linear-gradient(135deg, var(--purple), var(--coral));
+      color: #fff; border: none;
+      padding: 9px 22px; border-radius: 8px;
+      font-size: 13px; font-weight: 700;
+      cursor: pointer; font-family: var(--font-body);
+      transition: all .2s;
+      margin-top: 10px;
+    }
+    .btn-save:hover { opacity: .9; transform: translateY(-1px); }
+
+    /* --- EMAIL TEMPLATE LIST ----------------------------- */
+    .email-template-row {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 10px 0; border-bottom: 1px solid rgba(21,27,53,0.05);
+      flex-wrap: wrap; gap: 8px;
+    }
+    .email-template-row:last-child { border-bottom: none; }
+
+    /* --- PAGINATION -------------------------------------- */
+    .pagination-wrap { display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; border-top: 1px solid rgba(21,27,53,0.06); flex-wrap: wrap; gap: 10px; }
+    .pagination-info { font-size: 13px; color:var(--text-muted-custom); }
+    .pag-btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 32px; height: 32px; border-radius: 7px;
+      border: 1.5px solid rgba(21,27,53,0.1);
+      background: #fff; font-size: 13px; font-weight: 600;
+      cursor: pointer; transition: all .2s; color: #374167;
+    }
+    .pag-btn:hover, .pag-btn.active { background: var(--purple); color: #fff; border-color: var(--purple); }
+
+    /* --- SECTION SCROLL ANCHOR --------------------------- */
+    .scroll-anchor { scroll-margin-top: calc(var(--navbar-h) + 10px); }
+
+    /* --- RESPONSIVE -------------------------------------- */
+    @media (max-width: 991px) {
+      .admin-sidebar { transform: translateX(-100%); }
+      .admin-sidebar.open { transform: translateX(0); }
+      .admin-navbar { left: 0; }
+      .admin-main { margin-left: 0; }
+      .hamburger-btn { display: flex; }
+    }
+    .sidebar-overlay {
+      display: none;
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,.45);
+      z-index: 1049;
+    }
+
+    /* --- DROPDOWN ---------------------------------------- */
+    .dropdown-menu { border: none; box-shadow: 0 8px 32px rgba(21,27,53,0.12); border-radius: 12px; padding: 6px; }
+    .dropdown-item { border-radius: 8px; font-size: 13.5px; padding: 8px 14px; color: #374167; }
+    .dropdown-item:hover { background: var(--lavender); color: var(--purple); }
+
+    /* --- CHART CONTAINERS -------------------------------- */
+    .chart-container { position: relative; }
+
+    /* --- NAV TABS ---------------------------------------- */
+    .filter-tabs { display: flex; gap: 6px; flex-wrap: wrap; }
+    .filter-tab {
+      padding: 6px 14px; border-radius: 20px;
+      border: 1.5px solid rgba(21,27,53,0.1);
+      background: #fff; font-size: 12.5px; font-weight: 600;
+      cursor: pointer; transition: all .2s; color:var(--text-muted-custom);
+    }
+    .filter-tab.active, .filter-tab:hover { background: var(--purple); color: #fff; border-color: var(--purple); }
+
+    /* --- TOP-5 TABLE ------------------------------------- */
+    .top5-row { display: flex; align-items: center; padding: 10px 0; border-bottom: 1px solid rgba(21,27,53,0.05); gap: 12px; }
+    .top5-row:last-child { border-bottom: none; }
+    .top5-rank { width: 24px; height: 24px; border-radius: 50%; background: var(--lavender); color: var(--purple); font-size: 11px; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .top5-name { flex: 1; font-size: 13px; font-weight: 500; color: #374167; }
+    .top5-rev { font-weight: 700; font-size: 13px; color: var(--navy); }
+
+    /* Bulk checkbox */
+    .form-check-input { accent-color: var(--purple); }
+  </style>
+<script src="assets/js/theme.js"></script>
+<style id="responsive-fixes">
+  /* -- GLOBAL OVERFLOW / MEDIA SAFETY -- */
+  html, body { overflow-x: hidden; }
+  img, iframe, video, svg, canvas { max-width: 100%; }
+
+  /* ---------- =1024px : off-canvas sidebar, full-width main ---------- */
+  @media (max-width: 1024px) {
+    .admin-sidebar { transform: translateX(-100%); }
+    .admin-sidebar.open { transform: translateX(0); }
+    .admin-navbar { left: 0; padding: 0 16px; gap: 12px; }
+    .admin-main { margin-left: 0; padding: 22px 16px; }
+    .hamburger-btn { display: flex; align-items: center; justify-content: center; }
+
+    .admin-panel .row.g-3 > .col-6.col-xl-3 { flex: 0 0 50%; max-width: 50%; }
+    #panel-events .row.g-3 > .col-6.col-md-3,
+    #panel-categories .row.g-3 > .col-6.col-lg-3 { flex: 0 0 50%; max-width: 50%; }
+
+    .chart-container { max-height: 230px; }
+    .settings-field { min-width: 0; }
+  }
+
+  /* ---------- =768px ---------- */
+  @media (max-width: 768px) {
+    .admin-navbar { padding: 0 12px; gap: 8px; }
+    .navbar-search { display: none; }
+    .navbar-actions { margin-left: auto; gap: 6px; }
+    .navbar-icon-btn { width: 36px; height: 36px; font-size: 15px; }
+
+    .admin-main { padding: 18px 12px; }
+    .panel-title { font-size: 18px; }
+    .panel-header { margin-bottom: 14px; }
+    .panel-divider { margin-bottom: 16px; }
+    .dash-card-header { padding: 14px 16px; }
+    .dash-card-body { padding: 16px; }
+
+    .kpi-card { padding: 16px; }
+    .kpi-value { font-size: 23px; }
+    .quick-stat-pill { padding: 11px 14px; }
+    .rev-card { padding: 14px 16px; }
+    .ticket-cat-card { padding: 16px; }
+    .chart-container { max-height: 200px; }
+
+    .data-table { min-width: 720px; }
+    .data-table thead th { padding: 8px 10px; }
+    .data-table tbody td { padding: 10px; }
+
+    .filter-bar input { min-width: 0; flex: 1 1 100%; }
+    .filter-bar select { flex: 1 1 auto; min-width: 0; }
+
+    .settings-row { gap: 12px; }
+    .settings-field { flex: 1 1 100%; min-width: 0; }
+    .settings-card-body { padding: 16px; }
+
+    .refund-card { flex-direction: column; align-items: flex-start; }
+    .refund-card .refund-info { min-width: 0; }
+    .refund-actions { flex-wrap: wrap; }
+    .email-template-row { align-items: flex-start; }
+    .pagination-wrap { padding: 12px 14px; }
+    .top5-name { font-size: 12.5px; }
+    .danger-zone { padding: 16px; }
+  }
+
+  /* ---------- =480px ---------- */
+  @media (max-width: 480px) {
+    .admin-navbar { padding: 0 10px; gap: 6px; }
+    .navbar-icon-btn { width: 34px; height: 34px; font-size: 14px; }
+
+    .admin-main { padding: 14px 10px; }
+    .panel-title { font-size: 16.5px; }
+    .panel-header { flex-direction: column; align-items: flex-start; }
+
+    .kpi-value { font-size: 22px; }
+    .kpi-icon { width: 38px; height: 38px; font-size: 17px; }
+    .quick-stat-pill { padding: 10px 12px; }
+    .quick-stat-pill .pill-val { font-size: 19px; }
+    .rev-card .rev-val { font-size: 19px; }
+
+    .chart-container { max-height: 180px; }
+    #panel-categories .row.g-3 > .col-6.col-lg-4 { flex: 0 0 100%; max-width: 100%; }
+
+    .dash-card-header { flex-direction: column; align-items: flex-start; }
+    .filter-tabs { flex-wrap: wrap; }
+    .data-table { min-width: 640px; }
+
+    .settings-card-header { padding: 12px 14px; }
+    .settings-card-body { padding: 14px; }
+    .toggle-row { gap: 10px; }
+    .btn-save { width: 100%; }
+    .btn-danger-custom { margin-right: 0; width: 100%; }
+    .form-switch .form-check-input { flex-shrink: 0; }
+    .pagination-wrap { justify-content: center; }
+    .top5-rev { font-size: 12.5px; }
+  }
+
+  /* ---------- =360px ---------- */
+  @media (max-width: 360px) {
+    .admin-navbar { padding: 0 8px; gap: 4px; }
+    .navbar-icon-btn { width: 32px; height: 32px; font-size: 13px; }
+    .admin-dropdown .admin-av { width: 28px; height: 28px; }
+
+    .admin-main { padding: 12px 8px; }
+    .panel-title { font-size: 15.5px; }
+    .admin-panel .row.g-3 > .col-6.col-xl-3 { flex: 0 0 100%; max-width: 100%; }
+
+    .kpi-card { padding: 14px; }
+    .kpi-value { font-size: 20px; }
+    .dash-card-body { padding: 12px; }
+    .chart-container { max-height: 160px; }
+    .btn-purple, .btn-outline-purple { font-size: 12px; padding: 7px 12px; }
+    .top5-row { gap: 8px; }
+    .top5-name { font-size: 12px; }
+    .form-switch .form-check-input { width: 40px; height: 22px; }
+  }
+
+  /* ---------- =320px ---------- */
+  @media (max-width: 320px) {
+    .navbar-actions > .navbar-icon-btn[title="Messages"],
+    .navbar-actions > .navbar-icon-btn[title="Go to Site"] { display: none; }
+    .admin-navbar { padding: 0 6px; gap: 4px; }
+    .navbar-icon-btn { width: 30px; height: 30px; font-size: 12px; }
+
+    .admin-main { padding: 10px 6px; }
+    .panel-title { font-size: 14.5px; }
+    .panel-title i { font-size: 15px; }
+
+    .kpi-card { padding: 12px; }
+    .kpi-value { font-size: 19px; }
+    .quick-stat-pill .pill-val { font-size: 17px; }
+    .data-table { min-width: 600px; }
+    .chart-container { max-height: 150px; }
+    .settings-card-body { padding: 12px; }
+    .pagination-info { font-size: 12px; }
+  }
+
+  /* ---------- Mobile hamburger menu alignment ---------- */
+  @media (max-width: 1024px) {
+    .admin-navbar { z-index: 1055; }
+    .admin-sidebar {
+      top: var(--navbar-h);
+      height: calc(100vh - var(--navbar-h));
+      width: min(280px, 84vw);
+      overflow: hidden;
+      box-shadow: 8px 0 40px rgba(0,0,0,.4);
+    }
+    .sidebar-overlay { inset: var(--navbar-h) 0 0 0; }
+    .sidebar-brand { padding: 16px 18px 14px; }
+    .sidebar-nav { min-height: 0; overflow-y: auto; -webkit-overflow-scrolling: touch; }
+    .nav-section-label { padding: 12px 18px 6px; }
+    .sidebar-link { padding: 12px 18px; gap: 12px; align-items: center; }
+    .sidebar-link i { width: 22px; font-size: 17px; }
+    .sidebar-link .badge-nav { margin-left: auto; }
+    .sidebar-user { padding: 14px 18px; }
+  }
+  @media (min-width: 1025px) {
+    .sidebar-overlay { display: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Sidebar Overlay (mobile) -->
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+
+<!-- -------------------------------------------------------
+     LEFT SIDEBAR
+------------------------------------------------------- -->
+<aside class="admin-sidebar" id="adminSidebar">
+  <div class="sidebar-brand">
+    <div class="brand-icon"><i class="bi bi-ticket-perforated-fill"></i></div>
+    <div class="brand-text">
+      <h5>Eventora Admin</h5>
+      <span>v2.4.1 · Premium</span>
+    </div>
+  </div>
+
+  <nav class="sidebar-nav">
+    <div class="nav-section-label">Main</div>
+    <button class="sidebar-link active" onclick="scrollToPanel('panel-overview')">
+      <i class="bi bi-house-door-fill"></i> Overview
+    </button>
+    <button class="sidebar-link" onclick="scrollToPanel('panel-events')">
+      <i class="bi bi-calendar3"></i> Event Management
+    </button>
+    <button class="sidebar-link" onclick="scrollToPanel('panel-customers')">
+      <i class="bi bi-people-fill"></i> Customer Registrations
+    </button>
+    <button class="sidebar-link" onclick="scrollToPanel('panel-customers')">
+      <i class="bi bi-ticket-detailed-fill"></i> Ticket Bookings
+      <span class="badge-nav">12</span>
+    </button>
+
+    <div class="nav-section-label">Finance</div>
+    <button class="sidebar-link" onclick="scrollToPanel('panel-categories')">
+      <i class="bi bi-tags-fill"></i> Ticket Categories
+    </button>
+    <button class="sidebar-link" onclick="scrollToPanel('panel-categories')">
+      <i class="bi bi-currency-dollar"></i> Revenue Reports
+    </button>
+    <button class="sidebar-link" onclick="scrollToPanel('panel-payments')">
+      <i class="bi bi-credit-card-fill"></i> Payment Management
+      <span class="badge-nav">5</span>
+    </button>
+
+    <div class="nav-section-label">Intelligence</div>
+    <button class="sidebar-link" onclick="scrollToPanel('panel-payments')">
+      <i class="bi bi-graph-up-arrow"></i> Analytics
+    </button>
+
+    <div class="nav-section-label">System</div>
+    <button class="sidebar-link" onclick="scrollToPanel('panel-settings')">
+      <i class="bi bi-gear-fill"></i> Settings
+    </button>
+    <a class="sidebar-link" href="home.html">
+      <i class="bi bi-box-arrow-left"></i> Back to Site
+    </a>
+  </nav>
+
+  <div class="sidebar-user">
+    <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=100&q=80" alt="Sarah Admin" class="rounded-circle object-fit-cover" style="width:38px;height:38px;border:2px solid var(--purple);" />
+    <div class="user-info">
+      <strong>Sarah Admin</strong>
+      <span class="role-badge">Super Admin</span>
+    </div>
+    <i class="bi bi-three-dots-vertical" style="color:var(--text-muted-custom); cursor:pointer; font-size:16px;"></i>
+  </div>
+</aside>
+
+<!-- -------------------------------------------------------
+     TOP NAVBAR
+------------------------------------------------------- -->
+<header class="admin-navbar">
+  <button class="hamburger-btn" id="hamburgerBtn" onclick="toggleSidebar()" aria-label="Open menu"><i class="bi bi-list" id="hamburgerIcon"></i></button>
+
+  <div class="navbar-search">
+    <i class="bi bi-search"></i>
+    <input type="text" placeholder="Search events, users..." />
+  </div>
+
+  <div class="navbar-actions">
+    <a href="home.html" class="navbar-icon-btn" title="Go to Site">
+      <i class="bi bi-house-fill"></i>
+    </a>
+
+    <button class="navbar-icon-btn" title="Notifications">
+      <i class="bi bi-bell-fill"></i>
+      <span class="notif-dot">5</span>
+    </button>
+
+    <button class="navbar-icon-btn" title="Messages">
+      <i class="bi bi-chat-dots-fill"></i>
+    </button>
+
+    <button class="navbar-icon-btn" id="rtlToggle" title="RTL Mode" style="font-size:.7rem;font-weight:700;letter-spacing:.4px;">RTL</button>
+
+    <button class="navbar-icon-btn" id="adminThemeToggle" title="Toggle Theme" onclick="toggleAdminTheme()"><i class="bi bi-moon-stars-fill" id="adminThemeIcon"></i></button>
+        <div class="dropdown admin-dropdown">
+      <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+        <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=100&q=80" alt="Sarah Admin" class="rounded-circle object-fit-cover me-1" style="width:32px;height:32px;border:2px solid var(--purple);" />
+        <span class="admin-name d-none d-sm-inline">Sarah Admin</span>
+        <i class="bi bi-chevron-down" style="font-size:11px; color:var(--text-muted-custom);"></i>
+      </a>
+      <ul class="dropdown-menu dropdown-menu-end">
+        <li><a class="dropdown-item" href="#"><i class="bi bi-person me-2"></i>My Profile</a></li>
+        <li><a class="dropdown-item" href="#" onclick="scrollToPanel('panel-settings')"><i class="bi bi-gear me-2"></i>Settings</a></li>
+        <li><hr class="dropdown-divider"></li>
+        <li><a class="dropdown-item text-danger" href="#"><i class="bi bi-box-arrow-right me-2"></i>Logout</a></li>
+      </ul>
+    </div>
+  </div>
+</header>
+
+<!-- -------------------------------------------------------
+     MAIN CONTENT
+------------------------------------------------------- -->
+<main class="admin-main">
+
+  <!-- ----------------------- PANEL 1 � OVERVIEW --------- -->
+  <section class="admin-panel scroll-anchor" id="panel-overview">
+    <div class="panel-header">
+      <div class="panel-title">
+        <i class="bi bi-house-door-fill"></i>
+        Overview &amp; Analytics Dashboard
+      </div>
+      <div class="d-flex gap-2">
+        <span style="font-size:12.5px; color:var(--text-muted-custom);">Last updated: Nov 14, 2026 � 9:54 AM</span>
+        <button class="btn-outline-purple" style="padding:5px 14px; font-size:12px;">
+          <i class="bi bi-arrow-clockwise me-1"></i>Refresh
+        </button>
+      </div>
+    </div>
+    <hr class="panel-divider" />
+
+    <!-- KPI Grid -->
+    <div class="row g-3 mb-4">
+      <!-- Card 1 -->
+      <div class="col-6 col-xl-3">
+        <div class="kpi-card">
+          <div class="kpi-icon" style="background:#ede9fe; color:var(--purple);">
+            <i class="bi bi-calendar-event-fill"></i>
+          </div>
+          <div class="kpi-value">1,247</div>
+          <div class="kpi-label">Total Events</div>
+          <div class="kpi-trend up"><i class="bi bi-arrow-up-short"></i> +8.4% vs last month</div>
+          <div class="kpi-sparkline">
+            <svg width="100%" height="28" viewBox="0 0 120 28"><polyline fill="none" stroke="#7657E8" stroke-width="2" points="0,22 20,16 40,20 60,10 80,14 100,6 120,10" opacity=".5"/></svg>
+          </div>
+        </div>
+      </div>
+      <!-- Card 2 -->
+      <div class="col-6 col-xl-3">
+        <div class="kpi-card">
+          <div class="kpi-icon" style="background:#fce7f3; color:#be185d;">
+            <i class="bi bi-people-fill"></i>
+          </div>
+          <div class="kpi-value">84,320</div>
+          <div class="kpi-label">Active Users</div>
+          <div class="kpi-trend up"><i class="bi bi-arrow-up-short"></i> +12.1% vs last month</div>
+          <div class="kpi-sparkline">
+            <svg width="100%" height="28" viewBox="0 0 120 28"><polyline fill="none" stroke="#be185d" stroke-width="2" points="0,24 20,20 40,22 60,14 80,10 100,8 120,4" opacity=".5"/></svg>
+          </div>
+        </div>
+      </div>
+      <!-- Card 3 -->
+      <div class="col-6 col-xl-3">
+        <div class="kpi-card">
+          <div class="kpi-icon" style="background:#dcfce7; color:#15803d;">
+            <i class="bi bi-ticket-detailed-fill"></i>
+          </div>
+          <div class="kpi-value">2.4M</div>
+          <div class="kpi-label">Tickets Sold</div>
+          <div class="kpi-trend up"><i class="bi bi-arrow-up-short"></i> +19.3% vs last month</div>
+          <div class="kpi-sparkline">
+            <svg width="100%" height="28" viewBox="0 0 120 28"><polyline fill="none" stroke="#15803d" stroke-width="2" points="0,26 20,20 40,18 60,12 80,8 100,6 120,2" opacity=".5"/></svg>
+          </div>
+        </div>
+      </div>
+      <!-- Card 4 -->
+      <div class="col-6 col-xl-3">
+        <div class="kpi-card">
+          <div class="kpi-icon" style="background:#fef3c7; color:#d97706;">
+            <i class="bi bi-currency-dollar"></i>
+          </div>
+          <div class="kpi-value">$4.2M</div>
+          <div class="kpi-label">Total Revenue</div>
+          <div class="kpi-trend up"><i class="bi bi-arrow-up-short"></i> +22.5% vs last month</div>
+          <div class="kpi-sparkline">
+            <svg width="100%" height="28" viewBox="0 0 120 28"><polyline fill="none" stroke="#d97706" stroke-width="2" points="0,24 20,22 40,16 60,18 80,10 100,6 120,4" opacity=".5"/></svg>
+          </div>
+        </div>
+      </div>
+      <!-- Card 5 -->
+      <div class="col-6 col-xl-3">
+        <div class="kpi-card">
+          <div class="kpi-icon" style="background:#fee2e2; color:#dc2626;">
+            <i class="bi bi-clock-history"></i>
+          </div>
+          <div class="kpi-value">23</div>
+          <div class="kpi-label">Pending Approvals</div>
+          <div class="kpi-trend down"><i class="bi bi-arrow-down-short"></i> -4 vs yesterday</div>
+          <div class="kpi-sparkline">
+            <svg width="100%" height="28" viewBox="0 0 120 28"><polyline fill="none" stroke="#dc2626" stroke-width="2" points="0,8 20,12 40,10 60,16 80,14 100,20 120,18" opacity=".5"/></svg>
+          </div>
+        </div>
+      </div>
+      <!-- Card 6 -->
+      <div class="col-6 col-xl-3">
+        <div class="kpi-card">
+          <div class="kpi-icon" style="background:#dbeafe; color:#1d4ed8;">
+            <i class="bi bi-person-badge-fill"></i>
+          </div>
+          <div class="kpi-value">892</div>
+          <div class="kpi-label">Active Organizers</div>
+          <div class="kpi-trend up"><i class="bi bi-arrow-up-short"></i> +6.7% vs last month</div>
+          <div class="kpi-sparkline">
+            <svg width="100%" height="28" viewBox="0 0 120 28"><polyline fill="none" stroke="#1d4ed8" stroke-width="2" points="0,22 20,18 40,16 60,12 80,10 100,8 120,6" opacity=".5"/></svg>
+          </div>
+        </div>
+      </div>
+      <!-- Card 7 -->
+      <div class="col-6 col-xl-3">
+        <div class="kpi-card">
+          <div class="kpi-icon" style="background:#f0fdf4; color:#16a34a;">
+            <i class="bi bi-person-plus-fill"></i>
+          </div>
+          <div class="kpi-value">147</div>
+          <div class="kpi-label">New Registrations Today</div>
+          <div class="kpi-trend up"><i class="bi bi-arrow-up-short"></i> +31% vs yesterday</div>
+          <div class="kpi-sparkline">
+            <svg width="100%" height="28" viewBox="0 0 120 28"><polyline fill="none" stroke="#16a34a" stroke-width="2" points="0,26 20,22 40,24 60,16 80,12 100,8 120,4" opacity=".5"/></svg>
+          </div>
+        </div>
+      </div>
+      <!-- Card 8 -->
+      <div class="col-6 col-xl-3">
+        <div class="kpi-card">
+          <div class="kpi-icon" style="background:#f3e8ff; color:#9333ea;">
+            <i class="bi bi-tags-fill"></i>
+          </div>
+          <div class="kpi-value">$52</div>
+          <div class="kpi-label">Avg Ticket Price</div>
+          <div class="kpi-trend up"><i class="bi bi-arrow-up-short"></i> +3.2% vs last month</div>
+          <div class="kpi-sparkline">
+            <svg width="100%" height="28" viewBox="0 0 120 28"><polyline fill="none" stroke="#9333ea" stroke-width="2" points="0,20 20,18 40,16 60,14 80,12 100,10 120,8" opacity=".5"/></svg>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Charts Row -->
+    <div class="row g-3 mb-4">
+      <div class="col-lg-8">
+        <div class="dash-card">
+          <div class="dash-card-header">
+            <h6><i class="bi bi-graph-up-arrow me-2 text-purple" style="color:var(--purple)"></i>Revenue � Last 12 Months</h6>
+            <div class="filter-tabs">
+              <span class="filter-tab active">Monthly</span>
+              <span class="filter-tab">Weekly</span>
+              <span class="filter-tab">Daily</span>
+            </div>
+          </div>
+          <div class="dash-card-body">
+            <div class="chart-container" style="height:260px;">
+              <canvas id="revenueChart"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <div class="dash-card h-100">
+          <div class="dash-card-header">
+            <h6><i class="bi bi-pie-chart-fill me-2" style="color:var(--coral)"></i>Sales by Category</h6>
+          </div>
+          <div class="dash-card-body">
+            <div class="chart-container" style="height:200px;">
+              <canvas id="categoryDonut"></canvas>
+            </div>
+            <div class="mt-3">
+              <div class="d-flex justify-content-between" style="font-size:12px; gap:6px; flex-wrap:wrap;">
+                <span><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#7657E8;margin-right:4px;"></span>Music 35%</span>
+                <span><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#FF766B;margin-right:4px;"></span>Sports 20%</span>
+                <span><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#3b82f6;margin-right:4px;"></span>Tech 25%</span>
+                <span><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#22c55e;margin-right:4px;"></span>Biz 10%</span>
+                <span><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#a78bfa;margin-right:4px;"></span>Other 10%</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Recent Activity Feed -->
+    <div class="dash-card">
+      <div class="dash-card-header">
+        <h6><i class="bi bi-activity me-2" style="color:var(--purple)"></i>Recent Activity</h6>
+        <button class="btn-outline-purple" style="padding:5px 14px; font-size:12px;">View All</button>
+      </div>
+      <div class="dash-card-body" style="padding:0 20px;">
+        <div class="activity-item">
+          <div class="activity-dot" style="background:#dcfce7;color:#16a34a;"><i class="bi bi-ticket-fill"></i></div>
+          <div class="activity-info">
+            <p><strong>Marcus Johnson</strong> booked 3 tickets for <em>Neon Beats Festival 2026</em></p>
+            <span>2 minutes ago</span>
+          </div>
+        </div>
+        <div class="activity-item">
+          <div class="activity-dot" style="background:#dbeafe;color:#2563eb;"><i class="bi bi-check-circle-fill"></i></div>
+          <div class="activity-info">
+            <p>Event <strong>TechSummit Global 2026</strong> was approved by admin</p>
+            <span>18 minutes ago</span>
+          </div>
+        </div>
+        <div class="activity-item">
+          <div class="activity-dot" style="background:#fee2e2;color:#dc2626;"><i class="bi bi-arrow-return-left"></i></div>
+          <div class="activity-info">
+            <p><strong>Priya Kapoor</strong> submitted a refund request for <em>Jazz Under Stars</em> � $120.00</p>
+            <span>44 minutes ago</span>
+          </div>
+        </div>
+        <div class="activity-item">
+          <div class="activity-dot" style="background:#f3e8ff;color:#9333ea;"><i class="bi bi-person-plus-fill"></i></div>
+          <div class="activity-info">
+            <p>New organizer <strong>Stellar Events Co.</strong> registered and pending verification</p>
+            <span>1 hour ago</span>
+          </div>
+        </div>
+        <div class="activity-item">
+          <div class="activity-dot" style="background:#fef9c3;color:#ca8a04;"><i class="bi bi-exclamation-triangle-fill"></i></div>
+          <div class="activity-info">
+            <p>Low inventory alert: <em>VIP Passes for EDM World Cup</em> � only 12 tickets left</p>
+            <span>2 hours ago</span>
+          </div>
+        </div>
+        <div class="activity-item">
+          <div class="activity-dot" style="background:#dcfce7;color:#16a34a;"><i class="bi bi-credit-card-fill"></i></div>
+          <div class="activity-info">
+            <p>Payment of <strong>$2,400</strong> received from <em>SportsFest Inc.</em> via Stripe</p>
+            <span>3 hours ago</span>
+          </div>
+        </div>
+        <div class="activity-item">
+          <div class="activity-dot" style="background:#fce7f3;color:#be185d;"><i class="bi bi-star-fill"></i></div>
+          <div class="activity-info">
+            <p><strong>Neon Beats Festival</strong> crossed 10,000 ticket sales milestone <i class="bi bi-stars text-warning ms-1"></i></p>
+            <span>5 hours ago</span>
+          </div>
+        </div>
+        <div class="activity-item">
+          <div class="activity-dot" style="background:#ede9fe;color:var(--purple);"><i class="bi bi-calendar-plus-fill"></i></div>
+          <div class="activity-info">
+            <p>New event <strong>Startup Pitch Battle 2027</strong> submitted for review</p>
+            <span>7 hours ago</span>
+          </div>
+        </div>
+        <div class="activity-item">
+          <div class="activity-dot" style="background:#fee2e2;color:#dc2626;"><i class="bi bi-x-circle-fill"></i></div>
+          <div class="activity-info">
+            <p>Event <strong>Winter Gala Night</strong> was cancelled by organizer</p>
+            <span>9 hours ago</span>
+          </div>
+        </div>
+        <div class="activity-item">
+          <div class="activity-dot" style="background:#dcfce7;color:#15803d;"><i class="bi bi-person-check-fill"></i></div>
+          <div class="activity-info">
+            <p>User account for <strong>Lena Okafor</strong> was verified and activated</p>
+            <span>11 hours ago</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ----------------------- PANEL 2 � EVENT MANAGEMENT - -->
+  <section class="admin-panel scroll-anchor" id="panel-events">
+    <div class="panel-header">
+      <div class="panel-title"><i class="bi bi-calendar3"></i> Event Management</div>
+      <button class="btn-purple"><i class="bi bi-plus-lg me-1"></i>Add New Event</button>
+    </div>
+    <hr class="panel-divider" />
+
+    <!-- Quick Stats -->
+    <div class="row g-3 mb-4">
+      <div class="col-6 col-md-3"><div class="quick-stat-pill"><div class="pill-val">1,247</div><div class="pill-label">Total Events</div></div></div>
+      <div class="col-6 col-md-3"><div class="quick-stat-pill"><div class="pill-val" style="color:#2563eb;">1,089</div><div class="pill-label">Published</div></div></div>
+      <div class="col-6 col-md-3"><div class="quick-stat-pill"><div class="pill-val" style="color:#ca8a04;">108</div><div class="pill-label">Draft</div></div></div>
+      <div class="col-6 col-md-3"><div class="quick-stat-pill"><div class="pill-val" style="color:#dc2626;">50</div><div class="pill-label">Cancelled</div></div></div>
+    </div>
+
+    <!-- Filter Bar + Bulk Actions -->
+    <div class="dash-card">
+      <div class="dash-card-body">
+        <div class="filter-bar mb-2">
+          <input type="text" placeholder="Search events..." />
+          <select><option>Status: All</option><option>Active</option><option>Draft</option><option>Cancelled</option></select>
+          <select><option>Category: All</option><option>Music</option><option>Sports</option><option>Technology</option><option>Business</option></select>
+          <select><option>Date: Any Range</option><option>Today</option><option>This Week</option><option>This Month</option><option>Custom</option></select>
+          <button class="btn-purple" style="padding:8px 14px;"><i class="bi bi-funnel me-1"></i>Filter</button>
+        </div>
+        <div class="d-flex gap-2 flex-wrap">
+          <button class="btn-outline-purple" style="padding:6px 12px; font-size:12px;"><i class="bi bi-check-all me-1"></i>Select All</button>
+          <button class="btn-icon btn-icon-del" style="width:auto; padding:0 12px; font-size:12px; border-radius:7px; height:32px;"><i class="bi bi-trash me-1"></i>Delete</button>
+          <button class="btn-icon btn-icon-edit" style="width:auto; padding:0 12px; font-size:12px; border-radius:7px; height:32px;"><i class="bi bi-cloud-upload me-1"></i>Publish</button>
+          <button class="btn-purple" style="padding:6px 12px; font-size:12px;"><i class="bi bi-download me-1"></i>Export CSV</button>
+        </div>
+      </div>
+
+      <div style="overflow-x:auto;">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th><input type="checkbox" class="form-check-input" /></th>
+              <th>#</th>
+              <th>Event Name</th>
+              <th>Organizer</th>
+              <th>Category</th>
+              <th>Date</th>
+              <th>Venue</th>
+              <th>Tickets</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><input type="checkbox" class="form-check-input" /></td>
+              <td><span style="font-size:12px;color:var(--text-muted-custom);">#EVT-001</span></td>
+              <td><div class="event-name-cell"><img src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=120&q=80" alt="Neon Beats Festival" class="rounded-2 object-fit-cover me-2" style="width:40px;height:40px;flex-shrink:0;" /><div><strong style="font-size:13.5px;">Neon Beats Festival</strong><div style="font-size:11px;color:var(--text-muted-custom);">Madison Square, NYC</div></div></div></td>
+              <td>BeatWave Events</td>
+              <td><span class="cat-badge cat-music">Music</span></td>
+              <td>Dec 15, 2026</td>
+              <td>NYC</td>
+              <td><span style="font-size:12.5px;">8,432 / 10,000</span></td>
+              <td><span class="badge-status badge-active">Active</span></td>
+              <td><div class="d-flex gap-1"><button class="btn-icon btn-icon-edit"><i class="bi bi-pencil-fill"></i></button><button class="btn-icon btn-icon-view"><i class="bi bi-eye-fill"></i></button><button class="btn-icon btn-icon-del"><i class="bi bi-trash-fill"></i></button></div></td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" class="form-check-input" /></td>
+              <td><span style="font-size:12px;color:var(--text-muted-custom);">#EVT-002</span></td>
+              <td><div class="event-name-cell"><img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=120&q=80" alt="TechSummit Global" class="rounded-2 object-fit-cover me-2" style="width:40px;height:40px;flex-shrink:0;" /><div><strong style="font-size:13.5px;">TechSummit Global 2026</strong><div style="font-size:11px;color:var(--text-muted-custom);">Moscone Center, SF</div></div></div></td>
+              <td>TechWorld Inc.</td>
+              <td><span class="cat-badge cat-tech">Technology</span></td>
+              <td>Jan 10, 2027</td>
+              <td>San Francisco</td>
+              <td><span style="font-size:12.5px;">2,100 / 5,000</span></td>
+              <td><span class="badge-status badge-active">Active</span></td>
+              <td><div class="d-flex gap-1"><button class="btn-icon btn-icon-edit"><i class="bi bi-pencil-fill"></i></button><button class="btn-icon btn-icon-view"><i class="bi bi-eye-fill"></i></button><button class="btn-icon btn-icon-del"><i class="bi bi-trash-fill"></i></button></div></td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" class="form-check-input" /></td>
+              <td><span style="font-size:12px;color:var(--text-muted-custom);">#EVT-003</span></td>
+              <td><div class="event-name-cell"><img src="https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=120&q=80" alt="Champions League Final" class="rounded-2 object-fit-cover me-2" style="width:40px;height:40px;flex-shrink:0;" /><div><strong style="font-size:13.5px;">Champions League Final</strong><div style="font-size:11px;color:var(--text-muted-custom);">Wembley Stadium, London</div></div></div></td>
+              <td>UEFA Events</td>
+              <td><span class="cat-badge cat-sports">Sports</span></td>
+              <td>May 28, 2027</td>
+              <td>London</td>
+              <td><span style="font-size:12.5px;">78,000 / 90,000</span></td>
+              <td><span class="badge-status badge-active">Active</span></td>
+              <td><div class="d-flex gap-1"><button class="btn-icon btn-icon-edit"><i class="bi bi-pencil-fill"></i></button><button class="btn-icon btn-icon-view"><i class="bi bi-eye-fill"></i></button><button class="btn-icon btn-icon-del"><i class="bi bi-trash-fill"></i></button></div></td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" class="form-check-input" /></td>
+              <td><span style="font-size:12px;color:var(--text-muted-custom);">#EVT-004</span></td>
+              <td><div class="event-name-cell"><img src="https://images.unsplash.com/photo-1507676184212-d03ab07a01bf?w=120&q=80" alt="Broadway Night Out" class="rounded-2 object-fit-cover me-2" style="width:40px;height:40px;flex-shrink:0;" /><div><strong style="font-size:13.5px;">Broadway Night Out</strong><div style="font-size:11px;color:var(--text-muted-custom);">Grand Theater, NYC</div></div></div></td>
+              <td>ArtHouse NYC</td>
+              <td><span class="cat-badge cat-other">Cultural</span></td>
+              <td>Feb 14, 2027</td>
+              <td>New York</td>
+              <td><span style="font-size:12.5px;">420 / 800</span></td>
+              <td><span class="badge-status badge-draft">Draft</span></td>
+              <td><div class="d-flex gap-1"><button class="btn-icon btn-icon-edit"><i class="bi bi-pencil-fill"></i></button><button class="btn-icon btn-icon-view"><i class="bi bi-eye-fill"></i></button><button class="btn-icon btn-icon-del"><i class="bi bi-trash-fill"></i></button></div></td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" class="form-check-input" /></td>
+              <td><span style="font-size:12px;color:var(--text-muted-custom);">#EVT-005</span></td>
+              <td><div class="event-name-cell"><img src="https://images.unsplash.com/photo-1515187029135-18ee286d815b?w=120&q=80" alt="Startup Pitch Battle" class="rounded-2 object-fit-cover me-2" style="width:40px;height:40px;flex-shrink:0;" /><div><strong style="font-size:13.5px;">Startup Pitch Battle</strong><div style="font-size:11px;color:var(--text-muted-custom);">Convention Hall, Austin</div></div></div></td>
+              <td>Entrepreneur Hub</td>
+              <td><span class="cat-badge cat-business">Business</span></td>
+              <td>Mar 5, 2027</td>
+              <td>Austin, TX</td>
+              <td><span style="font-size:12.5px;">310 / 1,200</span></td>
+              <td><span class="badge-status badge-active">Active</span></td>
+              <td><div class="d-flex gap-1"><button class="btn-icon btn-icon-edit"><i class="bi bi-pencil-fill"></i></button><button class="btn-icon btn-icon-view"><i class="bi bi-eye-fill"></i></button><button class="btn-icon btn-icon-del"><i class="bi bi-trash-fill"></i></button></div></td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" class="form-check-input" /></td>
+              <td><span style="font-size:12px;color:var(--text-muted-custom);">#EVT-006</span></td>
+              <td><div class="event-name-cell"><img src="https://images.unsplash.com/photo-1501386761578-eac5c94b800a?w=120&q=80" alt="Summer Rockfest" class="rounded-2 object-fit-cover me-2" style="width:40px;height:40px;flex-shrink:0;" /><div><strong style="font-size:13.5px;">Summer Rockfest 2027</strong><div style="font-size:11px;color:var(--text-muted-custom);">Hyde Park, London</div></div></div></td>
+              <td>Rock Nation UK</td>
+              <td><span class="cat-badge cat-music">Music</span></td>
+              <td>Jul 20, 2027</td>
+              <td>London</td>
+              <td><span style="font-size:12.5px;">5,200 / 25,000</span></td>
+              <td><span class="badge-status badge-draft">Draft</span></td>
+              <td><div class="d-flex gap-1"><button class="btn-icon btn-icon-edit"><i class="bi bi-pencil-fill"></i></button><button class="btn-icon btn-icon-view"><i class="bi bi-eye-fill"></i></button><button class="btn-icon btn-icon-del"><i class="bi bi-trash-fill"></i></button></div></td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" class="form-check-input" /></td>
+              <td><span style="font-size:12px;color:var(--text-muted-custom);">#EVT-007</span></td>
+              <td><div class="event-name-cell"><img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=120&q=80" alt="Global Food Carnival" class="rounded-2 object-fit-cover me-2" style="width:40px;height:40px;flex-shrink:0;" /><div><strong style="font-size:13.5px;">Global Food Carnival</strong><div style="font-size:11px;color:var(--text-muted-custom);">Expo Center, Dubai</div></div></div></td>
+              <td>FoodLove Events</td>
+              <td><span class="cat-badge cat-other">Food</span></td>
+              <td>Apr 12, 2027</td>
+              <td>Dubai</td>
+              <td><span style="font-size:12.5px;">3,800 / 8,000</span></td>
+              <td><span class="badge-status badge-active">Active</span></td>
+              <td><div class="d-flex gap-1"><button class="btn-icon btn-icon-edit"><i class="bi bi-pencil-fill"></i></button><button class="btn-icon btn-icon-view"><i class="bi bi-eye-fill"></i></button><button class="btn-icon btn-icon-del"><i class="bi bi-trash-fill"></i></button></div></td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" class="form-check-input" /></td>
+              <td><span style="font-size:12px;color:var(--text-muted-custom);">#EVT-008</span></td>
+              <td><div class="event-name-cell"><img src="https://images.unsplash.com/photo-1452626038306-9aae5e071dd3?w=120&q=80" alt="Tokyo Marathon Elite" class="rounded-2 object-fit-cover me-2" style="width:40px;height:40px;flex-shrink:0;" /><div><strong style="font-size:13.5px;">Tokyo Marathon Elite</strong><div style="font-size:11px;color:var(--text-muted-custom);">Tokyo Metropolitan</div></div></div></td>
+              <td>Japan Run Club</td>
+              <td><span class="cat-badge cat-sports">Sports</span></td>
+              <td>Nov 1, 2027</td>
+              <td>Tokyo</td>
+              <td><span style="font-size:12.5px;">12,000 / 15,000</span></td>
+              <td><span class="badge-status badge-active">Active</span></td>
+              <td><div class="d-flex gap-1"><button class="btn-icon btn-icon-edit"><i class="bi bi-pencil-fill"></i></button><button class="btn-icon btn-icon-view"><i class="bi bi-eye-fill"></i></button><button class="btn-icon btn-icon-del"><i class="bi bi-trash-fill"></i></button></div></td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" class="form-check-input" /></td>
+              <td><span style="font-size:12px;color:var(--text-muted-custom);">#EVT-009</span></td>
+              <td><div class="event-name-cell"><img src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=120&q=80" alt="EdTech World Forum" class="rounded-2 object-fit-cover me-2" style="width:40px;height:40px;flex-shrink:0;" /><div><strong style="font-size:13.5px;">EdTech World Forum</strong><div style="font-size:11px;color:var(--text-muted-custom);">ICC, Singapore</div></div></div></td>
+              <td>EduVerse Labs</td>
+              <td><span class="cat-badge cat-tech">Education</span></td>
+              <td>Aug 22, 2027</td>
+              <td>Singapore</td>
+              <td><span style="font-size:12.5px;">780 / 3,000</span></td>
+              <td><span class="badge-status badge-cancelled">Cancelled</span></td>
+              <td><div class="d-flex gap-1"><button class="btn-icon btn-icon-edit"><i class="bi bi-pencil-fill"></i></button><button class="btn-icon btn-icon-view"><i class="bi bi-eye-fill"></i></button><button class="btn-icon btn-icon-del"><i class="bi bi-trash-fill"></i></button></div></td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" class="form-check-input" /></td>
+              <td><span style="font-size:12px;color:var(--text-muted-custom);">#EVT-010</span></td>
+              <td><div class="event-name-cell"><img src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=120&q=80" alt="New Year Countdown Gala" class="rounded-2 object-fit-cover me-2" style="width:40px;height:40px;flex-shrink:0;" /><div><strong style="font-size:13.5px;">New Year Countdown Gala</strong><div style="font-size:11px;color:var(--text-muted-custom);">Times Square, NYC</div></div></div></td>
+              <td>NYC Celebrations</td>
+              <td><span class="cat-badge cat-other">Cultural</span></td>
+              <td>Dec 31, 2026</td>
+              <td>New York</td>
+              <td><span style="font-size:12.5px;">45,000 / 50,000</span></td>
+              <td><span class="badge-status badge-active">Active</span></td>
+              <td><div class="d-flex gap-1"><button class="btn-icon btn-icon-edit"><i class="bi bi-pencil-fill"></i></button><button class="btn-icon btn-icon-view"><i class="bi bi-eye-fill"></i></button><button class="btn-icon btn-icon-del"><i class="bi bi-trash-fill"></i></button></div></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Pagination -->
+      <div class="pagination-wrap">
+        <span class="pagination-info">Showing 1�10 of 1,247 events</span>
+        <div class="d-flex gap-1">
+          <button class="pag-btn"><i class="bi bi-chevron-left"></i></button>
+          <button class="pag-btn active">1</button>
+          <button class="pag-btn">2</button>
+          <button class="pag-btn">3</button>
+          <span style="display:flex;align-items:center;padding:0 4px;color:var(--text-muted-custom);font-size:13px;">...</span>
+          <button class="pag-btn">125</button>
+          <button class="pag-btn"><i class="bi bi-chevron-right"></i></button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ----------------------- PANEL 3 � CUSTOMERS + BOOKINGS -- -->
+  <section class="admin-panel scroll-anchor" id="panel-customers">
+    <div class="panel-header">
+      <div class="panel-title"><i class="bi bi-people-fill"></i> Customer Registrations &amp; Ticket Bookings</div>
+    </div>
+    <hr class="panel-divider" />
+
+    <div class="row g-3">
+      <!-- Customer Table -->
+      <div class="col-lg-6">
+        <div class="dash-card">
+          <div class="dash-card-header">
+            <h6><i class="bi bi-person-lines-fill me-2" style="color:var(--purple)"></i>Customer Registrations</h6>
+            <button class="btn-purple" style="padding:5px 14px; font-size:12px;"><i class="bi bi-download me-1"></i>Export</button>
+          </div>
+          <div class="dash-card-body" style="padding-bottom:0;">
+            <div class="filter-bar" style="margin-bottom:12px;">
+              <input type="text" placeholder="Search customers..." style="min-width:160px;" />
+              <select style="font-size:12px;"><option>All Status</option><option>Active</option><option>Suspended</option></select>
+            </div>
+          </div>
+          <div style="overflow-x:auto;">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>User</th>
+                  <th>Join Date</th>
+                  <th>Events</th>
+                  <th>Spent</th>
+                  <th>Status</th>
+                  <th>Act.</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td><div class="d-flex align-items-center gap-2"><img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=80&q=80" alt="Marcus J." class="rounded-circle object-fit-cover" style="width:34px;height:34px;" /><div><strong style="font-size:12.5px;">Marcus J.</strong><div style="font-size:11px;color:var(--text-muted-custom);">marcus@email.com</div></div></div></td><td style="font-size:12px;">Jan 2025</td><td>12</td><td>$840</td><td><span class="badge-status badge-active">Active</span></td><td><button class="btn-icon btn-icon-view"><i class="bi bi-eye-fill"></i></button></td></tr>
+                <tr><td><div class="d-flex align-items-center gap-2"><img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=80&q=80" alt="Priya K." class="rounded-circle object-fit-cover" style="width:34px;height:34px;" /><div><strong style="font-size:12.5px;">Priya K.</strong><div style="font-size:11px;color:var(--text-muted-custom);">priya@email.com</div></div></div></td><td style="font-size:12px;">Mar 2025</td><td>7</td><td>$520</td><td><span class="badge-status badge-active">Active</span></td><td><button class="btn-icon btn-icon-view"><i class="bi bi-eye-fill"></i></button></td></tr>
+                <tr><td><div class="d-flex align-items-center gap-2"><img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=80&q=80" alt="Lena O." class="rounded-circle object-fit-cover" style="width:34px;height:34px;" /><div><strong style="font-size:12.5px;">Lena O.</strong><div style="font-size:11px;color:var(--text-muted-custom);">lena@email.com</div></div></div></td><td style="font-size:12px;">Jun 2025</td><td>5</td><td>$290</td><td><span class="badge-status badge-active">Active</span></td><td><button class="btn-icon btn-icon-view"><i class="bi bi-eye-fill"></i></button></td></tr>
+                <tr><td><div class="d-flex align-items-center gap-2"><img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&q=80" alt="Ryan C." class="rounded-circle object-fit-cover" style="width:34px;height:34px;" /><div><strong style="font-size:12.5px;">Ryan C.</strong><div style="font-size:11px;color:var(--text-muted-custom);">ryan@email.com</div></div></div></td><td style="font-size:12px;">Sep 2024</td><td>18</td><td>$1,420</td><td><span class="badge-status badge-active">Active</span></td><td><button class="btn-icon btn-icon-view"><i class="bi bi-eye-fill"></i></button></td></tr>
+                <tr><td><div class="d-flex align-items-center gap-2"><img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=80&q=80" alt="Sara P." class="rounded-circle object-fit-cover" style="width:34px;height:34px;" /><div><strong style="font-size:12.5px;">Sara P.</strong><div style="font-size:11px;color:var(--text-muted-custom);">sara@email.com</div></div></div></td><td style="font-size:12px;">Dec 2024</td><td>3</td><td>$150</td><td><span class="badge-status badge-suspended">Suspended</span></td><td><button class="btn-icon btn-icon-view"><i class="bi bi-eye-fill"></i></button></td></tr>
+                <tr><td><div class="d-flex align-items-center gap-2"><img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=80&q=80" alt="Tom M." class="rounded-circle object-fit-cover" style="width:34px;height:34px;" /><div><strong style="font-size:12.5px;">Tom M.</strong><div style="font-size:11px;color:var(--text-muted-custom);">tom@email.com</div></div></div></td><td style="font-size:12px;">Feb 2026</td><td>9</td><td>$680</td><td><span class="badge-status badge-active">Active</span></td><td><button class="btn-icon btn-icon-view"><i class="bi bi-eye-fill"></i></button></td></tr>
+                <tr><td><div class="d-flex align-items-center gap-2"><img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=80&q=80" alt="Aiko K." class="rounded-circle object-fit-cover" style="width:34px;height:34px;" /><div><strong style="font-size:12.5px;">Aiko K.</strong><div style="font-size:11px;color:var(--text-muted-custom);">aiko@email.com</div></div></div></td><td style="font-size:12px;">Apr 2026</td><td>6</td><td>$450</td><td><span class="badge-status badge-active">Active</span></td><td><button class="btn-icon btn-icon-view"><i class="bi bi-eye-fill"></i></button></td></tr>
+                <tr><td><div class="d-flex align-items-center gap-2"><img src="https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?w=80&q=80" alt="Ben N." class="rounded-circle object-fit-cover" style="width:34px;height:34px;" /><div><strong style="font-size:12.5px;">Ben N.</strong><div style="font-size:11px;color:var(--text-muted-custom);">ben@email.com</div></div></div></td><td style="font-size:12px;">Jul 2026</td><td>2</td><td>$80</td><td><span class="badge-status badge-active">Active</span></td><td><button class="btn-icon btn-icon-view"><i class="bi bi-eye-fill"></i></button></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bookings Table -->
+      <div class="col-lg-6">
+        <div class="dash-card">
+          <div class="dash-card-header">
+            <h6><i class="bi bi-ticket-detailed-fill me-2" style="color:var(--coral)"></i>Recent Ticket Bookings</h6>
+            <button class="btn-purple" style="padding:5px 14px; font-size:12px;"><i class="bi bi-download me-1"></i>Export</button>
+          </div>
+          <div class="dash-card-body" style="padding-bottom:0;">
+            <div class="filter-bar" style="margin-bottom:12px;">
+              <input type="text" placeholder="Search bookings..." style="min-width:160px;" />
+              <select style="font-size:12px;"><option>Payment: All</option><option>Paid</option><option>Pending</option><option>Refunded</option></select>
+            </div>
+          </div>
+          <div style="overflow-x:auto;">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Booking ID</th>
+                  <th>User</th>
+                  <th>Event</th>
+                  <th>Qty</th>
+                  <th>Amount</th>
+                  <th>Status</th>
+                  <th>Act.</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td><span style="font-size:11.5px;color:var(--text-muted-custom);font-weight:600;">#BK-9820</span></td><td>Marcus J.</td><td style="font-size:12px;">Neon Beats</td><td>3</td><td>$360</td><td><span class="badge-status badge-completed">Paid</span></td><td><button class="btn-icon btn-icon-view"><i class="bi bi-eye-fill"></i></button></td></tr>
+                <tr><td><span style="font-size:11.5px;color:var(--text-muted-custom);font-weight:600;">#BK-9819</span></td><td>Priya K.</td><td style="font-size:12px;">Jazz Under Stars</td><td>2</td><td>$120</td><td><span class="badge-status badge-refunded">Refunded</span></td><td><button class="btn-icon btn-icon-view"><i class="bi bi-eye-fill"></i></button></td></tr>
+                <tr><td><span style="font-size:11.5px;color:var(--text-muted-custom);font-weight:600;">#BK-9818</span></td><td>Lena O.</td><td style="font-size:12px;">TechSummit</td><td>1</td><td>$299</td><td><span class="badge-status badge-completed">Paid</span></td><td><button class="btn-icon btn-icon-view"><i class="bi bi-eye-fill"></i></button></td></tr>
+                <tr><td><span style="font-size:11.5px;color:var(--text-muted-custom);font-weight:600;">#BK-9817</span></td><td>Ryan C.</td><td style="font-size:12px;">Champions Final</td><td>4</td><td>$1,200</td><td><span class="badge-status badge-completed">Paid</span></td><td><button class="btn-icon btn-icon-view"><i class="bi bi-eye-fill"></i></button></td></tr>
+                <tr><td><span style="font-size:11.5px;color:var(--text-muted-custom);font-weight:600;">#BK-9816</span></td><td>Sara P.</td><td style="font-size:12px;">Broadway Night</td><td>2</td><td>$180</td><td><span class="badge-status badge-pending">Pending</span></td><td><button class="btn-icon btn-icon-view"><i class="bi bi-eye-fill"></i></button></td></tr>
+                <tr><td><span style="font-size:11.5px;color:var(--text-muted-custom);font-weight:600;">#BK-9815</span></td><td>Tom M.</td><td style="font-size:12px;">Global Food Carnival</td><td>2</td><td>$80</td><td><span class="badge-status badge-completed">Paid</span></td><td><button class="btn-icon btn-icon-view"><i class="bi bi-eye-fill"></i></button></td></tr>
+                <tr><td><span style="font-size:11.5px;color:var(--text-muted-custom);font-weight:600;">#BK-9814</span></td><td>Aiko K.</td><td style="font-size:12px;">Tokyo Marathon</td><td>1</td><td>$95</td><td><span class="badge-status badge-completed">Paid</span></td><td><button class="btn-icon btn-icon-view"><i class="bi bi-eye-fill"></i></button></td></tr>
+                <tr><td><span style="font-size:11.5px;color:var(--text-muted-custom);font-weight:600;">#BK-9813</span></td><td>Ben N.</td><td style="font-size:12px;">NY Countdown Gala</td><td>2</td><td>$160</td><td><span class="badge-status badge-failed">Failed</span></td><td><button class="btn-icon btn-icon-view"><i class="bi bi-eye-fill"></i></button></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ----------------------- PANEL 4 � CATEGORIES + REVENUE -- -->
+  <section class="admin-panel scroll-anchor" id="panel-categories">
+    <div class="panel-header">
+      <div class="panel-title"><i class="bi bi-tags-fill"></i> Ticket Categories &amp; Revenue Reports</div>
+      <button class="btn-purple"><i class="bi bi-plus-lg me-1"></i>Add Category</button>
+    </div>
+    <hr class="panel-divider" />
+
+    <!-- Ticket Category Cards -->
+    <div class="row g-3 mb-4">
+      <div class="col-6 col-lg-4">
+        <div class="ticket-cat-card">
+          <div class="d-flex justify-content-between align-items-start mb-2">
+            <div class="ticket-cat-name"><i class="bi bi-award-fill text-warning me-2"></i>VIP Pass</div>
+            <span class="badge-status badge-active">Active</span>
+          </div>
+          <div class="ticket-cat-stat">Price Range: <span>$150 � $500</span></div>
+          <div class="ticket-cat-stat">Total Sold: <span>12,480</span></div>
+          <div class="ticket-cat-stat">Revenue: <span>$2.8M</span></div>
+          <div class="d-flex gap-2 mt-3">
+            <button class="btn-icon btn-icon-edit" style="width:auto;padding:0 10px;border-radius:6px;height:28px;font-size:12px;"><i class="bi bi-pencil-fill me-1"></i>Edit</button>
+            <button class="btn-outline-purple" style="padding:3px 10px;font-size:12px;border-radius:6px;">Archive</button>
+          </div>
+        </div>
+      </div>
+      <div class="col-6 col-lg-4">
+        <div class="ticket-cat-card coral">
+          <div class="d-flex justify-content-between align-items-start mb-2">
+            <div class="ticket-cat-name"><i class="bi bi-ticket-perforated-fill text-primary me-2"></i>General Admission</div>
+            <span class="badge-status badge-active">Active</span>
+          </div>
+          <div class="ticket-cat-stat">Price Range: <span>$20 � $80</span></div>
+          <div class="ticket-cat-stat">Total Sold: <span>840,000</span></div>
+          <div class="ticket-cat-stat">Revenue: <span>$1.1M</span></div>
+          <div class="d-flex gap-2 mt-3">
+            <button class="btn-icon btn-icon-edit" style="width:auto;padding:0 10px;border-radius:6px;height:28px;font-size:12px;"><i class="bi bi-pencil-fill me-1"></i>Edit</button>
+            <button class="btn-outline-purple" style="padding:3px 10px;font-size:12px;border-radius:6px;">Archive</button>
+          </div>
+        </div>
+      </div>
+      <div class="col-6 col-lg-4">
+        <div class="ticket-cat-card green">
+          <div class="d-flex justify-content-between align-items-start mb-2">
+            <div class="ticket-cat-name"><i class="bi bi-lightning-charge-fill text-info me-2"></i>Early Bird</div>
+            <span class="badge-status badge-active">Active</span>
+          </div>
+          <div class="ticket-cat-stat">Price Range: <span>$10 � $50</span></div>
+          <div class="ticket-cat-stat">Total Sold: <span>240,000</span></div>
+          <div class="ticket-cat-stat">Revenue: <span>$480K</span></div>
+          <div class="d-flex gap-2 mt-3">
+            <button class="btn-icon btn-icon-edit" style="width:auto;padding:0 10px;border-radius:6px;height:28px;font-size:12px;"><i class="bi bi-pencil-fill me-1"></i>Edit</button>
+            <button class="btn-outline-purple" style="padding:3px 10px;font-size:12px;border-radius:6px;">Archive</button>
+          </div>
+        </div>
+      </div>
+      <div class="col-6 col-lg-4">
+        <div class="ticket-cat-card blue">
+          <div class="d-flex justify-content-between align-items-start mb-2">
+            <div class="ticket-cat-name"><i class="bi bi-people-fill text-success me-2"></i>Group Pass</div>
+            <span class="badge-status badge-active">Active</span>
+          </div>
+          <div class="ticket-cat-stat">Price Range: <span>$15 � $60</span></div>
+          <div class="ticket-cat-stat">Total Sold: <span>95,000</span></div>
+          <div class="ticket-cat-stat">Revenue: <span>$290K</span></div>
+          <div class="d-flex gap-2 mt-3">
+            <button class="btn-icon btn-icon-edit" style="width:auto;padding:0 10px;border-radius:6px;height:28px;font-size:12px;"><i class="bi bi-pencil-fill me-1"></i>Edit</button>
+            <button class="btn-outline-purple" style="padding:3px 10px;font-size:12px;border-radius:6px;">Archive</button>
+          </div>
+        </div>
+      </div>
+      <div class="col-6 col-lg-4">
+        <div class="ticket-cat-card orange">
+          <div class="d-flex justify-content-between align-items-start mb-2">
+            <div class="ticket-cat-name"><i class="bi bi-mortarboard-fill text-purple me-2"></i>Student Pass</div>
+            <span class="badge-status badge-active">Active</span>
+          </div>
+          <div class="ticket-cat-stat">Price Range: <span>$8 � $35</span></div>
+          <div class="ticket-cat-stat">Total Sold: <span>72,000</span></div>
+          <div class="ticket-cat-stat">Revenue: <span>$168K</span></div>
+          <div class="d-flex gap-2 mt-3">
+            <button class="btn-icon btn-icon-edit" style="width:auto;padding:0 10px;border-radius:6px;height:28px;font-size:12px;"><i class="bi bi-pencil-fill me-1"></i>Edit</button>
+            <button class="btn-outline-purple" style="padding:3px 10px;font-size:12px;border-radius:6px;">Archive</button>
+          </div>
+        </div>
+      </div>
+      <div class="col-6 col-lg-4">
+        <div class="ticket-cat-card pink">
+          <div class="d-flex justify-content-between align-items-start mb-2">
+            <div class="ticket-cat-name"><i class="bi bi-globe2 text-secondary me-2"></i>Online-Only Pass</div>
+            <span class="badge-status badge-draft">Limited</span>
+          </div>
+          <div class="ticket-cat-stat">Price Range: <span>$5 � $25</span></div>
+          <div class="ticket-cat-stat">Total Sold: <span>310,000</span></div>
+          <div class="ticket-cat-stat">Revenue: <span>$620K</span></div>
+          <div class="d-flex gap-2 mt-3">
+            <button class="btn-icon btn-icon-edit" style="width:auto;padding:0 10px;border-radius:6px;height:28px;font-size:12px;"><i class="bi bi-pencil-fill me-1"></i>Edit</button>
+            <button class="btn-outline-purple" style="padding:3px 10px;font-size:12px;border-radius:6px;">Archive</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Revenue Reports -->
+    <div class="dash-card">
+      <div class="dash-card-header">
+        <h6><i class="bi bi-currency-dollar me-2" style="color:#22c55e;"></i>Revenue Reports</h6>
+        <div class="filter-tabs">
+          <span class="filter-tab active">Last 7d</span>
+          <span class="filter-tab">30d</span>
+          <span class="filter-tab">90d</span>
+          <span class="filter-tab">Custom</span>
+        </div>
+      </div>
+      <div class="dash-card-body">
+        <!-- Rev Summary -->
+        <div class="row g-3 mb-4">
+          <div class="col-6 col-lg-3"><div class="rev-card"><div class="rev-icon"><i class="bi bi-cash-stack text-success"></i></div><div class="rev-val">$4.2M</div><div class="rev-label">Gross Revenue</div></div></div>
+          <div class="col-6 col-lg-3"><div class="rev-card"><div class="rev-icon"><i class="bi bi-graph-up-arrow text-primary"></i></div><div class="rev-val">$3.8M</div><div class="rev-label">Net Revenue</div></div></div>
+          <div class="col-6 col-lg-3"><div class="rev-card"><div class="rev-icon"><i class="bi bi-arrow-counterclockwise text-warning"></i></div><div class="rev-val">$218K</div><div class="rev-label">Refunds</div></div></div>
+          <div class="col-6 col-lg-3"><div class="rev-card"><div class="rev-icon"><i class="bi bi-credit-card-2-front text-info"></i></div><div class="rev-val">$84K</div><div class="rev-label">Processing Fees</div></div></div>
+        </div>
+
+        <!-- Revenue Bar Chart -->
+        <div class="chart-container mb-4" style="height:220px;">
+          <canvas id="revenueByCatChart"></canvas>
+        </div>
+
+        <!-- Revenue by Month Table -->
+        <div style="overflow-x:auto;">
+          <table class="data-table">
+            <thead>
+              <tr><th>Month</th><th>Events</th><th>Tickets Sold</th><th>Gross Revenue</th><th>Refunds</th><th>Net Revenue</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>November 2026</td><td>124</td><td>48,200</td><td>$520K</td><td>$18K</td><td style="color:#16a34a;font-weight:700;">$502K</td></tr>
+              <tr><td>October 2026</td><td>138</td><td>62,400</td><td>$680K</td><td>$22K</td><td style="color:#16a34a;font-weight:700;">$658K</td></tr>
+              <tr><td>September 2026</td><td>112</td><td>41,000</td><td>$440K</td><td>$14K</td><td style="color:#16a34a;font-weight:700;">$426K</td></tr>
+              <tr><td>August 2026</td><td>160</td><td>74,000</td><td>$820K</td><td>$32K</td><td style="color:#16a34a;font-weight:700;">$788K</td></tr>
+              <tr><td>July 2026</td><td>145</td><td>68,000</td><td>$740K</td><td>$28K</td><td style="color:#16a34a;font-weight:700;">$712K</td></tr>
+              <tr style="background:#f1edff;font-weight:700;"><td>Total (5 months)</td><td>679</td><td>293,600</td><td>$3.2M</td><td>$114K</td><td style="color:var(--purple);font-weight:800;">$3.086M</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ----------------------- PANEL 5 � PAYMENTS + ANALYTICS -- -->
+  <section class="admin-panel scroll-anchor" id="panel-payments">
+    <div class="panel-header">
+      <div class="panel-title"><i class="bi bi-credit-card-fill"></i> Payment Management &amp; Analytics</div>
+    </div>
+    <hr class="panel-divider" />
+
+    <!-- Payment Transactions Table -->
+    <div class="dash-card mb-4">
+      <div class="dash-card-header">
+        <h6><i class="bi bi-receipt me-2" style="color:var(--purple)"></i>Payment Transactions</h6>
+        <div class="filter-tabs">
+          <span class="filter-tab active">All</span>
+          <span class="filter-tab">Completed</span>
+          <span class="filter-tab">Pending</span>
+          <span class="filter-tab">Failed</span>
+          <span class="filter-tab">Refunds</span>
+        </div>
+      </div>
+      <div style="overflow-x:auto;">
+        <table class="data-table">
+          <thead>
+            <tr><th>Transaction ID</th><th>User</th><th>Event</th><th>Amount</th><th>Method</th><th>Date</th><th>Status</th><th>Act.</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><span style="font-size:11.5px;color:var(--text-muted-custom);font-weight:600;">#TXN-28401</span></td><td>Marcus J.</td><td>Neon Beats</td><td style="font-weight:700;">$360</td><td><span style="font-size:12px;background:#635bff20;color:#635bff;padding:2px 8px;border-radius:5px;font-weight:600;">Stripe</span></td><td style="font-size:12.5px;">Nov 14, 2026</td><td><span class="badge-status badge-completed">Completed</span></td><td><button class="btn-icon btn-icon-view"><i class="bi bi-eye-fill"></i></button></td></tr>
+            <tr><td><span style="font-size:11.5px;color:var(--text-muted-custom);font-weight:600;">#TXN-28400</span></td><td>Ryan C.</td><td>Champions Final</td><td style="font-weight:700;">$1,200</td><td><span style="font-size:12px;background:#003087aa;color:#0070ba;padding:2px 8px;border-radius:5px;font-weight:600;">PayPal</span></td><td style="font-size:12.5px;">Nov 14, 2026</td><td><span class="badge-status badge-completed">Completed</span></td><td><button class="btn-icon btn-icon-view"><i class="bi bi-eye-fill"></i></button></td></tr>
+            <tr><td><span style="font-size:11.5px;color:var(--text-muted-custom);font-weight:600;">#TXN-28399</span></td><td>Priya K.</td><td>Jazz Under Stars</td><td style="font-weight:700;">$120</td><td><span style="font-size:12px;background:#22c55e20;color:#15803d;padding:2px 8px;border-radius:5px;font-weight:600;">Card</span></td><td style="font-size:12.5px;">Nov 13, 2026</td><td><span class="badge-status badge-refunded">Refunded</span></td><td><button class="btn-icon btn-icon-view"><i class="bi bi-eye-fill"></i></button></td></tr>
+            <tr><td><span style="font-size:11.5px;color:var(--text-muted-custom);font-weight:600;">#TXN-28398</span></td><td>Lena O.</td><td>TechSummit Global</td><td style="font-weight:700;">$299</td><td><span style="font-size:12px;background:#635bff20;color:#635bff;padding:2px 8px;border-radius:5px;font-weight:600;">Stripe</span></td><td style="font-size:12.5px;">Nov 13, 2026</td><td><span class="badge-status badge-completed">Completed</span></td><td><button class="btn-icon btn-icon-view"><i class="bi bi-eye-fill"></i></button></td></tr>
+            <tr><td><span style="font-size:11.5px;color:var(--text-muted-custom);font-weight:600;">#TXN-28397</span></td><td>Sara P.</td><td>Broadway Night</td><td style="font-weight:700;">$180</td><td><span style="font-size:12px;background:#22c55e20;color:#15803d;padding:2px 8px;border-radius:5px;font-weight:600;">Card</span></td><td style="font-size:12.5px;">Nov 12, 2026</td><td><span class="badge-status badge-pending">Pending</span></td><td><button class="btn-icon btn-icon-view"><i class="bi bi-eye-fill"></i></button></td></tr>
+            <tr><td><span style="font-size:11.5px;color:var(--text-muted-custom);font-weight:600;">#TXN-28396</span></td><td>Tom M.</td><td>Global Food Carnival</td><td style="font-weight:700;">$80</td><td><span style="font-size:12px;background:#0070ba20;color:#0070ba;padding:2px 8px;border-radius:5px;font-weight:600;">PayPal</span></td><td style="font-size:12.5px;">Nov 12, 2026</td><td><span class="badge-status badge-completed">Completed</span></td><td><button class="btn-icon btn-icon-view"><i class="bi bi-eye-fill"></i></button></td></tr>
+            <tr><td><span style="font-size:11.5px;color:var(--text-muted-custom);font-weight:600;">#TXN-28395</span></td><td>Aiko K.</td><td>Tokyo Marathon</td><td style="font-weight:700;">$95</td><td><span style="font-size:12px;background:#635bff20;color:#635bff;padding:2px 8px;border-radius:5px;font-weight:600;">Stripe</span></td><td style="font-size:12.5px;">Nov 11, 2026</td><td><span class="badge-status badge-completed">Completed</span></td><td><button class="btn-icon btn-icon-view"><i class="bi bi-eye-fill"></i></button></td></tr>
+            <tr><td><span style="font-size:11.5px;color:var(--text-muted-custom);font-weight:600;">#TXN-28394</span></td><td>Ben N.</td><td>NY Countdown Gala</td><td style="font-weight:700;">$160</td><td><span style="font-size:12px;background:#22c55e20;color:#15803d;padding:2px 8px;border-radius:5px;font-weight:600;">Card</span></td><td style="font-size:12.5px;">Nov 11, 2026</td><td><span class="badge-status badge-failed">Failed</span></td><td><button class="btn-icon btn-icon-view"><i class="bi bi-eye-fill"></i></button></td></tr>
+            <tr><td><span style="font-size:11.5px;color:var(--text-muted-custom);font-weight:600;">#TXN-28393</span></td><td>Chris T.</td><td>Startup Pitch Battle</td><td style="font-weight:700;">$220</td><td><span style="font-size:12px;background:#635bff20;color:#635bff;padding:2px 8px;border-radius:5px;font-weight:600;">Stripe</span></td><td style="font-size:12.5px;">Nov 10, 2026</td><td><span class="badge-status badge-completed">Completed</span></td><td><button class="btn-icon btn-icon-view"><i class="bi bi-eye-fill"></i></button></td></tr>
+            <tr><td><span style="font-size:11.5px;color:var(--text-muted-custom);font-weight:600;">#TXN-28392</span></td><td>Nina S.</td><td>Summer Rockfest</td><td style="font-weight:700;">$450</td><td><span style="font-size:12px;background:#0070ba20;color:#0070ba;padding:2px 8px;border-radius:5px;font-weight:600;">PayPal</span></td><td style="font-size:12.5px;">Nov 10, 2026</td><td><span class="badge-status badge-completed">Completed</span></td><td><button class="btn-icon btn-icon-view"><i class="bi bi-eye-fill"></i></button></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Refund Requests -->
+    <div class="dash-card mb-4">
+      <div class="dash-card-header">
+        <h6><i class="bi bi-arrow-return-left me-2" style="color:var(--coral)"></i>Refund Requests</h6>
+        <span class="badge bg-danger">5 Pending</span>
+      </div>
+      <div class="dash-card-body d-flex flex-column gap-3">
+        <div class="refund-card">
+          <div class="refund-info"><strong>Priya Kapoor</strong><span>Jazz Under Stars � Booking #BK-9819 � Nov 13, 2026</span><span style="font-size:12px;color:var(--text-muted-custom);margin-top:2px;display:block;">Reason: Event rescheduled, unable to attend</span></div>
+          <div class="refund-amount">$120.00</div>
+          <div class="refund-actions"><button class="btn-purple" style="padding:6px 14px;font-size:12px;background:linear-gradient(135deg,#15803D,#166534);">Approve</button><button class="btn-icon btn-icon-del" style="width:auto;padding:0 12px;border-radius:7px;height:32px;font-size:12px;">Deny</button></div>
+        </div>
+        <div class="refund-card">
+          <div class="refund-info"><strong>Alex Rivera</strong><span>Neon Beats VIP � Booking #BK-9801 � Nov 10, 2026</span><span style="font-size:12px;color:var(--text-muted-custom);margin-top:2px;display:block;">Reason: Duplicate purchase</span></div>
+          <div class="refund-amount">$500.00</div>
+          <div class="refund-actions"><button class="btn-purple" style="padding:6px 14px;font-size:12px;background:linear-gradient(135deg,#15803D,#166534);">Approve</button><button class="btn-icon btn-icon-del" style="width:auto;padding:0 12px;border-radius:7px;height:32px;font-size:12px;">Deny</button></div>
+        </div>
+        <div class="refund-card">
+          <div class="refund-info"><strong>Zhang Wei</strong><span>TechSummit Global � Booking #BK-9790 � Nov 8, 2026</span><span style="font-size:12px;color:var(--text-muted-custom);margin-top:2px;display:block;">Reason: Visa rejected, cannot travel</span></div>
+          <div class="refund-amount">$299.00</div>
+          <div class="refund-actions"><button class="btn-purple" style="padding:6px 14px;font-size:12px;background:linear-gradient(135deg,#15803D,#166534);">Approve</button><button class="btn-icon btn-icon-del" style="width:auto;padding:0 12px;border-radius:7px;height:32px;font-size:12px;">Deny</button></div>
+        </div>
+        <div class="refund-card">
+          <div class="refund-info"><strong>Fatima Al-Hamed</strong><span>Broadway Night Out � Booking #BK-9775 � Nov 6, 2026</span><span style="font-size:12px;color:var(--text-muted-custom);margin-top:2px;display:block;">Reason: Medical emergency</span></div>
+          <div class="refund-amount">$180.00</div>
+          <div class="refund-actions"><button class="btn-purple" style="padding:6px 14px;font-size:12px;background:linear-gradient(135deg,#15803D,#166534);">Approve</button><button class="btn-icon btn-icon-del" style="width:auto;padding:0 12px;border-radius:7px;height:32px;font-size:12px;">Deny</button></div>
+        </div>
+        <div class="refund-card">
+          <div class="refund-info"><strong>Carlos Mendez</strong><span>Champions League Final � Booking #BK-9760 � Nov 4, 2026</span><span style="font-size:12px;color:var(--text-muted-custom);margin-top:2px;display:block;">Reason: Pricing discrepancy noted at checkout</span></div>
+          <div class="refund-amount">$1,200.00</div>
+          <div class="refund-actions"><button class="btn-purple" style="padding:6px 14px;font-size:12px;background:linear-gradient(135deg,#15803D,#166534);">Approve</button><button class="btn-icon btn-icon-del" style="width:auto;padding:0 12px;border-radius:7px;height:32px;font-size:12px;">Deny</button></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Analytics -->
+    <div class="row g-3 mb-4">
+      <div class="col-lg-8">
+        <div class="dash-card">
+          <div class="dash-card-header">
+            <h6><i class="bi bi-graph-up me-2" style="color:var(--purple)"></i>Daily Active Users � Last 30 Days</h6>
+          </div>
+          <div class="dash-card-body">
+            <div class="chart-container" style="height:220px;">
+              <canvas id="dauChart"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <div class="dash-card">
+          <div class="dash-card-header">
+            <h6><i class="bi bi-pie-chart me-2" style="color:var(--coral)"></i>Traffic Sources</h6>
+          </div>
+          <div class="dash-card-body">
+            <div class="chart-container" style="height:170px;">
+              <canvas id="trafficPie"></canvas>
+            </div>
+            <div class="mt-3 d-flex flex-column gap-1" style="font-size:12px;">
+              <div class="d-flex justify-content-between"><span><span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:#7657E8;margin-right:5px;"></span>Organic</span><span style="font-weight:700;">42%</span></div>
+              <div class="d-flex justify-content-between"><span><span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:#FF766B;margin-right:5px;"></span>Social</span><span style="font-weight:700;">28%</span></div>
+              <div class="d-flex justify-content-between"><span><span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:#3b82f6;margin-right:5px;"></span>Direct</span><span style="font-weight:700;">18%</span></div>
+              <div class="d-flex justify-content-between"><span><span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:#22c55e;margin-right:5px;"></span>Email</span><span style="font-weight:700;">12%</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row g-3">
+      <div class="col-lg-6">
+        <div class="dash-card">
+          <div class="dash-card-header">
+            <h6><i class="bi bi-trophy-fill me-2" style="color:#f59e0b;"></i>Top 5 Events by Revenue</h6>
+          </div>
+          <div class="dash-card-body">
+            <div class="top5-row"><div class="top5-rank">1</div><div class="top5-name">Neon Beats Festival 2026</div><div class="top5-rev">$842K</div></div>
+            <div class="top5-row"><div class="top5-rank" style="background:#fef3c7;color:#d97706;">2</div><div class="top5-name">Champions League Final</div><div class="top5-rev">$620K</div></div>
+            <div class="top5-row"><div class="top5-rank" style="background:#fee2e2;color:#dc2626;">3</div><div class="top5-name">TechSummit Global 2026</div><div class="top5-rev">$410K</div></div>
+            <div class="top5-row"><div class="top5-rank">4</div><div class="top5-name">New Year Countdown Gala</div><div class="top5-rev">$380K</div></div>
+            <div class="top5-row"><div class="top5-rank">5</div><div class="top5-name">Summer Rockfest 2027</div><div class="top5-rev">$220K</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="dash-card">
+          <div class="dash-card-header">
+            <h6><i class="bi bi-filter-circle-fill me-2" style="color:var(--purple)"></i>Conversion Funnel</h6>
+          </div>
+          <div class="dash-card-body">
+            <div class="funnel-step"><div class="funnel-label"><span><i class="bi bi-eye-fill me-1 text-primary"></i>Visits</span><span>248,000</span></div><div class="funnel-bar-wrap"><div class="funnel-bar-fill" style="width:100%;"></div></div></div>
+            <div class="funnel-step"><div class="funnel-label"><span><i class="bi bi-grid-fill me-1 text-info"></i>Browse</span><span>182,000</span></div><div class="funnel-bar-wrap"><div class="funnel-bar-fill" style="width:73%;"></div></div></div>
+            <div class="funnel-step"><div class="funnel-label"><span><i class="bi bi-cart3 me-1 text-warning"></i>Cart</span><span>94,000</span></div><div class="funnel-bar-wrap"><div class="funnel-bar-fill" style="width:38%;"></div></div></div>
+            <div class="funnel-step"><div class="funnel-label"><span><i class="bi bi-credit-card me-1 text-purple"></i>Checkout</span><span>62,000</span></div><div class="funnel-bar-wrap"><div class="funnel-bar-fill" style="width:25%;"></div></div></div>
+            <div class="funnel-step"><div class="funnel-label"><span><i class="bi bi-check-circle-fill me-1 text-success"></i>Paid</span><span>48,200</span></div><div class="funnel-bar-wrap"><div class="funnel-bar-fill" style="width:19%;background:linear-gradient(90deg,#22c55e,#16a34a);"></div></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ----------------------- PANEL 6 � SETTINGS ----------- -->
+  <section class="admin-panel scroll-anchor" id="panel-settings">
+    <div class="panel-header">
+      <div class="panel-title"><i class="bi bi-gear-fill"></i> Settings</div>
+    </div>
+    <hr class="panel-divider" />
+
+    <!-- General Settings -->
+    <div class="settings-card">
+      <div class="settings-card-header">
+        <i class="bi bi-sliders"></i>
+        <h6>General Settings</h6>
+      </div>
+      <div class="settings-card-body">
+        <div class="settings-row">
+          <div class="settings-field"><label>Platform Name</label><input type="text" value="Eventora" /></div>
+          <div class="settings-field"><label>Tagline</label><input type="text" value="Discover &amp; Book Events Near You" /></div>
+        </div>
+        <div class="settings-row">
+          <div class="settings-field"><label>Logo Upload</label><input type="file" accept="image/*" /></div>
+          <div class="settings-field"><label>Timezone</label><select><option>UTC-5 (Eastern Time)</option><option>UTC-8 (Pacific Time)</option><option>UTC+0 (London)</option><option>UTC+5:30 (India)</option></select></div>
+        </div>
+        <div class="settings-row">
+          <div class="settings-field"><label>Currency</label><select><option>USD � US Dollar</option><option>EUR � Euro</option><option>GBP � British Pound</option></select></div>
+          <div class="settings-field"><label>Language</label><select><option>English (US)</option><option>Spanish</option><option>French</option><option>Arabic</option></select></div>
+        </div>
+        <div class="toggle-row">
+          <div class="toggle-row-info"><strong>Maintenance Mode</strong><span>Temporarily disable the platform for all users</span></div>
+          <div class="form-check form-switch"><input class="form-check-input" type="checkbox" /></div>
+        </div>
+        <button class="btn-save"><i class="bi bi-check-lg me-1"></i>Save General Settings</button>
+      </div>
+    </div>
+
+    <!-- Email Settings -->
+    <div class="settings-card">
+      <div class="settings-card-header">
+        <i class="bi bi-envelope-fill"></i>
+        <h6>Email Settings</h6>
+      </div>
+      <div class="settings-card-body">
+        <div class="settings-row">
+          <div class="settings-field"><label>SMTP Host</label><input type="text" value="smtp.eventora.com" /></div>
+          <div class="settings-field"><label>SMTP Port</label><input type="text" value="587" /></div>
+        </div>
+        <div class="settings-row">
+          <div class="settings-field"><label>SMTP Username</label><input type="text" value="noreply@eventora.com" /></div>
+          <div class="settings-field"><label>SMTP Password</label><input type="password" value="securepassword123" /></div>
+        </div>
+        <div class="settings-row">
+          <div class="settings-field"><label>From Name</label><input type="text" value="Eventora Team" /></div>
+          <div class="settings-field"><label>From Email</label><input type="email" value="noreply@eventora.com" /></div>
+        </div>
+
+        <div style="margin-top:16px;">
+          <div style="font-size:13px;font-weight:700;color:var(--navy);margin-bottom:10px;">Email Templates</div>
+          <div class="email-template-row">
+            <div><strong style="font-size:13.5px;">Booking Confirmed</strong><div style="font-size:12px;color:var(--text-muted-custom);">Sent when ticket purchase is successful</div></div>
+            <button class="btn-outline-purple" style="padding:5px 14px;font-size:12px;"><i class="bi bi-eye me-1"></i>Preview</button>
+          </div>
+          <div class="email-template-row">
+            <div><strong style="font-size:13.5px;">Event Reminder</strong><div style="font-size:12px;color:var(--text-muted-custom);">Sent 24 hours before event starts</div></div>
+            <button class="btn-outline-purple" style="padding:5px 14px;font-size:12px;"><i class="bi bi-eye me-1"></i>Preview</button>
+          </div>
+          <div class="email-template-row">
+            <div><strong style="font-size:13.5px;">Event Cancellation</strong><div style="font-size:12px;color:var(--text-muted-custom);">Sent when an event is cancelled or postponed</div></div>
+            <button class="btn-outline-purple" style="padding:5px 14px;font-size:12px;"><i class="bi bi-eye me-1"></i>Preview</button>
+          </div>
+        </div>
+
+        <button class="btn-save"><i class="bi bi-check-lg me-1"></i>Save Email Settings</button>
+      </div>
+    </div>
+
+    <!-- Payment Gateway Settings -->
+    <div class="settings-card">
+      <div class="settings-card-header">
+        <i class="bi bi-credit-card-2-front-fill"></i>
+        <h6>Payment Gateway Settings</h6>
+      </div>
+      <div class="settings-card-body">
+        <div style="font-size:14px;font-weight:700;color:var(--navy);margin-bottom:12px; display:flex; align-items:center; gap:8px;"><span style="background:#635bff20;color:#635bff;padding:3px 10px;border-radius:6px;font-size:12px;">Stripe</span></div>
+        <div class="settings-row">
+          <div class="settings-field"><label>Stripe Publishable Key</label><input type="password" value="pk_live_xxxxxxxxxxxxxxxxxxxx" /></div>
+          <div class="settings-field"><label>Stripe Secret Key</label><input type="password" value="sk_live_xxxxxxxxxxxxxxxxxxxx" /></div>
+        </div>
+        <div class="toggle-row">
+          <div class="toggle-row-info"><strong>Enable Stripe</strong><span>Accept payments via Stripe</span></div>
+          <div class="form-check form-switch"><input class="form-check-input" type="checkbox" checked /></div>
+        </div>
+
+        <div style="font-size:14px;font-weight:700;color:var(--navy);margin:16px 0 12px; display:flex; align-items:center; gap:8px;"><span style="background:#0070ba20;color:#0070ba;padding:3px 10px;border-radius:6px;font-size:12px;">PayPal</span></div>
+        <div class="settings-row">
+          <div class="settings-field"><label>PayPal Client ID</label><input type="password" value="client_id_xxxxxxxxxxxx" /></div>
+          <div class="settings-field"><label>PayPal Client Secret</label><input type="password" value="secret_xxxxxxxxxxxx" /></div>
+        </div>
+        <div class="toggle-row">
+          <div class="toggle-row-info"><strong>Enable PayPal</strong><span>Accept payments via PayPal</span></div>
+          <div class="form-check form-switch"><input class="form-check-input" type="checkbox" checked /></div>
+        </div>
+
+        <button class="btn-save"><i class="bi bi-check-lg me-1"></i>Save Payment Settings</button>
+      </div>
+    </div>
+
+    <!-- Notification Settings -->
+    <div class="settings-card">
+      <div class="settings-card-header">
+        <i class="bi bi-bell-fill"></i>
+        <h6>Notification Settings</h6>
+      </div>
+      <div class="settings-card-body">
+        <div class="toggle-row">
+          <div class="toggle-row-info"><strong>New Booking Alert</strong><span>Get notified when a new ticket is booked</span></div>
+          <div class="form-check form-switch"><input class="form-check-input" type="checkbox" checked /></div>
+        </div>
+        <div class="toggle-row">
+          <div class="toggle-row-info"><strong>Refund Request Alert</strong><span>Get notified when a refund is requested</span></div>
+          <div class="form-check form-switch"><input class="form-check-input" type="checkbox" checked /></div>
+        </div>
+        <div class="toggle-row">
+          <div class="toggle-row-info"><strong>Low Inventory Alert</strong><span>Alert when tickets fall below threshold</span></div>
+          <div class="form-check form-switch"><input class="form-check-input" type="checkbox" /></div>
+        </div>
+        <div class="toggle-row">
+          <div class="toggle-row-info"><strong>New Organizer Registration</strong><span>Get notified when a new organizer signs up</span></div>
+          <div class="form-check form-switch"><input class="form-check-input" type="checkbox" checked /></div>
+        </div>
+        <div class="toggle-row">
+          <div class="toggle-row-info"><strong>Daily Summary Email</strong><span>Receive a daily analytics digest at 9 AM</span></div>
+          <div class="form-check form-switch"><input class="form-check-input" type="checkbox" checked /></div>
+        </div>
+        <button class="btn-save"><i class="bi bi-check-lg me-1"></i>Save Notification Settings</button>
+      </div>
+    </div>
+
+    <!-- Security Settings -->
+    <div class="settings-card">
+      <div class="settings-card-header">
+        <i class="bi bi-shield-lock-fill"></i>
+        <h6>Security Settings</h6>
+      </div>
+      <div class="settings-card-body">
+        <div class="toggle-row">
+          <div class="toggle-row-info"><strong>Two-Factor Authentication (2FA)</strong><span>Require 2FA for all admin accounts</span></div>
+          <div class="form-check form-switch"><input class="form-check-input" type="checkbox" checked /></div>
+        </div>
+        <div class="settings-row" style="margin-top:14px;">
+          <div class="settings-field"><label>Session Timeout (minutes)</label><input type="number" value="30" /></div>
+          <div class="settings-field"><label>Max Login Attempts</label><input type="number" value="5" /></div>
+        </div>
+        <div class="settings-row">
+          <div class="settings-field" style="flex:1 1 100%;"><label>IP Whitelist <span style="font-size:11px;color:var(--text-muted-custom);">(comma-separated)</span></label><input type="text" value="192.168.1.1, 10.0.0.1, 203.0.113.42" /></div>
+        </div>
+        <button class="btn-save"><i class="bi bi-check-lg me-1"></i>Save Security Settings</button>
+
+        <!-- Danger Zone -->
+        <div class="danger-zone mt-4">
+          <h6><i class="bi bi-exclamation-triangle-fill me-2"></i>Danger Zone</h6>
+          <p style="font-size:13px;color:var(--text-muted-custom);margin-bottom:14px;">These actions are irreversible. Proceed with extreme caution.</p>
+          <button class="btn-danger-custom"><i class="bi bi-trash3 me-1"></i>Clear Cache</button>
+          <button class="btn-danger-custom"><i class="bi bi-arrow-counterclockwise me-1"></i>Reset Analytics</button>
+          <button class="btn-danger-custom"><i class="bi bi-cloud-download me-1"></i>Export All Data</button>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+</main><!-- /admin-main -->
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+/* --- Sidebar Toggle --- */
+function setHamburgerState(open) {
+  const icon = document.getElementById('hamburgerIcon');
+  const btn = document.getElementById('hamburgerBtn');
+  if (icon) icon.className = open ? 'bi bi-x-lg' : 'bi bi-list';
+  if (btn) btn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+}
+function toggleSidebar() {
+  const sidebar = document.getElementById('adminSidebar');
+  sidebar.classList.toggle('open');
+  const open = sidebar.classList.contains('open');
+  document.getElementById('sidebarOverlay').style.display = open ? 'block' : 'none';
+  setHamburgerState(open);
+}
+function closeSidebar() {
+  document.getElementById('adminSidebar').classList.remove('open');
+  document.getElementById('sidebarOverlay').style.display = 'none';
+  setHamburgerState(false);
+}
+window.addEventListener('resize', () => {
+  if (window.innerWidth > 1024) closeSidebar();
+});
+
+/* --- Active Sidebar Link --- */
+function scrollToPanel(id) {
+  document.querySelectorAll('.sidebar-link').forEach(el => {
+    el.classList.remove('active');
+    if ((el.getAttribute('onclick') || '').indexOf("'" + id + "'") !== -1) el.classList.add('active');
+  });
+  const target = document.getElementById(id);
+  if (target) target.scrollIntoView({ behavior: 'smooth' });
+  if (window.innerWidth <= 1024) closeSidebar();
+}
+
+/* --- Filter Tabs --- */
+document.querySelectorAll('.filter-tab').forEach(tab => {
+  tab.addEventListener('click', function() {
+    this.closest('.filter-tabs').querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+    this.classList.add('active');
+  });
+});
+
+/* -----------------------------------
+   Chart.js Configurations
+----------------------------------- */
+const purpleGrad = (ctx, chartArea) => {
+  if (!chartArea) return '#7657E8';
+  const gradient = ctx.createLinearGradient(0, chartArea.top, 0, chartArea.bottom);
+  gradient.addColorStop(0, 'rgba(118,87,232,0.4)');
+  gradient.addColorStop(1, 'rgba(118,87,232,0.0)');
+  return gradient;
+};
+
+/* Revenue Area Chart */
+const revCtx = document.getElementById('revenueChart').getContext('2d');
+const revenueChart = new Chart(revCtx, {
+  type: 'line',
+  data: {
+    labels: ['Dec','Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov'],
+    datasets: [{
+      label: 'Revenue ($K)',
+      data: [210, 280, 240, 320, 380, 420, 390, 510, 580, 440, 620, 680],
+      borderColor: '#7657E8',
+      borderWidth: 2.5,
+      fill: true,
+      backgroundColor: (ctx) => {
+        const chart = ctx.chart;
+        const { ctx: c, chartArea } = chart;
+        return purpleGrad(c, chartArea);
+      },
+      tension: 0.45,
+      pointBackgroundColor: '#7657E8',
+      pointRadius: 4,
+      pointHoverRadius: 6,
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: { legend: { display: false } },
+    scales: {
+      x: { grid: { display: false }, ticks: { font: { size: 11 }, color: '#475569' } },
+      y: { grid: { color: 'rgba(21,27,53,0.05)' }, ticks: { font: { size: 11 }, color: '#475569', callback: v => '$' + v + 'K' } }
+    }
+  }
+});
+
+/* Doughnut - Sales by Category */
+const donutCtx = document.getElementById('categoryDonut').getContext('2d');
+new Chart(donutCtx, {
+  type: 'doughnut',
+  data: {
+    labels: ['Music', 'Sports', 'Tech', 'Business', 'Other'],
+    datasets: [{
+      data: [35, 20, 25, 10, 10],
+      backgroundColor: ['#7657E8','#FF766B','#3b82f6','#22c55e','#a78bfa'],
+      borderWidth: 0,
+      hoverOffset: 8
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    cutout: '72%',
+    plugins: { legend: { display: false } }
+  }
+});
+
+/* Revenue by Category Bar Chart */
+const revCatCtx = document.getElementById('revenueByCatChart').getContext('2d');
+new Chart(revCatCtx, {
+  type: 'bar',
+  data: {
+    labels: ['VIP Pass','General','Early Bird','Group','Student','Online-Only'],
+    datasets: [{
+      label: 'Revenue ($K)',
+      data: [2800, 1100, 480, 290, 168, 620],
+      backgroundColor: ['#7657E8','#FF766B','#22c55e','#3b82f6','#f59e0b','#ec4899'],
+      borderRadius: 8,
+      borderSkipped: false
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: { legend: { display: false } },
+    scales: {
+      x: { grid: { display: false }, ticks: { font: { size: 11 }, color: '#475569' } },
+      y: { grid: { color: 'rgba(21,27,53,0.05)' }, ticks: { font: { size: 11 }, color: '#475569', callback: v => '$' + v + 'K' } }
+    }
+  }
+});
+
+/* Daily Active Users Line Chart */
+const dauCtx = document.getElementById('dauChart').getContext('2d');
+const dauLabels = Array.from({length:30}, (_,i) => `Oct ${i+15}`).concat(Array.from({length:5}, (_,i) => `Nov ${i+1}`)).slice(0,30);
+const dauData = [2100,2340,2180,2600,2850,2700,3100,2900,3200,3400,3100,3600,3900,3700,4100,4300,4000,4500,4800,4600,5000,4900,5200,5400,5100,5600,5800,5500,6000,6200];
+new Chart(dauCtx, {
+  type: 'line',
+  data: {
+    labels: Array.from({length:30}, (_,i) => `Day ${i+1}`),
+    datasets: [{
+      label: 'DAU',
+      data: dauData,
+      borderColor: '#FF766B',
+      borderWidth: 2.5,
+      fill: true,
+      backgroundColor: 'rgba(255,118,107,0.1)',
+      tension: 0.4,
+      pointRadius: 0,
+      pointHoverRadius: 5,
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: { legend: { display: false } },
+    scales: {
+      x: { grid: { display: false }, ticks: { font: { size: 10 }, color: '#475569', maxTicksLimit: 10 } },
+      y: { grid: { color: 'rgba(21,27,53,0.05)' }, ticks: { font: { size: 11 }, color: '#475569' } }
+    }
+  }
+});
+
+/* Traffic Sources Pie */
+const trafCtx = document.getElementById('trafficPie').getContext('2d');
+new Chart(trafCtx, {
+  type: 'pie',
+  data: {
+    labels: ['Organic','Social','Direct','Email'],
+    datasets: [{
+      data: [42, 28, 18, 12],
+      backgroundColor: ['#7657E8','#FF766B','#3b82f6','#22c55e'],
+      borderWidth: 0,
+      hoverOffset: 6
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: { legend: { display: false } }
+  }
+});
+</script>
+<script>
+  function applyAdminTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('eventora-theme', theme);
+    const icon = document.getElementById('adminThemeIcon');
+    if (icon) {
+      icon.className = theme === 'dark' ? 'bi bi-sun-fill text-warning' : 'bi bi-moon-stars-fill';
+    }
+  }
+
+  function toggleAdminTheme() {
+    const cur = document.documentElement.getAttribute('data-theme') || 'light';
+    const next = cur === 'dark' ? 'light' : 'dark';
+    applyAdminTheme(next);
+  }
+
+  // Init theme from storage or system preference
+  (function() {
+    const saved = localStorage.getItem('eventora-theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    applyAdminTheme(saved);
+  })();
+</script>
+</body>
+</html>

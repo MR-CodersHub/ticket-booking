@@ -1,0 +1,1458 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Services — Eventora</title>
+  <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg" />
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
+  <!-- Shared CSS -->
+  <link rel="stylesheet" href="assets/css/style.css" />
+  <style>
+    :root {
+      --navy: #151B35;
+      --purple: #7657E8;
+      --coral: #FF766B;
+      --lavender: #F1EDFF;
+      --white: #FFFFFF;
+      --navy-light: #1e2748;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      color: #2d2d2d;
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    /* ─── NAVBAR ─────────────────────────────────── */
+    .navbar-eventora {
+      background: rgba(21, 27, 53, 0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(118, 87, 232, 0.2);
+      transition: all 0.3s ease;
+      padding: 14px 0;
+    }
+    .navbar-eventora .navbar-brand {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 800;
+      font-size: 1.5rem;
+      color: var(--white) !important;
+    }
+    .navbar-eventora .navbar-brand span { color: var(--coral); }
+    .navbar-eventora .nav-link {
+      color: rgba(255,255,255,0.8) !important;
+      font-weight: 500;
+      font-size: 0.92rem;
+      padding: 6px 14px !important;
+      transition: color 0.2s;
+    }
+    .navbar-eventora .nav-link:hover,
+    .navbar-eventora .nav-link.active { color: var(--coral) !important; }
+    .btn-nav-cta {
+      background: linear-gradient(135deg, var(--purple), var(--coral));
+      color: #fff !important;
+      border-radius: 50px;
+      padding: 8px 22px !important;
+      font-weight: 600;
+      font-size: 0.88rem;
+      transition: opacity 0.2s, transform 0.2s;
+    }
+    .btn-nav-cta:hover { opacity: 0.9; transform: translateY(-1px); }
+
+    /* ─── SECTION GENERIC ─────────────────────── */
+    .section-tag {
+      display: inline-block;
+      background: rgba(118,87,232,0.12);
+      border: 1px solid rgba(118,87,232,0.3);
+      color: var(--purple);
+      padding: 5px 16px;
+      border-radius: 50px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-bottom: 14px;
+    }
+    .section-heading {
+      font-size: clamp(1.9rem, 3.5vw, 2.9rem);
+      font-weight: 800;
+      color: var(--navy);
+      line-height: 1.2;
+      position: relative;
+      display: inline-block;
+      margin-bottom: 16px;
+    }
+    .section-heading::after {
+      content: '';
+      position: absolute;
+      bottom: -8px;
+      left: 0;
+      width: 56px;
+      height: 4px;
+      background: var(--coral);
+      border-radius: 2px;
+    }
+    .section-sub { color: #475569; font-size: 1.05rem; }
+
+    /* ─── SCROLL ANIMATION ───────────────────── */
+    .animate-on-scroll {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.65s ease, transform 0.65s ease;
+    }
+    .animate-on-scroll.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ═══ SECTION 1 — SERVICES HERO ═══════════ */
+    #svc-hero {
+      min-height: 90vh;
+      background: linear-gradient(135deg, rgba(21,27,53,0.92) 0%, rgba(35,26,92,0.88) 55%, rgba(26,16,64,0.94) 100%),
+                  url('https://images.unsplash.com/photo-1511578314322-379afb476865?w=1600&q=80') center/cover no-repeat;
+      display: flex;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+      padding-top: 90px;
+    }
+    #svc-hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 20% 50%, rgba(118,87,232,0.25) 0%, transparent 55%),
+                  radial-gradient(ellipse at 80% 30%, rgba(255,118,107,0.1) 0%, transparent 50%);
+    }
+    .hero-geo {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+    }
+    .hero-geo span {
+      position: absolute;
+      border-radius: 50%;
+      border: 1px solid rgba(118,87,232,0.12);
+    }
+    .hero-geo span:nth-child(1) { width: 500px; height: 500px; top: -150px; right: -100px; }
+    .hero-geo span:nth-child(2) { width: 300px; height: 300px; bottom: -80px; left: -60px; }
+    .hero-geo span:nth-child(3) { width: 200px; height: 200px; top: 40%; right: 20%; border-color: rgba(255,118,107,0.1); }
+
+    .svc-hero-title {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: clamp(2.4rem, 5.5vw, 4.2rem);
+      font-weight: 800;
+      color: var(--white);
+      line-height: 1.1;
+      margin-bottom: 24px;
+    }
+    .coral-underline {
+      position: relative;
+      display: inline-block;
+    }
+    .coral-underline::after {
+      content: '';
+      position: absolute;
+      bottom: 2px;
+      left: 0;
+      width: 100%;
+      height: 5px;
+      background: var(--coral);
+      border-radius: 3px;
+      opacity: 0.85;
+    }
+
+    .svc-hero-sub { color: rgba(255,255,255,0.72); font-size: 1.1rem; max-width: 580px; margin-bottom: 36px; }
+
+    .breadcrumb-wrap .breadcrumb-item a { color: rgba(255,255,255,0.6); text-decoration: none; font-size: 0.88rem; }
+    .breadcrumb-wrap .breadcrumb-item.active { color: var(--coral); font-size: 0.88rem; }
+    .breadcrumb-wrap .breadcrumb-item+.breadcrumb-item::before { color: rgba(255,255,255,0.4); }
+
+    /* animated icon row */
+    .icon-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-top: 48px;
+    }
+    .icon-pill {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(118,87,232,0.3);
+      border-radius: 50px;
+      padding: 10px 20px;
+      color: rgba(255,255,255,0.85);
+      font-size: 0.88rem;
+      font-weight: 500;
+      animation: floatPill 3s ease-in-out infinite;
+    }
+    .icon-pill:nth-child(2) { animation-delay: 0.3s; }
+    .icon-pill:nth-child(3) { animation-delay: 0.6s; }
+    .icon-pill:nth-child(4) { animation-delay: 0.9s; }
+    .icon-pill:nth-child(5) { animation-delay: 1.2s; }
+    @keyframes floatPill {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-5px); }
+    }
+    .icon-pill i { color: var(--coral); font-size: 1.1rem; }
+
+    /* ═══ SECTION 2 — SERVICES OVERVIEW ═══════ */
+    #services-overview { padding: 100px 0; background: #fff; }
+
+    .svc-card {
+      border-radius: 24px;
+      padding: 40px 36px;
+      height: 100%;
+      transition: all 0.35s ease;
+      border: 1px solid rgba(118,87,232,0.08);
+      position: relative;
+      overflow: hidden;
+    }
+    .svc-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 24px;
+      opacity: 0;
+      transition: opacity 0.35s;
+    }
+    .svc-card:hover { transform: translateY(-8px); }
+
+    .svc-card.light {
+      background: var(--white);
+      box-shadow: 0 4px 24px rgba(21,27,53,0.06);
+    }
+    .svc-card.light:hover { box-shadow: 0 20px 50px rgba(118,87,232,0.12); border-color: rgba(118,87,232,0.2); }
+
+    .svc-card.dark {
+      background: var(--navy);
+      border-color: rgba(118,87,232,0.2);
+    }
+    .svc-card.dark:hover { box-shadow: 0 20px 50px rgba(118,87,232,0.25); }
+    .svc-card.dark .svc-card-title { color: var(--white); }
+    .svc-card.dark .svc-card-desc { color: rgba(255,255,255,0.65); }
+    .svc-card.dark .svc-feature-item { color: rgba(255,255,255,0.75); }
+    .svc-card.dark .svc-learn-link { color: var(--coral); }
+    [data-theme="light"] .svc-card:not(.dark) .svc-learn-link { color: #B91C1C !important; }
+
+    .svc-icon-wrap {
+      width: 64px; height: 64px;
+      background: linear-gradient(135deg, rgba(118,87,232,0.12), rgba(255,118,107,0.08));
+      border-radius: 18px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.8rem;
+      margin-bottom: 24px;
+      transition: transform 0.3s;
+    }
+    .svc-card:hover .svc-icon-wrap { transform: scale(1.1) rotate(-3deg); }
+    .svc-card.dark .svc-icon-wrap {
+      background: rgba(118,87,232,0.2);
+    }
+
+    .svc-card-title {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+      font-size: 1.3rem;
+      color: var(--navy);
+      margin-bottom: 12px;
+    }
+    .svc-card-desc { color: #475569; font-size: 0.93rem; line-height: 1.7; margin-bottom: 20px; }
+    .svc-feature-list { list-style: none; padding: 0; margin-bottom: 24px; }
+    .svc-feature-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      color: #374151;
+      font-size: 0.88rem;
+      margin-bottom: 10px;
+    }
+    .svc-feature-item::before {
+      content: '\F270'; font-family: 'bootstrap-icons';
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 20px; height: 20px;
+      background: linear-gradient(135deg, var(--purple), var(--coral));
+      border-radius: 50%;
+      color: #fff;
+      font-size: 0.65rem;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .svc-learn-link {
+      color: var(--purple);
+      font-weight: 600;
+      font-size: 0.88rem;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: gap 0.2s;
+    }
+    .svc-learn-link:hover { gap: 10px; }
+
+    /* ═══ SECTION 3 — HOW IT WORKS ═══════════ */
+    #how-it-works { padding: 100px 0; background: var(--lavender); }
+
+    .step-wrap {
+      display: flex;
+      align-items: flex-start;
+      gap: 0;
+      position: relative;
+    }
+
+    .step-connector {
+      position: absolute;
+      top: 32px;
+      left: calc(25% - 10px);
+      width: calc(75% - 10px + 25% - 10px);
+      height: 2px;
+      background: none;
+      border-top: 2px dashed rgba(118,87,232,0.35);
+      z-index: 0;
+    }
+    /* desktop connectors between each step */
+    .steps-row { position: relative; }
+    .steps-row::after {
+      content: '';
+      position: absolute;
+      top: 36px;
+      left: calc(12.5%);
+      width: calc(75%);
+      height: 2px;
+      border-top: 2px dashed rgba(118,87,232,0.35);
+      z-index: 0;
+    }
+
+    .step-card {
+      text-align: center;
+      padding: 10px 20px;
+      position: relative;
+      z-index: 1;
+    }
+    .step-num {
+      width: 72px; height: 72px;
+      background: linear-gradient(135deg, var(--purple), var(--coral));
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 800;
+      font-size: 1.4rem;
+      color: #fff;
+      margin: 0 auto 20px;
+      box-shadow: 0 8px 24px rgba(118,87,232,0.35);
+    }
+    .step-icon { font-size: 1.5rem; margin-bottom: 12px; display: block; }
+    .step-title {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: var(--navy);
+      margin-bottom: 8px;
+    }
+    .step-desc { color: #475569; font-size: 0.88rem; line-height: 1.65; }
+
+    .step-arrow {
+      position: absolute;
+      top: 36px;
+      right: -16px;
+      color: rgba(118,87,232,0.4);
+      font-size: 1.3rem;
+      z-index: 2;
+    }
+
+    /* ═══ SECTION 4 — PRICING ════════════════ */
+    #pricing { padding: 100px 0; background: #fff; }
+
+    .price-card {
+      border-radius: 24px;
+      padding: 44px 36px;
+      border: 1px solid rgba(118,87,232,0.12);
+      text-align: center;
+      transition: all 0.35s;
+      position: relative;
+      background: #fff;
+      height: 100%;
+    }
+    .price-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 24px 60px rgba(118,87,232,0.12);
+    }
+    .price-card.pro {
+      border: 2px solid var(--purple);
+      box-shadow: 0 12px 40px rgba(118,87,232,0.18);
+    }
+    .price-card.pro:hover {
+      box-shadow: 0 28px 70px rgba(118,87,232,0.28);
+    }
+    .popular-badge {
+      position: absolute;
+      top: -14px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: linear-gradient(135deg, var(--purple), var(--coral));
+      color: #fff;
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 5px 18px;
+      border-radius: 50px;
+      white-space: nowrap;
+      letter-spacing: 0.5px;
+    }
+    .price-plan-name {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+      font-size: 1rem;
+      color: var(--purple);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 12px;
+    }
+    .price-amount {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 3rem;
+      font-weight: 800;
+      color: var(--navy);
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+    .price-amount sup { font-size: 1.3rem; vertical-align: super; }
+    .price-period { color: #64748B; font-size: 0.85rem; margin-bottom: 28px; }
+    .price-features { list-style: none; padding: 0; margin-bottom: 32px; text-align: left; }
+    .price-features li {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 0;
+      font-size: 0.9rem;
+      color: #374151;
+      border-bottom: 1px solid rgba(0,0,0,0.04);
+    }
+    .price-features li:last-child { border-bottom: none; }
+    .check-icon {
+      width: 22px; height: 22px;
+      background: linear-gradient(135deg, var(--purple), var(--coral));
+      border-radius: 50%;
+      display: inline-flex; align-items: center; justify-content: center;
+      color: #fff;
+      font-size: 0.65rem;
+      flex-shrink: 0;
+    }
+    .cross-icon {
+      width: 22px; height: 22px;
+      background: rgba(0,0,0,0.06);
+      border-radius: 50%;
+      display: inline-flex; align-items: center; justify-content: center;
+      color: #64748B;
+      font-size: 0.65rem;
+      flex-shrink: 0;
+    }
+    .price-features li.disabled { color: #64748B; }
+    .btn-price-primary {
+      background: linear-gradient(135deg, var(--purple), var(--coral));
+      color: #fff;
+      border: none;
+      border-radius: 50px;
+      padding: 13px 36px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      width: 100%;
+      transition: all 0.3s;
+    }
+    .btn-price-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 28px rgba(118,87,232,0.4); color: #fff; }
+    .btn-price-outline {
+      background: transparent;
+      color: var(--purple);
+      border: 2px solid var(--purple);
+      border-radius: 50px;
+      padding: 12px 36px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      width: 100%;
+      transition: all 0.3s;
+    }
+    .btn-price-outline:hover { background: var(--purple); color: #fff; }
+
+    /* ═══ SECTION 5 — SERVICE STATS ══════════ */
+    #svc-stats {
+      padding: 100px 0;
+      background: var(--navy);
+      position: relative;
+      overflow: hidden;
+    }
+    /* geometric SVG background pattern */
+    #svc-stats::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        repeating-linear-gradient(45deg, rgba(118,87,232,0.04) 0px, rgba(118,87,232,0.04) 1px, transparent 1px, transparent 20px),
+        repeating-linear-gradient(-45deg, rgba(118,87,232,0.04) 0px, rgba(118,87,232,0.04) 1px, transparent 1px, transparent 20px);
+    }
+    #svc-stats::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 50% 50%, rgba(118,87,232,0.12) 0%, transparent 65%);
+    }
+    .stats-content { position: relative; z-index: 1; }
+
+    .stat-counter {
+      text-align: center;
+      padding: 40px 20px;
+    }
+    .stat-num-lg {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: clamp(2.8rem, 5vw, 4rem);
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--purple), var(--coral));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      display: block;
+      margin-bottom: 8px;
+    }
+    .stat-label-lg {
+      color: rgba(255,255,255,0.65);
+      font-size: 0.95rem;
+      font-weight: 500;
+    }
+    .stat-divider {
+      border-left: 1px solid rgba(255,255,255,0.08);
+    }
+
+    /* ═══ SECTION 6 — FEATURES GRID + CTA ════ */
+    #features-cta { padding: 100px 0; background: #f8f7ff; }
+
+    .feature-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 18px;
+      padding: 28px 24px;
+      background: var(--white);
+      border-radius: 18px;
+      border: 1px solid rgba(118,87,232,0.08);
+      transition: all 0.35s;
+      height: 100%;
+    }
+    .feature-item:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 16px 40px rgba(118,87,232,0.1);
+      border-color: rgba(118,87,232,0.2);
+    }
+    .feature-icon-box {
+      width: 52px; height: 52px;
+      background: linear-gradient(135deg, var(--lavender), rgba(118,87,232,0.12));
+      border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem;
+      flex-shrink: 0;
+    }
+    .feature-title {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+      font-size: 1rem;
+      color: var(--navy);
+      margin-bottom: 6px;
+    }
+    .feature-desc { color: #475569; font-size: 0.85rem; line-height: 1.6; }
+
+    /* CTA card */
+    .cta-band {
+      background: linear-gradient(135deg, var(--navy) 0%, #2a1f5e 50%, var(--navy) 100%);
+      border-radius: 24px;
+      padding: 70px 48px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      margin-top: 60px;
+    }
+    .cta-band::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 30% 50%, rgba(118,87,232,0.2) 0%, transparent 60%),
+                  radial-gradient(circle at 70% 50%, rgba(255,118,107,0.1) 0%, transparent 60%);
+    }
+    .cta-band-title {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: clamp(1.6rem, 3vw, 2.6rem);
+      font-weight: 800;
+      color: var(--white);
+      margin-bottom: 14px;
+      position: relative;
+    }
+    .cta-band-sub { color: rgba(255,255,255,0.65); margin-bottom: 36px; position: relative; font-size: 1.05rem; }
+    .btn-cta-demo {
+      background: linear-gradient(135deg, var(--purple), var(--coral));
+      color: #fff;
+      border: none;
+      border-radius: 50px;
+      padding: 16px 44px;
+      font-weight: 700;
+      font-size: 1.05rem;
+      transition: all 0.3s;
+      position: relative;
+      display: inline-flex; align-items: center; gap: 10px;
+    }
+    .btn-cta-demo:hover { transform: translateY(-3px); box-shadow: 0 12px 36px rgba(118,87,232,0.4); color: #fff; }
+
+    /* ─── FOOTER ─────────────────────────────── */
+    footer {
+      background: var(--navy);
+      border-top: 1px solid rgba(255,255,255,0.06);
+      padding: 60px 0 28px;
+      color: rgba(255,255,255,0.65);
+    }
+    .footer-brand { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 1.5rem; color: var(--white); }
+    .footer-brand span { color: var(--coral); }
+    .footer-desc { font-size: 0.88rem; line-height: 1.7; margin-top: 10px; max-width: 260px; }
+    .footer-heading { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; color: var(--white); font-size: 0.95rem; margin-bottom: 16px; }
+    .footer-links { list-style: none; padding: 0; }
+    .footer-links li { margin-bottom: 10px; }
+    .footer-links a { color: rgba(255,255,255,0.6); text-decoration: none; font-size: 0.88rem; transition: color 0.2s; }
+    .footer-links a:hover { color: var(--coral); }
+    .footer-bottom { border-top: 1px solid rgba(255,255,255,0.06); padding-top: 20px; margin-top: 44px; font-size: 0.82rem; }
+    .footer-social a {
+      width: 36px; height: 36px;
+      display: inline-flex; align-items: center; justify-content: center;
+      background: rgba(255,255,255,0.06);
+      border-radius: 50%;
+      color: rgba(255,255,255,0.65);
+      margin-right: 8px;
+      transition: all 0.2s;
+      text-decoration: none;
+    }
+    .footer-social a:hover { background: var(--purple); color: #fff; }
+
+    @media (max-width: 768px) {
+      .steps-row::after { display: none; }
+      .step-arrow { display: none; }
+      .cta-band { padding: 44px 24px; }
+      .stat-divider { border-left: none; border-top: 1px solid rgba(255,255,255,0.08); }
+    }
+      /* ─── LIGHT MODE HIGH CONTRAST RULES ─── */
+    [data-theme="light"] body { background: #FFFFFF !important; color: #151B35 !important; }
+    [data-theme="light"] .navbar-eventora { background: rgba(255,255,255,0.95) !important; border-bottom: 1px solid #E2E8F0 !important; }
+    [data-theme="light"] .navbar-eventora .navbar-brand { color: #151B35 !important; }
+    [data-theme="light"] .navbar-eventora .nav-link { color: #151B35 !important; font-weight: 600 !important; }
+    [data-theme="light"] .navbar-eventora .nav-link:hover,
+    [data-theme="light"] .navbar-eventora .nav-link.active { color: #7657E8 !important; }
+    [data-theme="light"] #services-overview { background: #FFFFFF !important; }
+    [data-theme="light"] #how-it-works { background: #F8F9FD !important; }
+    [data-theme="light"] #pricing { background: #FFFFFF !important; }
+    [data-theme="light"] #features { background: #F8F9FD !important; }
+    [data-theme="light"] .svc-card.light {
+      background: #FFFFFF !important;
+      border: 1px solid #E2E8F0 !important;
+      box-shadow: 0 4px 20px rgba(21,27,53,0.06) !important;
+    }
+    [data-theme="light"] .svc-card.dark {
+      background: #F1EDFF !important;
+      border: 1px solid #D1D5E8 !important;
+    }
+    [data-theme="light"] .svc-card.dark .svc-card-title { color: #151B35 !important; }
+    [data-theme="light"] .svc-card.dark .svc-card-desc { color: #475569 !important; }
+    [data-theme="light"] .svc-card.dark .svc-feature-item { color: #334155 !important; }
+    [data-theme="light"] .svc-card-title { color: #151B35 !important; }
+    [data-theme="light"] .svc-card-desc { color: #475569 !important; }
+    [data-theme="light"] .svc-feature-item { color: #334155 !important; }
+    [data-theme="light"] .step-card { background: #FFFFFF !important; border: 1px solid #E2E8F0 !important; }
+    [data-theme="light"] .step-title { color: #151B35 !important; }
+    [data-theme="light"] .step-desc { color: #475569 !important; }
+    [data-theme="light"] .price-card { background: #FFFFFF !important; border: 1px solid #E2E8F0 !important; }
+    [data-theme="light"] .price-amount { color: #151B35 !important; }
+    [data-theme="light"] .price-period { color: #64748B !important; }
+    [data-theme="light"] .price-features li { color: #334155 !important; }
+    [data-theme="light"] .price-features li.disabled { color: #94A3B8 !important; }
+    [data-theme="light"] .section-heading { color: #151B35 !important; }
+    [data-theme="light"] .section-sub { color: #475569 !important; }
+    /* ─── DUAL MODE HIGH CONTRAST ─── */
+    [data-theme="dark"] #services-overview { background: #0B0F1E !important; }
+    [data-theme="dark"] #how-it-works { background: #131933 !important; }
+    [data-theme="dark"] #pricing { background: #0B0F1E !important; }
+    [data-theme="dark"] #features { background: #131933 !important; }
+    [data-theme="dark"] .svc-card.light {
+      background: #151B35 !important;
+      border-color: rgba(255,255,255,0.14) !important;
+      color: #F8FAFC !important;
+    }
+    [data-theme="dark"] .svc-card.dark {
+      background: #1E2748 !important;
+      border-color: rgba(118,87,232,0.3) !important;
+    }
+    [data-theme="dark"] .svc-card-title { color: #FFFFFF !important; }
+    [data-theme="dark"] .svc-card-desc { color: #CBD5E1 !important; }
+    [data-theme="dark"] .svc-feature-item { color: #E2E8F0 !important; }
+    [data-theme="dark"] .step-card {
+      background: #151B35 !important;
+      border-color: rgba(255,255,255,0.14) !important;
+    }
+    [data-theme="dark"] .step-title { color: #FFFFFF !important; }
+    [data-theme="dark"] .step-desc { color: #CBD5E1 !important; }
+    [data-theme="dark"] .pricing-card {
+      background: #151B35 !important;
+      border-color: rgba(255,255,255,0.14) !important;
+      color: #F8FAFC !important;
+    }
+    [data-theme="dark"] .plan-name, [data-theme="dark"] .plan-price { color: #FFFFFF !important; }
+    [data-theme="dark"] .plan-desc, [data-theme="dark"] .plan-features li { color: #CBD5E1 !important; }
+    [data-theme="dark"] .feature-icon-box {
+      background: rgba(118,87,232,0.25) !important;
+      color: #A78BFA !important;
+    }
+</style>
+<script src="assets/js/theme.js"></script>
+ 
+<style id="responsive-fixes">
+  /* Tablet: 1024px and below */
+  @media (max-width: 1024px) {
+    html, body { overflow-x: hidden; }
+    img, iframe, video, svg { max-width: 100%; }
+    h1, h2, h3, h4, h5, h6, p, a, li, span { overflow-wrap: break-word; }
+
+    .navbar-eventora .container { gap: .5rem; }
+    .navbar-eventora .navbar-collapse { max-height: calc(100vh - 64px); overflow-y: auto; flex-wrap: wrap; }
+    .navbar-eventora .navbar-collapse > .d-flex { flex-wrap: wrap; gap: .4rem; }
+    .navbar-eventora .nav-link { padding: .5rem .65rem !important; }
+    .navbar-eventora a[href="user-dashboard.html"],
+    .navbar-eventora a[href="admin-dashboard.html"] { display: inline-block; }
+
+    #svc-hero { min-height: auto; padding: 120px 0 80px; }
+    .svc-hero-title { font-size: clamp(2.1rem, 6.5vw, 3.2rem); }
+    .svc-hero-sub { max-width: 100%; font-size: 1rem; }
+    .icon-row { gap: 10px; margin-top: 36px; }
+    .icon-pill { padding: 8px 16px; font-size: .82rem; }
+
+    #services-overview, #how-it-works, #pricing, #svc-stats, #features-cta { padding: 80px 0; }
+
+    #services-overview .row > [class*="col-"],
+    #features-cta .row > [class*="col-"] { flex: 0 0 50%; max-width: 50%; }
+    #how-it-works .steps-row > [class*="col-"] { flex: 0 0 50%; max-width: 50%; }
+    #how-it-works .steps-row::after, #how-it-works .step-arrow { display: none; }
+    #pricing .row > [class*="col-"] { flex: 0 0 50%; max-width: 50%; }
+    #svc-stats .row > [class*="col-"] { flex: 0 0 50%; max-width: 50%; }
+    #svc-stats .stat-divider { border-top: none; }
+    #svc-stats .row > [class*="col-"]:nth-child(odd) { border-left: none; }
+    #svc-stats .row > [class*="col-"]:nth-child(3),
+    #svc-stats .row > [class*="col-"]:nth-child(4) { border-top: 1px solid rgba(255,255,255,.08); }
+
+    .svc-card { padding: 32px 26px; }
+    .price-card { padding: 36px 26px; }
+    .feature-item { padding: 24px 18px; }
+    .stat-counter { padding: 28px 12px; }
+    .cta-band { padding: 54px 34px; }
+
+    footer.footer-home { padding: 56px 0 26px; }
+  }
+
+  /* Small tablet / large phone: 768px and below */
+  @media (max-width: 768px) {
+    .row.g-5 { --bs-gutter-x: 1.5rem; --bs-gutter-y: 1.5rem; }
+    #svc-hero { padding: 104px 0 64px; }
+    .svc-hero-title { font-size: clamp(1.9rem, 8vw, 2.5rem); }
+    .icon-pill { font-size: .78rem; padding: 7px 13px; }
+
+    #services-overview, #how-it-works, #pricing, #svc-stats, #features-cta { padding: 64px 0; }
+    #services-overview .row > [class*="col-"],
+    #how-it-works .steps-row > [class*="col-"],
+    #pricing .row > [class*="col-"],
+    #features-cta .row > [class*="col-"] { flex: 0 0 100%; max-width: 100%; }
+    #svc-stats .stat-divider { border-left: 1px solid rgba(255,255,255,.08); border-top: none; }
+    #svc-stats .row > [class*="col-"]:nth-child(odd) { border-left: none; }
+    #svc-stats .row > [class*="col-"]:nth-child(3),
+    #svc-stats .row > [class*="col-"]:nth-child(4) { border-top: 1px solid rgba(255,255,255,.08); }
+
+    .svc-card { padding: 28px 22px; border-radius: 18px; }
+    .svc-icon-wrap { width: 56px; height: 56px; font-size: 1.55rem; margin-bottom: 18px; }
+    .step-card { padding: 8px 12px; }
+    .step-num { width: 60px; height: 60px; font-size: 1.2rem; }
+    .price-card { padding: 32px 22px; }
+    .price-amount { font-size: 2.4rem; }
+    .feature-item { padding: 22px 16px; gap: 14px; }
+    .stat-counter { padding: 24px 8px; }
+    .stat-num-lg { font-size: 2.2rem; }
+
+    .cta-band { padding: 40px 22px; margin-top: 44px; border-radius: 18px; }
+    .btn-cta-demo { width: 100%; max-width: 320px; justify-content: center; padding: 13px 24px; }
+
+    .navbar-eventora .navbar-nav .nav-link { text-align: center; }
+    .navbar-eventora .navbar-collapse > .d-flex { flex-direction: column; align-items: center !important; gap: 10px; margin-top: 12px; }
+    .navbar-eventora .navbar-collapse > .d-flex > .btn { width: 100%; }
+    .navbar-eventora a[href="user-dashboard.html"],
+    .navbar-eventora a[href="admin-dashboard.html"] { display: inline-block; }
+
+    footer .row > [class*="col-"] { flex: 0 0 100%; max-width: 100%; }
+    footer.footer-home .footer-desc { max-width: none; }
+    .footer-bottom { text-align: center; }
+  }
+
+  /* Phone: 480px and below */
+  @media (max-width: 480px) {
+    #svc-hero { padding: 92px 0 56px; }
+    .svc-hero-title { font-size: clamp(1.7rem, 9vw, 2.15rem); }
+    .svc-hero-sub { font-size: .93rem; margin-bottom: 24px; }
+    .breadcrumb-wrap .breadcrumb-item a,
+    .breadcrumb-wrap .breadcrumb-item.active { font-size: .8rem; }
+    .icon-row { gap: 8px; margin-top: 28px; }
+    .icon-pill { width: 100%; justify-content: center; font-size: .78rem; }
+
+    #services-overview, #how-it-works, #pricing, #svc-stats, #features-cta { padding: 48px 0; }
+    .section-heading { font-size: clamp(1.5rem, 6vw, 1.9rem); }
+    .section-sub { font-size: .92rem; }
+    .section-tag { font-size: .7rem; padding: 4px 12px; }
+
+    .svc-card { padding: 24px 18px; }
+    .svc-card-img { height: 140px !important; }
+    .svc-card-title { font-size: 1.12rem; }
+    .svc-card-desc { font-size: .88rem; }
+    .svc-icon-wrap { width: 48px; height: 48px; font-size: 1.35rem; border-radius: 14px; }
+
+    .step-num { width: 54px; height: 54px; font-size: 1.1rem; }
+    .step-title { font-size: 1rem; }
+
+    .price-card { padding: 28px 18px; border-radius: 18px; }
+    .popular-badge { font-size: .68rem; padding: 4px 12px; }
+    .price-amount { font-size: 2rem; }
+    .price-features li { font-size: .85rem; padding: 7px 0; }
+
+    .stat-counter { padding: 18px 6px; }
+    .stat-num-lg { font-size: 1.9rem; }
+    .stat-label-lg { font-size: .82rem; }
+
+    .feature-item { padding: 18px 14px; gap: 12px; }
+    .feature-icon-box { width: 44px; height: 44px; font-size: 1.15rem; }
+    .feature-title { font-size: .95rem; }
+    .feature-desc { font-size: .82rem; }
+
+    .cta-band { padding: 34px 18px; }
+    .cta-band-title { font-size: 1.4rem; }
+    .cta-band-sub { font-size: .9rem; }
+
+    footer.footer-home .input-group { flex-wrap: wrap; gap: 8px; }
+    footer.footer-home .input-group .form-control,
+    footer.footer-home .input-group .btn { width: 100%; border-radius: 10px !important; }
+    footer.footer-home .footer-bottom > .d-flex { flex-wrap: wrap; justify-content: center; row-gap: .4rem; }
+  }
+
+  /* Small phone: 360px and below */
+  @media (max-width: 360px) {
+    #svc-hero { padding: 84px 0 50px; }
+    .svc-hero-title { font-size: 1.65rem; }
+    .navbar-eventora .navbar-brand { font-size: 1.12rem; }
+    .navbar-eventora .navbar-brand .brand-mark { width: 26px; height: 26px; }
+    .section-heading { font-size: 1.4rem; }
+    .svc-card { padding: 20px 15px; }
+    .svc-card-img { height: 120px !important; }
+    .price-card { padding: 24px 15px; }
+    .price-amount { font-size: 1.8rem; }
+    .step-num { width: 48px; height: 48px; font-size: 1rem; }
+    .stat-num-lg { font-size: 1.7rem; }
+    .cta-band { padding: 28px 14px; }
+    .btn-cta-demo { padding: 12px 16px; font-size: .92rem; }
+  }
+
+  /* Extra small phone: 320px and below */
+  @media (max-width: 320px) {
+    #svc-hero { padding: 78px 0 44px; }
+    .svc-hero-title { font-size: 1.5rem; }
+    .navbar-eventora .navbar-brand { font-size: 1rem; }
+    .navbar-eventora .navbar-brand .brand-mark { width: 24px; height: 24px; }
+    .section-heading { font-size: 1.28rem; }
+    .svc-card { padding: 18px 13px; }
+    .svc-card-img { height: 110px !important; }
+    .price-card { padding: 22px 13px; }
+    .stat-num-lg { font-size: 1.55rem; }
+    .cta-band-title { font-size: 1.2rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ─────────────────────────── NAVBAR ─────────────────────────── -->
+<nav class="navbar navbar-expand-lg navbar-eventora fixed-top py-2">
+  <div class="container">
+    <a class="navbar-brand navbar-brand-logo" href="home.html"><img src="assets/images/logo-mark.svg" alt="" class="brand-mark" width="32" height="32" />Eventora</a>
+    <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+      <span class="navbar-toggler-icon" style="filter:invert(1);"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navMenu">
+      <ul class="navbar-nav mx-auto gap-1">
+        <li class="nav-item"><a class="nav-link" href="home.html">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="home2.html">Home 2</a></li>
+        <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+        <li class="nav-item"><a class="nav-link active" href="services.html">Services</a></li>
+        <li class="nav-item"><a class="nav-link" href="blog.html">Blog</a></li>
+        <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+      </ul>
+      <div class="d-flex align-items-center gap-2">
+        <span class="nav-icon-btn" id="themeToggle" title="Toggle Theme"><i class="bi bi-moon-stars"></i></span>
+        <span class="nav-icon-btn" id="rtlToggle" title="RTL Mode" style="font-size:.68rem;font-weight:700;letter-spacing:.5px;">RTL</span>
+        <a href="user-dashboard.html" class="btn-ev-outline btn btn-sm ms-2" style="padding:.4rem 1rem;font-size:.8rem;">User Dashboard</a>
+        <a href="admin-dashboard.html" class="btn-ev-primary btn btn-sm" style="padding:.4rem 1rem;font-size:.8rem;">Admin Dashboard</a>
+        <a href="login.html" class="btn-ev-primary btn btn-sm">Sign In</a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SECTION 1 — SERVICES HERO
+═══════════════════════════════════════════════════════════ -->
+<section id="svc-hero">
+  <div class="hero-geo">
+    <span></span><span></span><span></span>
+  </div>
+
+  <div class="container position-relative" style="z-index:2">
+    <div class="row justify-content-center text-center">
+      <div class="col-lg-9">
+        <!-- breadcrumb -->
+        <nav aria-label="breadcrumb" class="breadcrumb-wrap mb-4">
+          <ol class="breadcrumb justify-content-center" style="background:transparent">
+            <li class="breadcrumb-item"><a href="home.html"><i class="bi bi-house-fill me-1"></i>Home</a></li>
+            <li class="breadcrumb-item active">Services</li>
+          </ol>
+        </nav>
+
+        <div class="section-tag" style="background:rgba(118,87,232,0.18);border-color:rgba(118,87,232,0.4);color:#c4b5fd;margin-bottom:20px">
+          What We Offer
+        </div>
+
+        <h1 class="svc-hero-title">
+          Event Services That<br>
+          <span class="coral-underline">Elevate Experiences</span>
+        </h1>
+        <p class="svc-hero-sub mx-auto">
+          From discovery to the final curtain call — we provide every tool an event organizer or attendee needs to make magic happen.
+        </p>
+
+        <div class="d-flex flex-wrap justify-content-center gap-3">
+          <a href="#services-overview" class="btn" style="background:linear-gradient(135deg,#7657E8,#D93829);color:#fff;border-radius:50px;padding:13px 32px;font-weight:700">
+            <i class="bi bi-grid-fill me-2"></i>Explore Services
+          </a>
+          <a href="#pricing" class="btn" style="background:transparent;color:#fff;border:2px solid rgba(255,255,255,0.35);border-radius:50px;padding:12px 32px;font-weight:700">
+            <i class="bi bi-tags me-2"></i>View Pricing
+          </a>
+        </div>
+
+        <!-- Animated icon row -->
+        <div class="icon-row justify-content-center">
+          <div class="icon-pill"><i class="bi bi-search"></i> Event Discovery</div>
+          <div class="icon-pill"><i class="bi bi-ticket-perforated"></i> Ticket Booking</div>
+          <div class="icon-pill"><i class="bi bi-megaphone"></i> Event Promotion</div>
+          <div class="icon-pill"><i class="bi bi-clipboard-check"></i> Registration</div>
+          <div class="icon-pill"><i class="bi bi-qr-code"></i> Ticketing Solutions</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SECTION 2 — SERVICES OVERVIEW (2+3 alternating grid)
+═══════════════════════════════════════════════════════════ -->
+<section id="services-overview">
+  <div class="container">
+    <div class="text-center mb-5 animate-on-scroll">
+      <div class="section-tag">Our Services</div>
+      <h2 class="section-heading" style="display:inline-block">Everything You Need<br>to Run Great Events</h2>
+      <p class="section-sub mt-4" style="max-width:520px;margin-left:auto;margin-right:auto">
+        Five powerful services designed to cover the full lifecycle of any event — from idea to standing ovation.
+      </p>
+    </div>
+
+    <!-- Row 1: 2 cards (wider) -->
+    <div class="row g-4 mb-4">
+      <!-- Service 1 -->
+      <div class="col-md-6 animate-on-scroll">
+        <div class="svc-card light">
+          <div class="svc-card-img rounded-3 overflow-hidden mb-3" style="height:170px;"><img src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=600&q=80" alt="Event Discovery" class="w-100 h-100 object-fit-cover" /></div><div class="svc-icon-wrap"><i class="bi bi-compass"></i></div>
+          <div class="svc-card-title">Event Discovery</div>
+          <div class="svc-card-desc">Our AI-powered discovery engine surfaces the most relevant events for each user based on location, interests, and past behavior — making sure no great event goes unnoticed.</div>
+          <ul class="svc-feature-list">
+            <li class="svc-feature-item">Smart personalized event recommendations</li>
+            <li class="svc-feature-item">Advanced search with 20+ filter options</li>
+            <li class="svc-feature-item">Real-time trending events by city</li>
+          </ul>
+          <a href="service-details.html" class="svc-learn-link">Learn More <i class="bi bi-arrow-right"></i></a>
+        </div>
+      </div>
+
+      <!-- Service 2 -->
+      <div class="col-md-6 animate-on-scroll">
+        <div class="svc-card dark">
+          <div class="svc-card-img rounded-3 overflow-hidden mb-3" style="height:170px;"><img src="https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=600&q=80" alt="Ticket Booking Assistance" class="w-100 h-100 object-fit-cover" /></div><div class="svc-icon-wrap"><i class="bi bi-ticket-perforated"></i></div>
+          <div class="svc-card-title">Ticket Booking Assistance</div>
+          <div class="svc-card-desc">A frictionless booking experience from selection to QR code — with group booking, waitlists, seat maps, and instant digital ticket delivery across all devices.</div>
+          <ul class="svc-feature-list">
+            <li class="svc-feature-item">Group booking & split payment support</li>
+            <li class="svc-feature-item">Interactive seat map selection</li>
+            <li class="svc-feature-item">Instant QR code & e-ticket delivery</li>
+          </ul>
+          <a href="service-details.html" class="svc-learn-link">Learn More <i class="bi bi-arrow-right"></i></a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Row 2: 3 cards -->
+    <div class="row g-4">
+      <!-- Service 3 -->
+      <div class="col-md-4 animate-on-scroll">
+        <div class="svc-card dark">
+          <div class="svc-card-img rounded-3 overflow-hidden mb-3" style="height:150px;"><img src="https://images.unsplash.com/photo-1505373877841-8d25f7d46678?w=500&q=80" alt="Event Promotion" class="w-100 h-100 object-fit-cover" /></div><div class="svc-icon-wrap"><i class="bi bi-megaphone"></i></div>
+          <div class="svc-card-title">Event Promotion</div>
+          <div class="svc-card-desc">Amplify your event reach with built-in promotional tools — social sharing, email campaigns, featured placements, and targeted audience ads.</div>
+          <ul class="svc-feature-list">
+            <li class="svc-feature-item">Social media auto-share kit</li>
+            <li class="svc-feature-item">Email blast campaigns</li>
+            <li class="svc-feature-item">Featured homepage placement</li>
+          </ul>
+          <a href="service-details.html" class="svc-learn-link">Learn More <i class="bi bi-arrow-right"></i></a>
+        </div>
+      </div>
+
+      <!-- Service 4 -->
+      <div class="col-md-4 animate-on-scroll">
+        <div class="svc-card light">
+          <div class="svc-card-img rounded-3 overflow-hidden mb-3" style="height:150px;"><img src="https://images.unsplash.com/photo-1511578314322-379afb476865?w=500&q=80" alt="Registration Management" class="w-100 h-100 object-fit-cover" /></div><div class="svc-icon-wrap"><i class="bi bi-clipboard-check"></i></div>
+          <div class="svc-card-title">Registration Management</div>
+          <div class="svc-card-desc">Streamline attendee registration with customizable forms, check-in workflows, badge printing, and real-time attendance tracking dashboards.</div>
+          <ul class="svc-feature-list">
+            <li class="svc-feature-item">Custom registration forms</li>
+            <li class="svc-feature-item">QR check-in & badge printing</li>
+            <li class="svc-feature-item">Live attendance dashboard</li>
+          </ul>
+          <a href="service-details.html" class="svc-learn-link">Learn More <i class="bi bi-arrow-right"></i></a>
+        </div>
+      </div>
+
+      <!-- Service 5 -->
+      <div class="col-md-4 animate-on-scroll">
+        <div class="svc-card dark">
+          <div class="svc-card-img rounded-3 overflow-hidden mb-3" style="height:150px;"><img src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=500&q=80" alt="Ticketing Solutions" class="w-100 h-100 object-fit-cover" /></div><div class="svc-icon-wrap"><i class="bi bi-lightning-charge"></i></div>
+          <div class="svc-card-title">Ticketing Solutions</div>
+          <div class="svc-card-desc">White-label ticketing infrastructure for large-scale events — multi-tier pricing, early-bird deals, promo codes, and enterprise-grade fraud prevention.</div>
+          <ul class="svc-feature-list">
+            <li class="svc-feature-item">Multi-tier & dynamic pricing</li>
+            <li class="svc-feature-item">Promo codes & discount engine</li>
+            <li class="svc-feature-item">Enterprise fraud prevention</li>
+          </ul>
+          <a href="service-details.html" class="svc-learn-link">Learn More <i class="bi bi-arrow-right"></i></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SECTION 3 — HOW IT WORKS
+═══════════════════════════════════════════════════════════ -->
+<section id="how-it-works">
+  <div class="container">
+    <div class="text-center mb-5 animate-on-scroll">
+      <div class="section-tag">Simple Process</div>
+      <h2 class="section-heading" style="display:inline-block">How It Works</h2>
+      <p class="section-sub mt-4" style="max-width:500px;margin:16px auto 0">Four simple steps from discovery to your seat at the event of your dreams.</p>
+    </div>
+
+    <div class="row g-4 steps-row animate-on-scroll">
+      <!-- Step 1 -->
+      <div class="col-md-3">
+        <div class="step-card position-relative">
+          <div class="step-num">01</div>
+          <span class="step-icon"><i class="bi bi-compass"></i></span>
+          <div class="step-title">Discover</div>
+          <div class="step-desc">Browse thousands of events by category, location, date, or let our AI pick something you'll love.</div>
+          <div class="step-arrow d-none d-md-block"><i class="bi bi-chevron-right"></i></div>
+        </div>
+      </div>
+
+      <!-- Step 2 -->
+      <div class="col-md-3">
+        <div class="step-card position-relative">
+          <div class="step-num">02</div>
+          <span class="step-icon"><i class="bi bi-person-badge"></i></span>
+          <div class="step-title">Register</div>
+          <div class="step-desc">Create your profile once, then register for any event in seconds with pre-filled details.</div>
+          <div class="step-arrow d-none d-md-block"><i class="bi bi-chevron-right"></i></div>
+        </div>
+      </div>
+
+      <!-- Step 3 -->
+      <div class="col-md-3">
+        <div class="step-card position-relative">
+          <div class="step-num">03</div>
+          <span class="step-icon"><i class="bi bi-credit-card-2-front"></i></span>
+          <div class="step-title">Book</div>
+          <div class="step-desc">Secure your seat with a single click. Pay via card, wallet, or split payment with friends.</div>
+          <div class="step-arrow d-none d-md-block"><i class="bi bi-chevron-right"></i></div>
+        </div>
+      </div>
+
+      <!-- Step 4 -->
+      <div class="col-md-3">
+        <div class="step-card">
+          <div class="step-num" style="background:linear-gradient(135deg,var(--coral),#ff4b6e)">04</div>
+          <span class="step-icon"><i class="bi bi-ticket-detailed"></i></span>
+          <div class="step-title">Attend</div>
+          <div class="step-desc">Show up with your digital QR ticket, scan in instantly, and enjoy an extraordinary experience.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mobile vertical steps hint -->
+    <div class="d-md-none mt-4 text-center">
+      <div class="d-flex justify-content-center align-items-center gap-2" style="color:rgba(118,87,232,0.5)">
+        <i class="bi bi-arrow-down-circle fs-4"></i>
+        <span style="font-size:.85rem;color:#475569">Follow the steps above</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SECTION 4 — PRICING PLANS
+═══════════════════════════════════════════════════════════ -->
+<section id="pricing">
+  <div class="container">
+    <div class="text-center mb-5 animate-on-scroll">
+      <div class="section-tag">Transparent Pricing</div>
+      <h2 class="section-heading" style="display:inline-block">Plans for Every Scale</h2>
+      <p class="section-sub mt-4" style="max-width:500px;margin:16px auto 0">Start for free, scale as you grow. No hidden fees, no surprises.</p>
+    </div>
+
+    <div class="row g-4 justify-content-center">
+      <!-- Starter -->
+      <div class="col-lg-4 col-md-6 animate-on-scroll">
+        <div class="price-card">
+          <div class="price-plan-name">Starter</div>
+          <div class="price-amount">Free</div>
+          <div class="price-period">Forever, no credit card needed</div>
+          <ul class="price-features">
+            <li><span class="check-icon"><i class="bi bi-check-lg"></i></span> Up to 5 events/month</li>
+            <li><span class="check-icon"><i class="bi bi-check-lg"></i></span> 100 ticket bookings</li>
+            <li><span class="check-icon"><i class="bi bi-check-lg"></i></span> Basic event discovery</li>
+            <li><span class="check-icon"><i class="bi bi-check-lg"></i></span> QR code tickets</li>
+            <li><span class="check-icon"><i class="bi bi-check-lg"></i></span> Email support</li>
+            <li class="disabled"><span class="cross-icon"><i class="bi bi-x-lg"></i></span> Event promotion tools</li>
+            <li class="disabled"><span class="cross-icon"><i class="bi bi-x-lg"></i></span> Analytics dashboard</li>
+            <li class="disabled"><span class="cross-icon"><i class="bi bi-x-lg"></i></span> Custom branding</li>
+          </ul>
+          <button class="btn-price-primary">Get Started Free</button>
+        </div>
+      </div>
+
+      <!-- Professional (Pro) -->
+      <div class="col-lg-4 col-md-6 animate-on-scroll">
+        <div class="price-card pro">
+          <div class="popular-badge"><i class="bi bi-star-fill text-warning me-1"></i>Most Popular</div>
+          <div class="price-plan-name" style="color:var(--purple)">Professional</div>
+          <div class="price-amount"><sup>$</sup>29</div>
+          <div class="price-period">per month, billed monthly</div>
+          <ul class="price-features">
+            <li><span class="check-icon"><i class="bi bi-check-lg"></i></span> Unlimited events</li>
+            <li><span class="check-icon"><i class="bi bi-check-lg"></i></span> 10,000 ticket bookings</li>
+            <li><span class="check-icon"><i class="bi bi-check-lg"></i></span> AI-powered discovery</li>
+            <li><span class="check-icon"><i class="bi bi-check-lg"></i></span> Event promotion tools</li>
+            <li><span class="check-icon"><i class="bi bi-check-lg"></i></span> Analytics dashboard</li>
+            <li><span class="check-icon"><i class="bi bi-check-lg"></i></span> Priority support 24/7</li>
+            <li><span class="check-icon"><i class="bi bi-check-lg"></i></span> Custom branding</li>
+            <li class="disabled"><span class="cross-icon"><i class="bi bi-x-lg"></i></span> White-label solution</li>
+          </ul>
+          <button class="btn-price-primary">Start Pro Trial</button>
+        </div>
+      </div>
+
+      <!-- Enterprise -->
+      <div class="col-lg-4 col-md-6 animate-on-scroll">
+        <div class="price-card">
+          <div class="price-plan-name" style="color:var(--coral)">Enterprise</div>
+          <div class="price-amount" style="font-size:2.2rem">Custom</div>
+          <div class="price-period">tailored to your organization</div>
+          <ul class="price-features">
+            <li><span class="check-icon"><i class="bi bi-check-lg"></i></span> Unlimited everything</li>
+            <li><span class="check-icon"><i class="bi bi-check-lg"></i></span> White-label platform</li>
+            <li><span class="check-icon"><i class="bi bi-check-lg"></i></span> Dedicated account manager</li>
+            <li><span class="check-icon"><i class="bi bi-check-lg"></i></span> SLA 99.9% uptime</li>
+            <li><span class="check-icon"><i class="bi bi-check-lg"></i></span> API & webhook access</li>
+            <li><span class="check-icon"><i class="bi bi-check-lg"></i></span> Custom integrations</li>
+            <li><span class="check-icon"><i class="bi bi-check-lg"></i></span> On-site training</li>
+            <li><span class="check-icon"><i class="bi bi-check-lg"></i></span> Advanced fraud shield</li>
+          </ul>
+          <button class="btn-price-primary" style="background:linear-gradient(135deg,var(--coral),#ff4b6e)">Contact Sales</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SECTION 5 — SERVICE STATS
+═══════════════════════════════════════════════════════════ -->
+<section id="svc-stats">
+  <div class="container stats-content">
+    <div class="text-center mb-5 animate-on-scroll">
+      <div class="section-tag" style="background:rgba(118,87,232,0.2);border-color:rgba(118,87,232,0.4);color:#c4b5fd">Numbers That Matter</div>
+      <h2 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:clamp(1.9rem,3.5vw,2.9rem);font-weight:800;color:var(--white);margin-top:12px">
+        Trusted at Scale
+      </h2>
+    </div>
+
+    <div class="row animate-on-scroll">
+      <div class="col-6 col-md-3">
+        <div class="stat-counter">
+          <span class="stat-num-lg" data-target="50000" data-display="50K+">50K+</span>
+          <div class="stat-label-lg">Events Managed</div>
+        </div>
+      </div>
+      <div class="col-6 col-md-3 stat-divider">
+        <div class="stat-counter">
+          <span class="stat-num-lg" data-target="2000000" data-display="2M+">2M+</span>
+          <div class="stat-label-lg">Tickets Sold</div>
+        </div>
+      </div>
+      <div class="col-6 col-md-3 stat-divider">
+        <div class="stat-counter">
+          <span class="stat-num-lg" data-target="10000" data-display="10K+">10K+</span>
+          <div class="stat-label-lg">Organizers</div>
+        </div>
+      </div>
+      <div class="col-6 col-md-3 stat-divider">
+        <div class="stat-counter">
+          <span class="stat-num-lg" data-target="49" data-display="4.9" data-decimal="true">4.9 <i class="bi bi-star-fill text-warning" style="font-size:1.5rem;"></i></span>
+          <div class="stat-label-lg">Avg Rating</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SECTION 6 — FEATURES GRID + CTA
+═══════════════════════════════════════════════════════════ -->
+<section id="features-cta">
+  <div class="container">
+    <div class="text-center mb-5 animate-on-scroll">
+      <div class="section-tag">Platform Features</div>
+      <h2 class="section-heading" style="display:inline-block">Built for Modern Events</h2>
+      <p class="section-sub mt-4" style="max-width:500px;margin:16px auto 0">Six powerful capabilities included with every Eventora account.</p>
+    </div>
+
+    <div class="row g-4">
+      <!-- Feature 1 -->
+      <div class="col-md-4 col-sm-6 animate-on-scroll">
+        <div class="feature-item">
+          <div class="feature-icon-box"><i class="bi bi-lightning-charge-fill"></i></div>
+          <div>
+            <div class="feature-title">Real-time Availability</div>
+            <div class="feature-desc">Live seat counts and ticket availability update in real time — no overbooking, ever.</div>
+          </div>
+        </div>
+      </div>
+      <!-- Feature 2 -->
+      <div class="col-md-4 col-sm-6 animate-on-scroll">
+        <div class="feature-item">
+          <div class="feature-icon-box"><i class="bi bi-shield-lock-fill"></i></div>
+          <div>
+            <div class="feature-title">Secure Payments</div>
+            <div class="feature-desc">PCI-DSS compliant payment processing with 256-bit encryption and fraud detection.</div>
+          </div>
+        </div>
+      </div>
+      <!-- Feature 3 -->
+      <div class="col-md-4 col-sm-6 animate-on-scroll">
+        <div class="feature-item">
+          <div class="feature-icon-box"><i class="bi bi-phone-fill"></i></div>
+          <div>
+            <div class="feature-title">Mobile Tickets</div>
+            <div class="feature-desc">Digital QR tickets in Apple Wallet and Google Pay — no printing, no queues.</div>
+          </div>
+        </div>
+      </div>
+      <!-- Feature 4 -->
+      <div class="col-md-4 col-sm-6 animate-on-scroll">
+        <div class="feature-item">
+          <div class="feature-icon-box"><i class="bi bi-headset"></i></div>
+          <div>
+            <div class="feature-title">24/7 Support</div>
+            <div class="feature-desc">Live chat, email, and phone support around the clock — for organizers and attendees.</div>
+          </div>
+        </div>
+      </div>
+      <!-- Feature 5 -->
+      <div class="col-md-4 col-sm-6 animate-on-scroll">
+        <div class="feature-item">
+          <div class="feature-icon-box"><i class="bi bi-bar-chart-line-fill"></i></div>
+          <div>
+            <div class="feature-title">Analytics Dashboard</div>
+            <div class="feature-desc">Deep insights into ticket sales, audience demographics, and revenue in real time.</div>
+          </div>
+        </div>
+      </div>
+      <!-- Feature 6 -->
+      <div class="col-md-4 col-sm-6 animate-on-scroll">
+        <div class="feature-item">
+          <div class="feature-icon-box"><i class="bi bi-currency-exchange"></i></div>
+          <div>
+            <div class="feature-title">Multi-currency</div>
+            <div class="feature-desc">Accept payments in 50+ currencies with automatic exchange rates and local tax support.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CTA BAND -->
+    <div class="cta-band animate-on-scroll">
+      <h2 class="cta-band-title">Ready to Get Started?</h2>
+      <p class="cta-band-sub">Join 10,000+ organizers who trust Eventora to power their events. Setup takes under 5 minutes.</p>
+      <a href="contact.html" class="btn btn-cta-demo">
+        <i class="bi bi-calendar2-check-fill"></i>
+        Book a Demo
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────────────────── FOOTER ─────────────────────────── -->
+<footer class="footer-home">
+  <div class="container">
+    <div class="row g-5 mb-4">
+      <div class="col-lg-4">
+        <div class="footer-logo mb-3">Eventora</div>
+        <p class="footer-desc mb-4">Your premier destination for discovering, booking, and creating unforgettable event experiences worldwide.</p>
+        <div class="d-flex gap-2">
+          <a href="#" class="social-btn"><i class="bi bi-facebook"></i></a>
+          <a href="#" class="social-btn"><i class="bi bi-twitter-x"></i></a>
+          <a href="#" class="social-btn"><i class="bi bi-instagram"></i></a>
+          <a href="#" class="social-btn"><i class="bi bi-linkedin"></i></a>
+          <a href="#" class="social-btn"><i class="bi bi-youtube"></i></a>
+        </div>
+      </div>
+      <div class="col-6 col-lg-2">
+        <div class="footer-heading">Quick Links</div>
+        <ul class="footer-links">
+          <li><a href="home.html">Home</a></li>
+          <li><a href="home2.html">Home 2</a></li>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="services.html">Services</a></li>
+          <li><a href="blog.html">Blog</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div class="col-6 col-lg-2">
+        <div class="footer-heading">Categories</div>
+        <ul class="footer-links">
+          <li><a href="#">Music Events</a></li>
+          <li><a href="#">Sports Events</a></li>
+          <li><a href="#">Tech Conferences</a></li>
+          <li><a href="#">Cultural Shows</a></li>
+          <li><a href="#">Food Festivals</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-4">
+        <div class="footer-heading">Newsletter</div>
+        <p style="color:#8a94b8;font-size:.9rem;margin-bottom:1rem;">Get the latest events delivered to your inbox every week.</p>
+        <div class="input-group mb-3">
+          <input type="email" class="form-control newsletter-input" placeholder="Enter your email" />
+          <button class="btn-ev-primary btn">Subscribe</button>
+        </div>
+        <p style="color:#6b7591;font-size:.8rem;"><i class="bi bi-geo-alt me-1"></i>123 Event Avenue, New York, NY 10001</p>
+        <p style="color:#6b7591;font-size:.8rem;"><i class="bi bi-envelope me-1"></i>hello@eventora.com</p>
+        <p style="color:#6b7591;font-size:.8rem;"><i class="bi bi-telephone me-1"></i>+1 (800) 123-4567</p>
+      </div>
+    </div>
+    <div class="footer-bottom d-flex flex-column flex-md-row justify-content-between align-items-center">
+      <span>© 2025 Eventora. All rights reserved.</span>
+      <div class="d-flex gap-3 mt-2 mt-md-0">
+        <a href="#" style="color:#6b7591;text-decoration:none;font-size:.85rem;">Privacy Policy</a>
+        <a href="#" style="color:#6b7591;text-decoration:none;font-size:.85rem;">Terms of Service</a>
+        <a href="#" style="color:#6b7591;text-decoration:none;font-size:.85rem;">Cookie Policy</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+/* ── SCROLL ANIMATION ────────────────────────── */
+const animEls = document.querySelectorAll('.animate-on-scroll');
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      obs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.1 });
+animEls.forEach(el => obs.observe(el));
+
+/* ── COUNT-UP ────────────────────────────────── */
+function animateCount(el) {
+  const target = parseInt(el.dataset.target, 10);
+  const display = el.dataset.display;
+  const isDecimal = el.dataset.decimal === 'true';
+  const duration = 1800;
+  const start = performance.now();
+
+  function step(now) {
+    const elapsed = now - start;
+    const progress = Math.min(elapsed / duration, 1);
+    const ease = 1 - Math.pow(1 - progress, 3);
+    const value = ease * target;
+
+    if (isDecimal) {
+      el.textContent = (value / 10).toFixed(1) + ' / 5.0';
+    } else if (target >= 1000000) {
+      el.textContent = (value / 1000000).toFixed(1) + 'M+';
+    } else if (target >= 1000) {
+      el.textContent = Math.round(value / 1000) + 'K+';
+    } else {
+      el.textContent = Math.round(value) + '+';
+    }
+
+    if (progress < 1) requestAnimationFrame(step);
+    else if (display) el.textContent = display;
+  }
+  requestAnimationFrame(step);
+}
+
+const countObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      animateCount(e.target);
+      countObs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.5 });
+document.querySelectorAll('[data-target]').forEach(el => countObs.observe(el));
+
+/* ── SMOOTH SCROLL FOR ANCHOR LINKS ─────────── */
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', function(e) {
+    const target = document.querySelector(this.getAttribute('href'));
+    if (target) {
+      e.preventDefault();
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  });
+});
+</script>
+</body>
+</html>

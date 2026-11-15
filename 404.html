@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Eventora – 404 Error</title>
+  <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg" />
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
+  <!-- Shared CSS -->
+  <link rel="stylesheet" href="assets/css/style.css" />
+  <style>
+    :root {
+      --navy: #151B35;
+      --purple: #7657E8;
+      --coral: #FF766B;
+      --lavender: #F1EDFF;
+      --white: #FFFFFF;
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    body { font-family: 'Inter', sans-serif; background: var(--white); color: #1a1a2e; }
+
+    /* ── NAVBAR ── */
+    .navbar-eventora {
+      background: rgba(21,27,53,.92); backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(118,87,232,.2);
+    }
+    .navbar-brand { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; color: #fff !important; font-size: 1.3rem; }
+    .navbar-brand span { background: linear-gradient(135deg, #7657E8, #FF766B); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .nav-link { color: rgba(255,255,255,.75) !important; font-size: .88rem; transition: color .2s; }
+    .nav-link:hover { color: #c9c0ff !important; }
+
+    /* ══════════════════════════════════════════
+       SECTION 1 — ANIMATED 404 DISPLAY
+    ══════════════════════════════════════════ */
+    #section-404 {
+      min-height: 65vh; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; text-align: center;
+      position: relative; overflow: hidden;
+      padding: 80px 20px 40px;
+      background: linear-gradient(145deg, rgba(21,27,53,.94) 0%, rgba(30,18,69,.9) 50%, rgba(21,27,53,.94) 100%),
+                  url('https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=1600&q=80') center/cover no-repeat;
+    }
+
+    /* Particle CSS Animation */
+    .particles { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+    .particle {
+      position: absolute; border-radius: 50%;
+      animation: drift linear infinite;
+      opacity: .6;
+    }
+    .particle:nth-child(1)  { width:6px;  height:6px;  background:#7657E8; left:10%; top:20%; animation-duration:12s; animation-delay:0s; }
+    .particle:nth-child(2)  { width:4px;  height:4px;  background:#FF766B; left:25%; top:60%; animation-duration:9s;  animation-delay:-3s; }
+    .particle:nth-child(3)  { width:8px;  height:8px;  background:#a78bfa; left:45%; top:15%; animation-duration:14s; animation-delay:-1s; }
+    .particle:nth-child(4)  { width:5px;  height:5px;  background:#FF766B; left:60%; top:70%; animation-duration:11s; animation-delay:-5s; }
+    .particle:nth-child(5)  { width:7px;  height:7px;  background:#7657E8; left:75%; top:30%; animation-duration:10s; animation-delay:-2s; }
+    .particle:nth-child(6)  { width:4px;  height:4px;  background:#FF766B; left:85%; top:55%; animation-duration:13s; animation-delay:-4s; }
+    .particle:nth-child(7)  { width:9px;  height:9px;  background:#a78bfa; left:35%; top:80%; animation-duration:16s; animation-delay:-6s; }
+    .particle:nth-child(8)  { width:3px;  height:3px;  background:#FF766B; left:90%; top:10%; animation-duration:8s;  animation-delay:-1s; }
+    .particle:nth-child(9)  { width:6px;  height:6px;  background:#7657E8; left:5%;  top:85%; animation-duration:15s; animation-delay:-7s; }
+    .particle:nth-child(10) { width:5px;  height:5px;  background:#a78bfa; left:70%; top:5%;  animation-duration:11s; animation-delay:-3s; }
+    @keyframes drift {
+      0%   { transform: translateY(0) rotate(0deg); opacity: .6; }
+      50%  { opacity: 1; }
+      100% { transform: translateY(-100vh) rotate(720deg); opacity: 0; }
+    }
+
+    /* Floating Ticket Decorations */
+    .ticket-float {
+      position: absolute; border: 2px dashed rgba(118,87,232,.4);
+      border-radius: 12px; padding: 8px 14px; font-size: .75rem; color: #c9c0ff;
+      animation: ticketFloat ease-in-out infinite alternate;
+    }
+    .ticket-float:nth-child(1) { top: 20%; left: 8%; animation-duration: 5s; }
+    .ticket-float:nth-child(2) { top: 50%; right: 7%; animation-duration: 7s; animation-delay: -2s; }
+    .ticket-float:nth-child(3) { bottom: 20%; left: 15%; animation-duration: 6s; animation-delay: -1s; }
+    @keyframes ticketFloat {
+      from { transform: translateY(0) rotate(-3deg); }
+      to   { transform: translateY(-20px) rotate(3deg); }
+    }
+
+    .num-404 {
+      font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800;
+      font-size: clamp(100px, 20vw, 200px); line-height: 1;
+      background: linear-gradient(135deg, #7657E8 0%, #FF766B 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      position: relative; z-index: 2;
+      animation: pulse404 3s ease-in-out infinite alternate;
+    }
+    @keyframes pulse404 {
+      from { filter: drop-shadow(0 0 20px rgba(118,87,232,.3)); }
+      to   { filter: drop-shadow(0 0 50px rgba(255,118,107,.5)); }
+    }
+
+    /* ══════════════════════════════════════════
+       SECTION 2 — MESSAGE & ACTIONS
+    ══════════════════════════════════════════ */
+    #section-message {
+      padding: 60px 20px; text-align: center;
+      background: var(--white);
+    }
+    #section-message h2 { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: clamp(1.6rem, 4vw, 2.4rem); color: var(--navy); margin-bottom: 14px; }
+    #section-message p { color: #475569; font-size: 1.05rem; max-width: 500px; margin: 0 auto 32px; }
+    .action-btns { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+    .btn-ev-primary {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 12px 28px; border-radius: 50px; border: none;
+      background: linear-gradient(135deg, #7657E8, #FF766B);
+      color: #fff; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; font-size: .95rem;
+      text-decoration: none; cursor: pointer; transition: transform .2s, box-shadow .2s;
+    }
+    .btn-ev-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(118,87,232,.4); color: #fff; }
+    .btn-ev-outline {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 12px 28px; border-radius: 50px;
+      border: 2px solid var(--purple); color: var(--purple);
+      font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; font-size: .95rem;
+      text-decoration: none; cursor: pointer; transition: all .2s; background: transparent;
+    }
+    .btn-ev-outline:hover { background: var(--purple); color: #fff; }
+    .btn-ev-coral {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 12px 28px; border-radius: 50px; border: none;
+      background: var(--coral); color: #fff;
+      font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; font-size: .95rem;
+      text-decoration: none; cursor: pointer; transition: all .2s;
+    }
+    .btn-ev-coral:hover { background: #e85c51; transform: translateY(-2px); color: #fff; }
+
+    /* ══════════════════════════════════════════
+       SECTION 3 — SEARCH SUGGESTION
+    ══════════════════════════════════════════ */
+    #section-search {
+      padding: 60px 20px; background: #f9f9ff;
+    }
+    #section-search h3 { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 1.5rem; color: var(--navy); text-align: center; margin-bottom: 24px; }
+    .search-box {
+      max-width: 560px; margin: 0 auto 24px;
+      display: flex; border: 2px solid #e5e7eb; border-radius: 50px; overflow: hidden;
+      transition: border .2s, box-shadow .2s;
+    }
+    .search-box:focus-within { border-color: var(--purple); box-shadow: 0 0 0 4px rgba(118,87,232,.12); }
+    .search-box input { flex: 1; border: none; outline: none; padding: 14px 20px; font-size: .95rem; background: transparent; }
+    .search-box button {
+      background: linear-gradient(135deg, #7657E8, #FF766B); border: none;
+      padding: 14px 24px; color: #fff; cursor: pointer; font-weight: 700;
+    }
+    .chips { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+    .chip {
+      padding: 8px 18px; border-radius: 50px; font-size: .82rem; font-weight: 600;
+      cursor: pointer; border: 1.5px solid #d1d5db; color: #374151; background: var(--white);
+      transition: all .2s;
+    }
+    .chip:hover { border-color: var(--purple); background: var(--lavender); color: var(--purple); }
+
+    /* ══════════════════════════════════════════
+       SECTION 4 — POPULAR EVENTS PREVIEW
+    ══════════════════════════════════════════ */
+    #section-events { padding: 70px 20px; background: var(--lavender); }
+    #section-events h3 { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 1.6rem; color: var(--navy); text-align: center; margin-bottom: 36px; }
+    .event-card-404 {
+      background: var(--white); border-radius: 20px; overflow: hidden;
+      box-shadow: 0 4px 24px rgba(118,87,232,.1); transition: transform .3s, box-shadow .3s;
+      height: 100%;
+    }
+    .event-card-404:hover { transform: translateY(-6px); box-shadow: 0 12px 40px rgba(118,87,232,.2); }
+    .event-card-404 img { width: 100%; height: 200px; object-fit: cover; }
+    .ec-body { padding: 18px; }
+    .ec-cat { font-size: .75rem; font-weight: 700; color: var(--purple); text-transform: uppercase; letter-spacing: .5px; margin-bottom: 6px; }
+    .ec-name { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 1.1rem; color: var(--navy); margin-bottom: 6px; }
+    .ec-date { color: #475569; font-size: .82rem; display: flex; align-items: center; gap: 5px; margin-bottom: 14px; }
+    .ec-link { color: var(--purple); font-size: .85rem; font-weight: 600; text-decoration: none; display: flex; align-items: center; gap: 5px; }
+    .ec-link:hover { color: var(--coral); }
+
+    /* ══════════════════════════════════════════
+       SECTION 5 — QUICK LINKS
+    ══════════════════════════════════════════ */
+    #section-links { padding: 70px 20px; background: var(--white); }
+    #section-links h3 { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 1.6rem; color: var(--navy); text-align: center; margin-bottom: 36px; }
+    .ql-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; max-width: 700px; margin: 0 auto; }
+    .ql-item {
+      display: flex; flex-direction: column; align-items: center; gap: 10px;
+      padding: 20px 10px; border-radius: 16px; background: var(--lavender);
+      text-decoration: none; color: var(--navy); transition: all .25s; cursor: pointer;
+    }
+    .ql-item:hover { background: var(--purple); color: #fff; transform: translateY(-4px); }
+    .ql-item:hover .ql-icon { background: rgba(255,255,255,.2); }
+    .ql-icon {
+      width: 48px; height: 48px; border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem; background: var(--white);
+      box-shadow: 0 2px 8px rgba(118,87,232,.12);
+      transition: background .25s;
+    }
+    .ql-label { font-size: .82rem; font-weight: 600; }
+
+    /* ══════════════════════════════════════════
+       SECTION 6 — FOOTER
+    ══════════════════════════════════════════ */
+    #section-footer-404 {
+      background: var(--navy); color: #CBD5E1; padding: 60px 20px 24px;
+    }
+    .footer-brand { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 1.5rem; color: #fff; margin-bottom: 12px; }
+    .footer-brand span { background: linear-gradient(135deg,#7657E8,#FF766B); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .footer-desc { color: #CBD5E1; font-size: .88rem; max-width: 300px; margin-bottom: 24px; }
+    .footer-newsletter-title { color: #fff; font-weight: 700; margin-bottom: 10px; }
+    .newsletter-form { display: flex; border-radius: 10px; overflow: hidden; }
+    .newsletter-form input { flex: 1; border: none; padding: 10px 16px; outline: none; font-size: .88rem; }
+    .newsletter-form button { background: linear-gradient(135deg, #7657E8, #FF766B); border: none; padding: 10px 18px; color: #fff; font-weight: 700; cursor: pointer; white-space: nowrap; }
+    .social-icons { display: flex; gap: 12px; margin-top: 20px; }
+    .si-btn { width: 40px; height: 40px; border-radius: 50%; background: rgba(255,255,255,.08); display: flex; align-items: center; justify-content: center; color: #CBD5E1; text-decoration: none; transition: all .2s; font-size: 1.1rem; }
+    .si-btn:hover { background: var(--purple); color: #fff; }
+    .footer-bottom { border-top: 1px solid rgba(255,255,255,.08); margin-top: 40px; padding-top: 20px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px; font-size: .8rem; }
+    .footer-bottom a { color: #CBD5E1; text-decoration: none; margin-left: 16px; }
+    .footer-bottom a:hover { color: #c9c0ff; }
+
+    @media (max-width: 768px) {
+      .ql-grid { grid-template-columns: repeat(2, 1fr); }
+      .footer-bottom { flex-direction: column; align-items: center; text-align: center; }
+    }
+    @media (max-width: 480px) {
+      .ticket-float { display: none; }
+    }
+      /* ─── DUAL MODE HIGH CONTRAST ─── */
+    [data-theme="dark"] #section-search { background: #0B0F1E !important; }
+    [data-theme="dark"] #section-preview { background: #131933 !important; }
+    [data-theme="dark"] #section-links { background: #0B0F1E !important; }
+    [data-theme="dark"] #section-search h3, [data-theme="dark"] #section-preview h3, [data-theme="dark"] #section-links h3 { color: #FFFFFF !important; }
+        /* ─── LIGHT MODE HIGH CONTRAST RULES ─── */
+    [data-theme="light"] body { background: #FFFFFF !important; color: #151B35 !important; }
+    [data-theme="light"] .navbar-eventora { background: rgba(255,255,255,0.95) !important; border-bottom: 1px solid #E2E8F0 !important; }
+    [data-theme="light"] .navbar-eventora .navbar-brand { color: #151B35 !important; }
+    [data-theme="light"] .navbar-eventora .nav-link { color: #151B35 !important; font-weight: 600 !important; }
+    [data-theme="light"] .navbar-eventora .nav-link:hover,
+    [data-theme="light"] .navbar-eventora .nav-link.active { color: #7657E8 !important; }
+    [data-theme="light"] #section-message { background: #FFFFFF !important; }
+    [data-theme="light"] #section-search { background: #F8F9FD !important; }
+    [data-theme="light"] #section-events { background: #F1EDFF !important; }
+    [data-theme="light"] #section-links { background: #FFFFFF !important; }
+    [data-theme="light"] #section-message h2, [data-theme="light"] #section-search h3, [data-theme="light"] #section-events h3, [data-theme="light"] #section-links h3 { color: #151B35 !important; }
+    [data-theme="light"] #section-message p { color: #475569 !important; }
+    [data-theme="light"] .search-box { background: #FFFFFF !important; border: 2px solid #CBD5E1 !important; }
+    [data-theme="light"] .search-box input { color: #0F172A !important; }
+    [data-theme="light"] .search-box input::placeholder { color: #64748B !important; }
+    [data-theme="light"] .chip { background: #FFFFFF !important; border: 1.5px solid #CBD5E1 !important; color: #151B35 !important; font-weight: 600 !important; }
+    [data-theme="light"] .event-card-404 { background: #FFFFFF !important; border: 1px solid #E2E8F0 !important; box-shadow: 0 4px 20px rgba(21,27,53,0.06) !important; }
+    [data-theme="light"] .ec-name { color: #151B35 !important; }
+    [data-theme="light"] .ec-date { color: #475569 !important; }
+    [data-theme="light"] .ql-item { background: #F1EDFF !important; border: 1px solid #D1D5E8 !important; color: #151B35 !important; }
+    [data-theme="light"] .ql-icon { background: #FFFFFF !important; color: #7657E8 !important; }
+    [data-theme="light"] .ql-label { color: #151B35 !important; }
+    [data-theme="dark"] .chip {
+      background: #1E2748 !important;
+      color: #E2E8F0 !important;
+      border-color: rgba(255,255,255,0.18) !important;
+    }
+    [data-theme="dark"] .event-card {
+      background: #151B35 !important;
+      border-color: rgba(255,255,255,0.14) !important;
+      color: #F8FAFC !important;
+    }
+    [data-theme="dark"] .ec-title { color: #FFFFFF !important; }
+    [data-theme="dark"] .ec-meta { color: #CBD5E1 !important; }
+    [data-theme="dark"] .ql-item {
+      background: #151B35 !important;
+      color: #FFFFFF !important;
+      border: 1px solid rgba(255,255,255,0.12) !important;
+    }
+    [data-theme="dark"] .ql-icon {
+      background: #1E2748 !important;
+    }
+</style>
+<script src="assets/js/theme.js"></script>
+<style id="responsive-fixes">
+  /* ── Responsive fixes: 404.html ── */
+  html, body { overflow-x: hidden; }
+  img, iframe, video, svg { max-width: 100%; }
+  .navbar-eventora .navbar-brand,
+  .navbar-eventora .btn { white-space: nowrap; }
+
+  /* ── 1024px ── */
+  @media (max-width:1024px) {
+    .navbar-eventora .navbar-nav { gap: .2rem !important; }
+    .navbar-eventora .nav-link { padding: .45rem .55rem !important; font-size: .85rem; }
+    .navbar-eventora .navbar-collapse .d-flex { gap: .4rem !important; }
+    .navbar-eventora .btn-sm { padding: .35rem .7rem !important; font-size: .75rem !important; }
+    .navbar-eventora .nav-icon-btn { width: 32px; height: 32px; }
+
+    #section-404 { padding: 90px 16px 36px; }
+    .num-404 { font-size: clamp(90px, 18vw, 170px); }
+    #section-message { padding: 48px 16px; }
+    #section-search { padding: 48px 16px; }
+    #section-events { padding: 56px 16px; }
+    #section-links { padding: 56px 16px; }
+    footer.footer-home { padding: 56px 0 26px; }
+  }
+
+  /* ── 768px ── */
+  @media (max-width:768px) {
+    #section-404 { min-height: 55vh; padding: 96px 14px 32px; }
+    .num-404 { font-size: clamp(80px, 20vw, 140px); }
+    #section-message h2 { font-size: 1.5rem; }
+    #section-message p { font-size: .98rem; margin-bottom: 26px; }
+    #section-search h3,
+    #section-events h3,
+    #section-links h3 { font-size: 1.35rem; margin-bottom: 22px; }
+    .search-box { max-width: 100%; }
+    .search-box input { padding: 12px 16px; min-width: 0; }
+    .search-box button { padding: 12px 18px; }
+    .chip { padding: 7px 14px; font-size: .78rem; }
+    .ql-grid { grid-template-columns: repeat(2, 1fr); max-width: 520px; gap: 12px; }
+    .ec-name { font-size: 1.02rem; }
+    #section-events .row.g-4 > [class*="col-"] { flex: 0 0 50%; max-width: 50%; }
+
+    footer.footer-home .row.g-5 > [class*="col-"] { flex: 0 0 50%; max-width: 50%; }
+    footer.footer-home .row.g-5 > .col-lg-4 { flex: 0 0 100%; max-width: 100%; }
+  }
+
+  /* ── 480px ── */
+  @media (max-width:480px) {
+    #section-404 { padding: 84px 12px 28px; }
+    .num-404 { font-size: 96px; }
+    #section-message { padding: 36px 14px; }
+    #section-message h2 { font-size: 1.3rem; }
+    #section-message p { font-size: .92rem; }
+    .action-btns { flex-direction: column; align-items: stretch; gap: 10px; }
+    .action-btns .btn-ev-primary,
+    .action-btns .btn-ev-outline,
+    .action-btns .btn-ev-coral { justify-content: center; width: 100%; padding: 11px 18px; font-size: .9rem; }
+    #section-search { padding: 36px 14px; }
+    #section-search h3,
+    #section-events h3,
+    #section-links h3 { font-size: 1.2rem; }
+    .search-box { flex-direction: column; border-radius: 18px; }
+    .search-box input { width: 100%; padding: 12px 16px; }
+    .search-box button { width: 100%; padding: 12px 16px; }
+    .chips { gap: 8px; }
+    .chip { width: 100%; text-align: center; }
+    #section-events { padding: 40px 14px; }
+    #section-events .row.g-4 > [class*="col-"] { flex: 0 0 100%; max-width: 100%; }
+    .event-card-404 img { height: 180px; }
+    #section-links { padding: 40px 14px; }
+    .ql-grid { gap: 10px; }
+    .ql-item { padding: 14px 8px; }
+    .ql-icon { width: 42px; height: 42px; font-size: 1.15rem; }
+
+    footer.footer-home .row.g-5 > [class*="col-"] { flex: 0 0 100%; max-width: 100%; }
+  }
+
+  /* ── 360px ── */
+  @media (max-width:360px) {
+    #section-404 { padding: 78px 10px 24px; }
+    .num-404 { font-size: 84px; }
+    #section-message,
+    #section-search,
+    #section-events,
+    #section-links { padding-left: 12px; padding-right: 12px; }
+    #section-message h2 { font-size: 1.15rem; }
+    .ql-grid { gap: 8px; }
+    .ql-item { padding: 12px 6px; }
+    .ql-label { font-size: .76rem; }
+
+    footer.footer-home .input-group { flex-wrap: wrap; }
+    footer.footer-home .input-group .form-control { width: 100%; border-radius: 10px !important; }
+    footer.footer-home .input-group .btn { width: 100%; border-radius: 10px !important; margin-top: 6px; }
+  }
+
+  /* ── 320px ── */
+  @media (max-width:320px) {
+    .num-404 { font-size: 76px; }
+    #section-message h2 { font-size: 1.05rem; }
+    #section-message p { font-size: .88rem; }
+    .action-btns .btn-ev-primary,
+    .action-btns .btn-ev-outline,
+    .action-btns .btn-ev-coral { font-size: .82rem; padding: 10px 14px; }
+    .ql-grid { gap: 6px; }
+    .ql-item { padding: 10px 4px; }
+  }
+</style>
+</head>
+<body>
+
+  <!-- STICKY NAVBAR -->
+  <nav class="navbar navbar-expand-lg navbar-eventora fixed-top py-2">
+    <div class="container">
+      <a class="navbar-brand navbar-brand-logo" href="home.html"><img src="assets/images/logo-mark.svg" alt="" class="brand-mark" width="32" height="32" />Eventora</a>
+      <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+        <span class="navbar-toggler-icon" style="filter:invert(1);"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navMenu">
+        <ul class="navbar-nav mx-auto gap-1">
+          <li class="nav-item"><a class="nav-link" href="home.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="home2.html">Home 2</a></li>
+          <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+          <li class="nav-item"><a class="nav-link" href="services.html">Services</a></li>
+          <li class="nav-item"><a class="nav-link" href="blog.html">Blog</a></li>
+          <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+        </ul>
+        <div class="d-flex align-items-center gap-2">
+          <span class="nav-icon-btn" id="themeToggle" title="Toggle Theme"><i class="bi bi-moon-stars"></i></span>
+          <span class="nav-icon-btn" id="rtlToggle" title="RTL Mode" style="font-size:.68rem;font-weight:700;letter-spacing:.5px;">RTL</span>
+          <a href="user-dashboard.html" class="btn-ev-outline btn btn-sm ms-2" style="padding:.4rem 1rem;font-size:.8rem;">User Dashboard</a>
+          <a href="admin-dashboard.html" class="btn-ev-primary btn btn-sm" style="padding:.4rem 1rem;font-size:.8rem;">Admin Dashboard</a>
+          <a href="login.html" class="btn-ev-primary btn btn-sm">Sign In</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ══════════════════════════════════════════
+       SECTION 1 — ANIMATED 404 DISPLAY
+  ══════════════════════════════════════════ -->
+  <section id="section-404">
+    <div class="particles">
+      <div class="particle"></div><div class="particle"></div>
+      <div class="particle"></div><div class="particle"></div>
+      <div class="particle"></div><div class="particle"></div>
+      <div class="particle"></div><div class="particle"></div>
+      <div class="particle"></div><div class="particle"></div>
+    </div>
+    <div class="ticket-float"><i class="bi bi-music-note-beamed text-purple me-1"></i>Concert Night<br><small>Dec 15 · $55</small></div>
+    <div class="ticket-float"><i class="bi bi-laptop text-info me-1"></i>Tech Expo<br><small>Jan 10 · $120</small></div>
+    <div class="ticket-float"><i class="bi bi-trophy-fill text-warning me-1"></i>Sports Final<br><small>Feb 2 · $280</small></div>
+    <div class="num-404" style="position:relative;z-index:2;">404</div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       SECTION 2 — MESSAGE & ACTIONS
+  ══════════════════════════════════════════ -->
+  <section id="section-message">
+    <div class="container">
+      <h2>Oops! This event has left the building.</h2>
+      <p>Looks like this page took an unscheduled intermission. The page you're looking for might have been moved, renamed, or is simply taking a breather.</p>
+      <div class="action-btns">
+        <a href="home.html" class="btn-ev-primary"><i class="bi bi-house-fill"></i> Go Home</a>
+        <a href="home.html#events" class="btn-ev-outline"><i class="bi bi-calendar-event"></i> Browse Events</a>
+        <a href="contact.html" class="btn-ev-coral"><i class="bi bi-headset"></i> Contact Support</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       SECTION 3 — SEARCH SUGGESTION
+  ══════════════════════════════════════════ -->
+  <section id="section-search">
+    <div class="container">
+      <h3>Looking for something specific?</h3>
+      <div class="search-box">
+        <input type="text" id="searchInput" placeholder="Search events, artists, venues..." />
+        <button onclick="doSearch()"><i class="bi bi-search me-1"></i>Search</button>
+      </div>
+      <div class="chips">
+        <span class="chip" onclick="setSearch('Popular Events')"><i class="bi bi-fire text-danger me-1"></i>Popular Events</span>
+        <span class="chip" onclick="setSearch('Upcoming Concerts')"><i class="bi bi-music-note-beamed text-primary me-1"></i>Upcoming Concerts</span>
+        <span class="chip" onclick="setSearch('Sports Events')"><i class="bi bi-trophy text-success me-1"></i>Sports Events</span>
+        <span class="chip" onclick="setSearch('Tech Conferences')"><i class="bi bi-laptop text-info me-1"></i>Tech Conferences</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       SECTION 4 — POPULAR EVENTS PREVIEW
+  ══════════════════════════════════════════ -->
+  <section id="section-events">
+    <div class="container">
+      <h3>You might enjoy these!</h3>
+      <div class="row g-4 justify-content-center">
+        <div class="col-md-4">
+          <div class="event-card-404">
+            <img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=600&auto=format&fit=crop" alt="Concert" />
+            <div class="ec-body">
+              <div class="ec-cat"><i class="bi bi-music-note-beamed me-1"></i>Music</div>
+              <div class="ec-name">Neon Sound Festival 2025</div>
+              <div class="ec-date"><i class="bi bi-calendar3"></i> Dec 12, 2025 · Madison Square Garden</div>
+              <a href="home.html" class="ec-link">Get Tickets <i class="bi bi-arrow-right"></i></a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="event-card-404">
+            <img src="https://images.unsplash.com/photo-1515187029135-18ee286d815b?w=600&auto=format&fit=crop" alt="Conference" />
+            <div class="ec-body">
+              <div class="ec-cat"><i class="bi bi-laptop me-1"></i>Technology</div>
+              <div class="ec-name">TechSummit Innovation 2025</div>
+              <div class="ec-date"><i class="bi bi-calendar3"></i> Jan 8, 2025 · San Francisco, CA</div>
+              <a href="home.html" class="ec-link">Get Tickets <i class="bi bi-arrow-right"></i></a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="event-card-404">
+            <img src="https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=600&auto=format&fit=crop" alt="Sports" />
+            <div class="ec-body">
+              <div class="ec-cat"><i class="bi bi-trophy me-1"></i>Sports</div>
+              <div class="ec-name">Champions League Final</div>
+              <div class="ec-date"><i class="bi bi-calendar3"></i> May 31, 2025 · Wembley Stadium</div>
+              <a href="home.html" class="ec-link">Get Tickets <i class="bi bi-arrow-right"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       SECTION 5 — QUICK LINKS
+  ══════════════════════════════════════════ -->
+  <section id="section-links">
+    <div class="container">
+      <h3>Quick Navigation</h3>
+      <div class="ql-grid">
+        <a href="home.html" class="ql-item">
+          <div class="ql-icon"><i class="bi bi-house-door-fill text-primary"></i></div>
+          <span class="ql-label">Home</span>
+        </a>
+        <a href="home.html#events" class="ql-item">
+          <div class="ql-icon"><i class="bi bi-ticket-perforated-fill text-purple"></i></div>
+          <span class="ql-label">Events</span>
+        </a>
+        <a href="about.html" class="ql-item">
+          <div class="ql-icon"><i class="bi bi-info-circle-fill text-info"></i></div>
+          <span class="ql-label">About</span>
+        </a>
+        <a href="services.html" class="ql-item">
+          <div class="ql-icon"><i class="bi bi-gear-wide-connected text-coral"></i></div>
+          <span class="ql-label">Services</span>
+        </a>
+        <a href="blog.html" class="ql-item">
+          <div class="ql-icon"><i class="bi bi-journal-text text-success"></i></div>
+          <span class="ql-label">Blog</span>
+        </a>
+        <a href="contact.html" class="ql-item">
+          <div class="ql-icon"><i class="bi bi-envelope-paper-fill text-purple"></i></div>
+          <span class="ql-label">Contact</span>
+        </a>
+        <a href="login.html" class="ql-item">
+          <div class="ql-icon"><i class="bi bi-box-arrow-in-right text-warning"></i></div>
+          <span class="ql-label">Login</span>
+        </a>
+        <a href="contact.html" class="ql-item">
+          <div class="ql-icon"><i class="bi bi-question-circle-fill text-danger"></i></div>
+          <span class="ql-label">Help</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       SECTION 6 — FOOTER
+  ══════════════════════════════════════════ -->
+  <footer class="footer-home">
+  <div class="container">
+    <div class="row g-5 mb-4">
+      <div class="col-lg-4">
+        <div class="footer-logo mb-3">Eventora</div>
+        <p class="footer-desc mb-4">Your premier destination for discovering, booking, and creating unforgettable event experiences worldwide.</p>
+        <div class="d-flex gap-2">
+          <a href="#" class="social-btn"><i class="bi bi-facebook"></i></a>
+          <a href="#" class="social-btn"><i class="bi bi-twitter-x"></i></a>
+          <a href="#" class="social-btn"><i class="bi bi-instagram"></i></a>
+          <a href="#" class="social-btn"><i class="bi bi-linkedin"></i></a>
+          <a href="#" class="social-btn"><i class="bi bi-youtube"></i></a>
+        </div>
+      </div>
+      <div class="col-6 col-lg-2">
+        <div class="footer-heading">Quick Links</div>
+        <ul class="footer-links">
+          <li><a href="home.html">Home</a></li>
+          <li><a href="home2.html">Home 2</a></li>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="services.html">Services</a></li>
+          <li><a href="blog.html">Blog</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div class="col-6 col-lg-2">
+        <div class="footer-heading">Categories</div>
+        <ul class="footer-links">
+          <li><a href="#">Music Events</a></li>
+          <li><a href="#">Sports Events</a></li>
+          <li><a href="#">Tech Conferences</a></li>
+          <li><a href="#">Cultural Shows</a></li>
+          <li><a href="#">Food Festivals</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-4">
+        <div class="footer-heading">Newsletter</div>
+        <p style="color:#8a94b8;font-size:.9rem;margin-bottom:1rem;">Get the latest events delivered to your inbox every week.</p>
+        <div class="input-group mb-3">
+          <input type="email" class="form-control newsletter-input" placeholder="Enter your email" />
+          <button class="btn-ev-primary btn">Subscribe</button>
+        </div>
+        <p style="color:#6b7591;font-size:.8rem;"><i class="bi bi-geo-alt me-1"></i>123 Event Avenue, New York, NY 10001</p>
+        <p style="color:#6b7591;font-size:.8rem;"><i class="bi bi-envelope me-1"></i>hello@eventora.com</p>
+        <p style="color:#6b7591;font-size:.8rem;"><i class="bi bi-telephone me-1"></i>+1 (800) 123-4567</p>
+      </div>
+    </div>
+    <div class="footer-bottom d-flex flex-column flex-md-row justify-content-between align-items-center">
+      <span>© 2025 Eventora. All rights reserved.</span>
+      <div class="d-flex gap-3 mt-2 mt-md-0">
+        <a href="#" style="color:#6b7591;text-decoration:none;font-size:.85rem;">Privacy Policy</a>
+        <a href="#" style="color:#6b7591;text-decoration:none;font-size:.85rem;">Terms of Service</a>
+        <a href="#" style="color:#6b7591;text-decoration:none;font-size:.85rem;">Cookie Policy</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    function setSearch(val) {
+      document.getElementById('searchInput').value = val;
+      document.getElementById('searchInput').focus();
+    }
+    function doSearch() {
+      const q = document.getElementById('searchInput').value.trim();
+      if (q) window.location.href = 'home.html?q=' + encodeURIComponent(q);
+    }
+    document.getElementById('searchInput').addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') doSearch();
+    });
+  </script>
+</body>
+</html>
